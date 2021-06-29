@@ -13,9 +13,11 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_sequence")
     @Column(name = "admin_id")
     private Long id;
+
     //USERNAME
     @Column(name = "username", nullable = false)
     private String username;
+
     //PASSWORD
     @Column(name = "password", nullable = false)
     private char[] password;

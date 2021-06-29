@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity(name = "User")
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     //ID
@@ -23,9 +23,10 @@ public class User {
     //EMAIL
     @Column(name = "email", nullable = true)
     private String email;
+
     //GIFTS
-    @JsonIgnore
-    @OneToMany(mappedBy = "publisher")
+//    @JsonIgnore   //Want User Objects to print their gifts but not vice versa
+    @ManyToMany(mappedBy = "reservees") //"gifts" is the name of var Set<User> in class Gift
     private Set<Gift> gifts = new HashSet<>();
 
     public User(){}
@@ -43,6 +44,17 @@ public class User {
 
     public void addGift(Gift gift){
         gifts.add(gift);
+    }
+
+    //Return a boolean to verify that the gift has been removed.
+    public boolean removeGift(Gift giftToRemove){
+        for(Gift currentGift : gifts){
+            if(currentGift.equals(giftToRemove)){
+                gifts.remove(currentGift);
+                return true;
+            }
+        }
+        return false;
     }
 
     public Double getAmountCommitted(){

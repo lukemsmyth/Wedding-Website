@@ -1,11 +1,13 @@
 package ie.lukeandella.wedding.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "Gift")
-@Table(name = "gift")
+@Table//(name = "gift")
 public class Gift {
 
     //ID
@@ -18,32 +20,40 @@ public class Gift {
     //NAME
     @Column(name = "name", nullable = false)
     private String name;
+
     //DESCRIPTION
     @Column(name = "description", nullable = true)
     private String description;
+
     //PRICE
     @Column(name = "price", nullable = false)
     private Double price;
+
     //IMAGE
     @Column(name = "image", nullable = true)
     private String image;
+
     //LINK
     @Column(name = "link", nullable = true)
     private String link;
-    //RESERVESS
-    @ManyToOne(cascade = CascadeType.ALL) //many instances of Gift can be mapped to one instance of User
-    @JoinColumn(name = "user_id")
+
+    //RESERVEES
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "gift_user",
+            joinColumns = @JoinColumn(name = "gift_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<User> reservees = new HashSet<>();
+
     //PERCENTAGE_RESERVED
     @Column(name = "percentage_reserved", nullable = false)
     private Integer percentageReserved;
+
     //VISIBLE
     @Column(name = "visible", nullable = false)
     private boolean visible = true;
-    //MENU
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "gift_list_id")
-    private GiftList giftList;
 
     public Gift(){}
 
