@@ -15,10 +15,10 @@ public class User {
     @Column(name = "user_id")
     private Long id;
     //USERNAME
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = true)
     private String username;
     //PASSWORD
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = true)
     private char[] password;
     //EMAIL
     @Column(name = "email", nullable = true)

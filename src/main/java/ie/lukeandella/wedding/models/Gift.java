@@ -18,7 +18,7 @@ public class Gift {
     private Long id;
 
     //NAME
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = true)
     private String name;
 
     //DESCRIPTION
@@ -26,7 +26,7 @@ public class Gift {
     private String description;
 
     //PRICE
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = true)
     private Double price;
 
     //IMAGE
@@ -48,11 +48,11 @@ public class Gift {
     private Set<User> reservees = new HashSet<>();
 
     //PERCENTAGE_RESERVED
-    @Column(name = "percentage_reserved", nullable = false)
+    @Column(name = "percentage_reserved", nullable = true)
     private Integer percentageReserved;
 
     //VISIBLE
-    @Column(name = "visible", nullable = false)
+    @Column(name = "visible", nullable = true)
     private boolean visible = true;
 
     public Gift(){}

@@ -20,20 +20,27 @@ public class AppConfig {
     {
         return args ->
         {
+            //Instantiate two Gift objects
             Gift golfClubs = new Gift();
             golfClubs.setName("Golf Clubs");
             Gift recordPlayer = new Gift();
             recordPlayer.setName("Record PLayer");
+            //Instantiate two User objects
             User dave = new User();
             dave.setUsername("Dave");
             User john = new User();
             john.setUsername("John");
+            //Add gifts to users
             john.addGift(golfClubs);
             golfClubs.setPercentageReserved(50);
             dave.addGift(golfClubs);
             golfClubs.setPercentageReserved(50);
             dave.addGift(recordPlayer);
             recordPlayer.setPercentageReserved(100);
+            giftRepository.save(golfClubs);
+            giftRepository.save(recordPlayer);
+            userRepository.save(dave);
+            userRepository.save(john);
         };
     }
 
