@@ -20,24 +20,24 @@ public class GiftController {
     }
 
     //Show all gifts
-    @GetMapping("/gifts")
+    @GetMapping("/gift/all")
     public String listGifts(Model model){
         model.addAttribute("gift_list", giftService.getGifts());
-        return "gifts";
+        return "gift/gift-all";
     }
 
     //Take a new gift as form input
-    @GetMapping("/addgift")
+    @GetMapping("/gift/add")
     public String addGiftForm(Model model){
         model.addAttribute("gift", new Gift());
-        return "addgiftform";
+        return "gift/gift-add";
     }
 
     //Add the book to the database
-    @PostMapping("/addgift")
+    @PostMapping("/gift/added")
     public String submitForm(@ModelAttribute("gift") Gift gift){
         giftService.addGift(gift);
-        return "giftadded";
+        return "gift/gift-added";
     }
 
 }

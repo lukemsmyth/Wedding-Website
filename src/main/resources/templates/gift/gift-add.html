@@ -7,7 +7,7 @@
 <body>
     <div align="center">
         <h1>Adding a Gift</h1>
-        <form action="#" th:action="@{/addgift}" method="post" th:object="${gift}">
+        <form action="#" th:action="@{/gift/added}" method="post" th:object="${gift}">
             <label>Name</label>
             <input type="text" th:field="*{name}" /><br/>
             <label>Description</label>

@@ -15,11 +15,11 @@ public class User {
     @Column(name = "user_id")
     private Long id;
     //USERNAME
-    @Column(name = "username", nullable = true)
+    @Column(name = "username", nullable = false)
     private String username;
     //PASSWORD
-    @Column(name = "password", nullable = true)
-    private char[] password;
+    @Column(name = "password", nullable = false)
+    private String password;
     //EMAIL
     @Column(name = "email", nullable = true)
     private String email;
@@ -31,12 +31,12 @@ public class User {
 
     public User(){}
 
-    public User(String username, char[] password) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public User(String username, char[] password, String email) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -70,7 +70,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password=" + Arrays.toString(password) +
+                ", password=" + password +
                 ", gifts=" + gifts +
                 '}';
     }
@@ -87,11 +87,11 @@ public class User {
         this.username = username;
     }
 
-    public char[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(char[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

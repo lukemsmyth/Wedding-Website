@@ -25,13 +25,22 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(User user){
+    //this can return a boolean to change what html is rendered for success/failure
+    public void regUser(User user){
         userRepository.save(user);
     }
 
+//    public boolean attemptUserRegistration(User user){
+//        boolean result = true;
+//        if(userRepository.existsByUsername(user.getUsername())) result = false;
+//        if(user.getUsername().length() >= 20) result = false;
+//        if(user.getPassword().length >= 20) result = false;
+//        return result;
+//    }
+
     public void deleteUser(Long userId){
         if(!userRepository.existsById(userId)){
-            throw new IllegalStateException("student with id " + userId + " does not exist");
+            throw new IllegalStateException("user with id " + userId + " does not exist");
         }
         userRepository.deleteById(userId);
     }
@@ -56,7 +65,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserCredentials(Long userId, String username, char[] password){
+    public void updateUserCredentials(Long userId, String username, String password){
         User user = initUserObj(userId);
         if(username != null) user.setUsername(username);
         if(password != null) user.setPassword(password);
