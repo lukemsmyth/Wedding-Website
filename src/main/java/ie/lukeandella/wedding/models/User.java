@@ -23,6 +23,11 @@ public class User {
     //EMAIL
     @Column(name = "email", nullable = true)
     private String email;
+    //VERIFICATION CODE - FOR EMAIL VERIFICATION OF REGISTRATION
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+    //ENABLED
+    private boolean enabled;
 
     //GIFTS
 //    @JsonIgnore   //Want User Objects to print their gifts but not vice versa
@@ -111,4 +116,19 @@ public class User {
         this.gifts = gifts;
     }
 
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }
