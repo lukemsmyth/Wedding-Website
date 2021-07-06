@@ -1,0 +1,40 @@
+/*HOMEPAGE DESKTOP*/
+@media (min-width: 768px) {
+    #index {
+        background: url("../../images/atTheSeaCroppedBottom2.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+    .homeInfoBox{
+        grid-column: 5/span 4;
+        grid-row: 4 / span 6;
+        text-align: center;
+    }
+    .homeInfoText{
+        background: rgba(255, 255, 255, 0.5);
+        padding-top: 2%;
+        padding-bottom: 2%;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #434c3b;
+        color: #343b2e;
+    }
+    .homeInfoBox h1{
+        font-size: 3em;
+    }
+    .homeInfoBox h2{
+        font-size: 2em;
+    }
+    .homeInfoBox h3{
+        font-size: 1.5em;
+    }
+    .homeInfoBox p{
+        font-size: 1em;
+    }
+    .homeInfoText:hover{
+        background: rgba(255, 255, 255, 0.8);
+        color:#2a2e26;
+    }
+}
