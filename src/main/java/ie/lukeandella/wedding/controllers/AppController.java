@@ -20,36 +20,24 @@ public class AppController {
     @Autowired
     private UserService userService;
 
-    //Homepage
+    //Landing page - options to login or register
     @GetMapping("/")
-    public String index(){
-        return "home/home";
+    public String landing(){
+        return "login/index";
     }
 
-    //FAQS - need to move this to FAQs controller
-    @GetMapping("/faqs")
-    public String faqs(){
-        return "faqs/faqs";
-    }
-
-
-
-    @GetMapping("/login-register")
-    public String viewHomePage() {
-        return "login-register";
-    }
-
+    //Show the registration form
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-        return "signup_form";
+        return "login/register/register-form";
     }
 
-    @PostMapping("/process_register")
-    public String processRegister(User user, HttpServletRequest request)
+    @PostMapping("/process-register")
+    public String processRegistration(User user, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
         userService.register(user, getSiteURL(request));
-        return "register_success";
+        return "login/register/register-success";
     }
 
     private String getSiteURL(HttpServletRequest request) {
@@ -60,10 +48,21 @@ public class AppController {
     @GetMapping("/verify")
     public String verifyUser(@Param("code") String code) {
         if (userService.verify(code)) {
-            return "verify_success";
+            return "login/register/verify/verify-success";
         } else {
-            return "verify_fail";
+            return "login/register/verify/verify-failure";
         }
+    }
+
+    @GetMapping("/home")
+    public String home(){
+        return "home/home";
+    }
+
+    //FAQS - need to move this to FAQs controller
+    @GetMapping("/faqs")
+    public String faqs(){
+        return "faqs/faqs";
     }
 
     @GetMapping("/users")

@@ -46,8 +46,8 @@ public class UserService {
         String fromAddress = "lukeandella2022@gmail.com";
         String senderName = "Luke & Ella";
         String subject = "Please verify your registration";
-        String content = "Hi [[name]]!,<br>"
-                + "Thanks for registering :) <br>"
+        String content = "Hi [[name]]!<br>"
+                + "<br>Thanks for registering :) <br>"
                 + "Please click the link to verify your registration. <br>"
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
                 + "Thanks,<br>"

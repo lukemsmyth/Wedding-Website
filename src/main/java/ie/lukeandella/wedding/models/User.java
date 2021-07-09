@@ -14,25 +14,30 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     @Column(name = "user_id")
     private Long id;
+    
     //USERNAME
     @Column(name = "username", nullable = false)
     private String username;
+   
     //PASSWORD
     @Column(name = "password", nullable = false)
     private String password;
+    
     //EMAIL
     @Column(name = "email", nullable = true)
     private String email;
+    
     //VERIFICATION CODE - FOR EMAIL VERIFICATION OF REGISTRATION
     @Column(name = "verification_code", length = 64)
     private String verificationCode;
+    
     //ENABLED
     private boolean enabled;
-
+    
     //GIFTS
-//    @JsonIgnore   //Want User Objects to print their gifts but not vice versa
     @ManyToMany(mappedBy = "reservees") //"gifts" is the name of var Set<User> in class Gift
     private Set<Gift> gifts = new HashSet<>();
+
 
     public User(){}
 
