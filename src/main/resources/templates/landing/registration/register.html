@@ -7,8 +7,8 @@
 <body>
 <div class="container">
   <div id="register-form">
-    <form th:action="@{/process-register}" th:object="${user}" method="post">
-      <input type="text" th:field="*{username}" class="input-fields" placeholder="username">
+    <form th:action="@{/process-registration}" th:object="${user}" method="post">
+      <input type="text" th:field="*{name}" class="input-fields" placeholder="username">
       <input type="email" th:field="*{email}" class="input-fields" placeholder="email" />
       <input type="password" th:field="*{password}" class="input-fields" id="p1" placeholder="password" onchange="check_pass()"/>
       <input type="password" class="input-fields" id="p2" placeholder="confirm password" onchange="check_pass()"/>
@@ -20,6 +20,7 @@
 // https://stackoverflow.com/questions/21727317/how-to-check-confirm-password-field-in-form-without-reloading-page
   function check_pass() {
     document.getElementById('submit').disabled = document.getElementById('p1').value !== document.getElementById('p2').value;
+    postMessage("Passwords must match.");
   }
 </script>
 </body>

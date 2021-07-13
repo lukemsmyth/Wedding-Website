@@ -16,8 +16,8 @@ public class User {
     private Long id;
     
     //USERNAME
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "name", nullable = false)
+    private String name;
    
     //PASSWORD
     @Column(name = "password", nullable = false)
@@ -38,16 +38,15 @@ public class User {
     @ManyToMany(mappedBy = "reservees") //"gifts" is the name of var Set<User> in class Gift
     private Set<Gift> gifts = new HashSet<>();
 
-
     public User(){}
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String name, String password) {
+        this.name = name.toLowerCase(); //name does not need to be case sensitive
         this.password = password;
     }
 
     public User(String username, String password, String email) {
-        this.username = username;
+        this.name = name.toLowerCase();
         this.password = password;
         this.email = email;
     }
@@ -79,7 +78,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", username='" + name + '\'' +
                 ", password=" + password +
                 ", gifts=" + gifts +
                 '}';
@@ -89,12 +88,12 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {

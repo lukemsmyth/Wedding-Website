@@ -57,7 +57,7 @@ public class UserService {
         helper.setFrom(fromAddress, senderName);
         helper.setTo(toAddress);
         helper.setSubject(subject);
-        content = content.replace("[[name]]", user.getUsername());
+        content = content.replace("[[name]]", user.getName());
         String verifyURL = siteURL + "/verify?code=" + user.getVerificationCode();
         content = content.replace("[[URL]]", verifyURL);
         helper.setText(content, true);
@@ -112,9 +112,10 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserCredentials(Long userId, String username, String password){
+    public void updateUserInfo(Long userId, String name, String email, String password){
         User user = initUserObj(userId);
-        if(username != null) user.setUsername(username);
+        if(name != null) user.setName(name);
+        if(email != null) user.setEmail(email);
         if(password != null) user.setPassword(password);
     }
 

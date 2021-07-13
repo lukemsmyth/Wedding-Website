@@ -1,20 +1,11 @@
-#index{
-    background: url("../../images/atTheSeaCroppedBottom2.jpg") no-repeat center center fixed;
+#login-page{
+    background: url("../images/atTheSeaCroppedBottom2.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
-/*Fade-in animation*/
-@keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-#login{
+#login-div{
     grid-column: 6/span 2;
     grid-row: 5/span 5;
     display: grid;
@@ -31,22 +22,10 @@
     background:rgba(255,255,255,0.5);
     color:#434c3b;
 }
-#username:hover{
-    border-color: #343b2e;
-    color: #2a2e26;
-    background: rgba(255,255,255,0.8);
+#login-button{
+    width: 100%;
 }
-#password:hover{
-    border-color: #343b2e;
-    color: #2a2e26;
-    background: rgba(255,255,255,0.8);
-}
-#login-button:hover{
-    border-color: #343b2e;
-    color: #2a2e26;
-    background: rgba(255,255,255,0.8);
-}
-#register-button:hover{
+.input-fields :hover{
     border-color: #343b2e;
     color: #2a2e26;
     background: rgba(255,255,255,0.8);

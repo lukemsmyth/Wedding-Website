@@ -20,10 +20,16 @@ public class GiftController {
     }
 
     //Show all gifts
-    @GetMapping("/gift/all")
+    @GetMapping("/gifts")
     public String listGifts(Model model){
         model.addAttribute("gift_list", giftService.getGifts());
-        return "gift/gift-all";
+        return "gift/gifts";
+    }
+
+    @GetMapping("/reserve")
+    public String reserve(Model model){
+        model.addAttribute("gift", new Gift());
+        return "gift-reserved";
     }
 
     //Take a new gift as form input
