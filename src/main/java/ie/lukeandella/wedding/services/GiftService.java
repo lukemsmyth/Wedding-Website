@@ -1,21 +1,30 @@
 package ie.lukeandella.wedding.services;
 
+import ie.lukeandella.wedding.models.CustomUserDetails;
 import ie.lukeandella.wedding.models.Gift;
+import ie.lukeandella.wedding.models.User;
 import ie.lukeandella.wedding.repositories.GiftRepository;
+import ie.lukeandella.wedding.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GiftService {
 
+    @Autowired
     private final GiftRepository giftRepository;
+    @Autowired
+    private final UserRepository userRepository;
 
     @Autowired
-    public GiftService(GiftRepository giftRepository){
+    public GiftService(GiftRepository giftRepository, UserRepository userRepository){
         this.giftRepository = giftRepository;
+        this.userRepository = userRepository;
     }
 
     /*
@@ -66,5 +75,14 @@ public class GiftService {
         return giftRepository.findById(giftId).orElseThrow(
                 () -> new IllegalStateException("Gift with ID: " + giftId + " does not exist.")
                 );
+    }
+
+    public void reserveGift(Gift gift, CustomUserDetails customUserDetails) {
+        //Use custom user to find current user and get User object from repo
+        User user = userRepository.findByName(customUserDetails.getUsername());
+        user.addGift(gift);
+        Set<User> userSet = new HashSet<>();
+        userSet.add(user);
+        gift.setReservees(userSet);
     }
 }
