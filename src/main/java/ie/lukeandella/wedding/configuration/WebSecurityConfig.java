@@ -51,25 +51,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/register").permitAll()
-                .antMatchers("/process-registration").permitAll()
-                .antMatchers("/verify").permitAll()
-                .antMatchers("/verify/success").permitAll()
-                .antMatchers("/verify/failure").permitAll()
-                .anyRequest().fullyAuthenticated()
+            .authorizeRequests()    //The following endpoints are accessible to unauthenticated users (i.e., anyone)
+                .antMatchers("/").permitAll()                       //landing page
+                .antMatchers("/register").permitAll()               //register page
+                .antMatchers("/process-registration").permitAll()   //process registration page
+                .antMatchers("/verify").permitAll()                 //verify registration
+                .antMatchers("/verify/success").permitAll()         //verify success
+                .antMatchers("/verify/failure").permitAll()         //verify failure
+                .anyRequest().fullyAuthenticated()                              //Everything else is only accessible to authenticated users
             .and()
+                //The following overrides the default Spring Boot login page and makes the custom login page accessible to anyone.
                 .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .defaultSuccessUrl("/home", true)
+                    .loginPage("/login").permitAll()
+                    .defaultSuccessUrl("/home", true)   //where users are directed after successful login
             .and()
-                .logout()
-                .permitAll();
+                //logout is also accessible to anyone
+                .logout().permitAll();
     }
 
-    //This permits access to resources folder before authentication
+    //This permits access to resources folder before authentication - necessary for CSS/JS to be applied to custom login page and registration page
     @Override
     public void configure(WebSecurity web) throws Exception {
         // Solve the problem of static resources being intercepted

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html id="login-page" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Test result</title>
+</head>
+<body>
+  <h1 th:text="${user.email}"></h1>
+<!--  <div sec:authorize="isAuthenticated()">Authenticated as <span sec:authentication="name"></span></div>-->
+
+</body>
+</html>
