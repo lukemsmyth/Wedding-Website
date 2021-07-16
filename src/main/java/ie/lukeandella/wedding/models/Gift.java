@@ -12,8 +12,7 @@ public class Gift {
 
     //ID
     @Id
-    @SequenceGenerator(name = "gift_sequence", sequenceName = "gift_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gift_sequence")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "gift_id")
     private Long id;
 

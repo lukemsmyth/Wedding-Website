@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html id="login-page" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm reservation</title>
+</head>
+<body>
+<h1 th:text="${gift.name} + 'Gift name should go here'"></h1>
+<h2 th:text="${gift.price} + 'Gift price should go here'"></h2>
+<form th:action="@{/gifts/reserve/confirmed}" method="post">
+    <button type="submit">Confirm reservation?</button>
+</form>
+<form th:action="@{/gifts/reserve/cancel}" method="post">
+    <button type="submit">Cancel reservation?</button>
+</form>
+</body>
+</html>

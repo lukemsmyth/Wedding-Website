@@ -10,8 +10,7 @@ public class User {
 
     //ID
     @Id
-    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private Long id;
     
@@ -35,7 +34,7 @@ public class User {
     private boolean enabled;
     
     //GIFTS
-    @ManyToMany(mappedBy = "reservees") //"gifts" is the name of var Set<User> in class Gift
+    @ManyToMany(mappedBy = "reservees", fetch = FetchType.EAGER) //"gifts" is the name of var Set<User> in class Gift
     private Set<Gift> gifts = new HashSet<>();
 
     public User(){}

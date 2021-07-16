@@ -8,12 +8,15 @@ import ie.lukeandella.wedding.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
+@PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class GiftService {
 
     @Autowired
@@ -71,18 +74,22 @@ public class GiftService {
         gift.toggleVisibility();
     }
 
+    //helper method
     public Gift initGiftObj(Long giftId){
         return giftRepository.findById(giftId).orElseThrow(
                 () -> new IllegalStateException("Gift with ID: " + giftId + " does not exist.")
                 );
     }
 
-    public void reserveGift(Gift gift, CustomUserDetails customUserDetails) {
+//    @Transactional
+    public void reserveGift(Gift gift, User user) {
         //Use custom user to find current user and get User object from repo
-        User user = userRepository.findByName(customUserDetails.getUsername());
+//        User user = userRepository.findByName(user.getUsername());
         user.addGift(gift);
         Set<User> userSet = new HashSet<>();
         userSet.add(user);
         gift.setReservees(userSet);
+//        giftRepository.save(gift);
+//        userRepository.save(user);
     }
 }

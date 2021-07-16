@@ -18,35 +18,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class GetUserWithCustomInterfaceController {
 
-    @Autowired
-    private IAuthenticationFacade authenticationFacade;
-
-    @Autowired
-    UserRepository userRepository;
-
     @GetMapping("/test")
     public String test(){
         return "home/test";
     }
 
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
+
     public GetUserWithCustomInterfaceController() {
         super();
     }
 
-//    @RequestMapping(value = "/test/username", method = RequestMethod.GET)
-//    @ResponseBody
-//    public String currentUserNameSimple() {
-//        final Authentication authentication = authenticationFacade.getAuthentication();
-//        return authentication.getName();
-//    }
-
+    //This method gets the current user as a User object and adds it to a Model object as an attribute.
     @GetMapping("/test/username")
     public String test(Model model){
-//        User user = userRepository.findByEmail(currentUserNameSimple());
-        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //Get Authentication object via AuthenticationFacade
+        final Authentication authentication = authenticationFacade.getAuthentication();
+        //Get CustomUserDetailsObject using Authentication object
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        //Get User object using CustomUserDetails object
         model.addAttribute("user", customUserDetails.getUser());
         return "home/test-result";
     }
-
 
 }

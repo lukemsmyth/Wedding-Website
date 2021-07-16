@@ -17,7 +17,7 @@
                     <tr><td th:text="${gift.description}"></td></tr>
                     <tr><td th:text="${gift.price}"></td></tr>
                     <tr><td><a th:href="@{/gifts.link}" th:text="${gift.link}"></a></td></tr>
-                    <tr><td><form th:action="@{/reserve}" th:object="${gift}" method="post"><button type="submit">Reserve</button></form></td></tr>
+                    <tr><td><form th:action="@{/gifts/reserve/confirm}" th:object="${gift}" method="post"><button type="submit">Reserve</button></form></td></tr>
                 </table>
             </div>
         </div>
