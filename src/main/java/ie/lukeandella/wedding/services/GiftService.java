@@ -82,14 +82,13 @@ public class GiftService {
     }
 
 //    @Transactional
-    public void reserveGift(Gift gift, User user) {
-        //Use custom user to find current user and get User object from repo
-//        User user = userRepository.findByName(user.getUsername());
-        user.addGift(gift);
-        Set<User> userSet = new HashSet<>();
-        userSet.add(user);
-        gift.setReservees(userSet);
-//        giftRepository.save(gift);
-//        userRepository.save(user);
-    }
+//    public void reserveGift(Gift gift, User user) {
+//
+//        user.addGift(gift);
+//        Set<User> userSet = new HashSet<>();
+//        userSet.add(user);
+//        gift.setReservees(userSet);
+//        giftRepository.setReservees(gift);
+//
+//    }
 }

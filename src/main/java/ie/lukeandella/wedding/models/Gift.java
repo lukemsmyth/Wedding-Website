@@ -56,6 +56,22 @@ public class Gift {
 
     public Gift(){}
 
+    public Gift(Long id){
+        this.id = id;
+    }
+
+    public Gift(Long id, String name, String description, Double price, String image, String link, Set<User> reservees, Integer percentageReserved, boolean visible) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.link = link;
+        this.reservees = reservees;
+        this.percentageReserved = percentageReserved;
+        this.visible = visible;
+    }
+
     public Gift(String name, String description, Double price, String image, String link, Integer percentageReserved){
         this.name = name;
         this. description = description;

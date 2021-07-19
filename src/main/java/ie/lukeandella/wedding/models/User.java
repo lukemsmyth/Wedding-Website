@@ -34,6 +34,7 @@ public class User {
     private boolean enabled;
     
     //GIFTS
+    //mappedBy = "groupMemberList" makes the Group entity the owning entity and so only changes to that entity are persisted. //https://stackoverflow.com/questions/52203892/updating-manytomany-relationships-in-jpa-or-hibernate
     @ManyToMany(mappedBy = "reservees", fetch = FetchType.EAGER) //"gifts" is the name of var Set<User> in class Gift
     private Set<Gift> gifts = new HashSet<>();
 

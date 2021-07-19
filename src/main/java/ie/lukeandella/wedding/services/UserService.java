@@ -15,6 +15,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -97,13 +98,26 @@ public class UserService {
         return user.getGifts();
     }
 
+    @Transactional
+    public boolean reserveGift(User user, Gift gift){
+
+        //Both sets have been intialised as HashSet in the model classes
+        //so we can simply call .add() here.
+        Set<User> reservees = gift.getReservees();
+        reservees.add(user);
+        Set<Gift> gifts = user.getGifts();
+        gifts.add(gift);
+        User xUser = userRepository.save(user);
+        return user.equals(xUser);
+    }
+
     //Return a boolean to verify that the gift has been removed.
     @Transactional
     public boolean removeGiftFromUser(Long userId, Long giftId){
         User user = initUserObj(userId);
         Set<Gift> gifts = user.getGifts();
         for(Gift gift : gifts){
-            if(gift.getId() == giftId){
+            if(gift.getId().equals(giftId)){
                 user.removeGift(gift);
                 return true;
             }

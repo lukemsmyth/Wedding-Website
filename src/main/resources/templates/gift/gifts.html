@@ -12,13 +12,37 @@
                 <img th:src="@{/(image=${gift.image})}" >
             </div>
             <div class="gift-info">
-                <table>
-                    <tr><td th:text="${gift.name}"></td></tr>
-                    <tr><td th:text="${gift.description}"></td></tr>
-                    <tr><td th:text="${gift.price}"></td></tr>
-                    <tr><td><a th:href="@{/gifts.link}" th:text="${gift.link}"></a></td></tr>
-                    <tr><td><form th:action="@{/gifts/reserve/confirm}" th:object="${gift}" method="post"><button type="submit">Reserve</button></form></td></tr>
-                </table>
+                <th:block th:each="gift: ${gift_list}">
+                    <form th:action="@{/gifts/reserve/confirm}">
+                        <input th:name="name" th:value="${gift.name}"/>
+                        <input th:name="description" th:value="${gift.description}"/>
+                        <input th:name="price" th:value="${gift.price}"/>
+                        <button type="submit">Reserve</button>
+                    </form>
+                </th:block>
+<!--                <table>-->
+<!--                    <tr><td th:text="${gift.name}"></td></tr>-->
+<!--                    <tr><td th:text="${gift.description}"></td></tr>-->
+<!--                    <tr><td th:text="${gift.price}"></td></tr>-->
+<!--                    <tr><td><a th:href="@{/gifts.link}" th:text="${gift.link}"></a></td></tr>-->
+<!--                    <tr><td><form th:action="@{/gifts/reserve/confirm}" th:object="${gift}" method="post"><button type="submit">Reserve</button></form></td></tr>-->
+<!--                </table>-->
+<!--                <form ACTION="#" th:action="@{/gifts/reserve/confirm}" th:object="${gift}" method="POST">-->
+<!--                    <input type="hidden" th:field="*{id}"/>-->
+<!--                    <input type="hidden" th:field="*{name}"/>-->
+<!--                    <input type="hidden" th:field="*{description}"/>-->
+<!--                    <input type="hidden" th:field="*{price}"/>-->
+<!--                    <input type="hidden" th:field="*{image}"/>-->
+<!--                    <input type="hidden" th:field="*{link}"/>-->
+<!--                    <input type="hidden" th:field="*{reservees}"/>-->
+<!--                    <input type="hidden" th:field="*{percentageReserved}"/>-->
+<!--                    <input type="hidden" th:field="*{visible}"/>-->
+<!--                    <p th:text="${gift.name}"></p>-->
+<!--                    <p th:text="${gift.description}"></p>-->
+<!--                    <p th:text="${gift.price}"></p>-->
+<!--                    <input type="hidden" th:field="*{reservees}"/>-->
+<!--                    <button type="submit">Submit</button>-->
+<!--                </form>-->
             </div>
         </div>
     </div>

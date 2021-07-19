@@ -5,9 +5,9 @@ import ie.lukeandella.wedding.models.CustomUserDetails;
 import ie.lukeandella.wedding.models.Gift;
 import ie.lukeandella.wedding.models.User;
 import ie.lukeandella.wedding.services.GiftService;
+import ie.lukeandella.wedding.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +24,12 @@ public class GiftController {
     private IAuthenticationFacade authenticationFacade;
     private final GiftService giftService;
 
+    private final UserService userService;
+
     @Autowired
-    public GiftController(GiftService giftService){
+    public GiftController(GiftService giftService, UserService userService){
         this.giftService = giftService;
+        this.userService = userService;
     }
 
     /*
@@ -36,19 +39,20 @@ public class GiftController {
      */
 
     //Show all gifts
-    @GetMapping("/gifts")
+    //@GetMapping("/gifts")
+    @RequestMapping(value="/gifts", method =  RequestMethod.GET)
     public String listGifts(Model model){
         model.addAttribute("gift_list", giftService.getGifts());
         return "gift/gifts";
     }
 
-    @GetMapping("/gifts/reserve/confirm")
-    public String confirmGiftReservation(@ModelAttribute Gift gift, Model model){
-        model.addAttribute("gift", gift);   //in this way the gift object is passed from one controller to another
-        return "gift/reserve/confirm";
-    }
+//    @GetMapping("/gifts/reserve/confirm")
+//    public String confirmGiftReservation(@ModelAttribute Gift gift, Model model){
+//        model.addAttribute("gift", gift);   //in this way the gift object is passed from one controller to another
+//        return "gift/reserve/confirm";
+//    }
 
-    @PostMapping("/gifts/reserve/confirmed")
+    @PostMapping("/gifts/reserve/confirm")
     public String processReservation(@ModelAttribute Gift gift, Model model){
         //Get Authentication object via AuthenticationFacade
         final Authentication authentication = authenticationFacade.getAuthentication();
@@ -61,7 +65,7 @@ public class GiftController {
         //Also add gift object as a model attribute
         model.addAttribute("gift", gift);
         //Reserve the gift
-        giftService.reserveGift(gift, user);   //should this be gift, user?
+        System.out.println(userService.reserveGift(user, gift));
         return "gift/reserve/confirmed";
     }
 
