@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(method={RequestMethod.POST, RequestMethod.GET,RequestMethod.PUT, RequestMethod.DELETE})
 public class GiftController {
 
 //    public GiftController() {
@@ -39,49 +38,37 @@ public class GiftController {
      */
 
     //Show all gifts
-    //@GetMapping("/gifts")
-    @RequestMapping(value="/gifts", method =  RequestMethod.GET)
+    @GetMapping("/gifts")
     public String listGifts(Model model){
-        model.addAttribute("gift_list", giftService.getGifts());
+        model.addAttribute("gifts", giftService.getGifts());
         return "gift/gifts";
     }
 
-//    @GetMapping("/gifts/reserve/confirm")
-//    public String confirmGiftReservation(@ModelAttribute Gift gift, Model model){
-//        model.addAttribute("gift", gift);   //in this way the gift object is passed from one controller to another
-//        return "gift/reserve/confirm";
-//    }
-
-    @PostMapping("/gifts/reserve/confirm")
-    public String processReservation(@ModelAttribute Gift gift, Model model){
+    @PostMapping("/gifts/reserve/{id}")
+    public String processReservation(@PathVariable("id") Long id, Model model){
         //Get Authentication object via AuthenticationFacade
         final Authentication authentication = authenticationFacade.getAuthentication();
         //Get CustomUserDetailsObject using Authentication object
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         //Get User object using CustomUserDetails object
         User user = customUserDetails.getUser();
+        System.out.println("Current user: " + user.getName());
+
+        Gift gift = giftService.getGiftById(id);
+
+        assert gift != null;
+        System.out.println("Gift name: " + gift.getName());
+//        Gift theGift = giftService.getGiftById(gift.getId());
+
         //Add the user object as a model attribute
         model.addAttribute("user", user);
-        //Also add gift object as a model attribute
+        //Also add the gift...
         model.addAttribute("gift", gift);
-        //Reserve the gift
-        System.out.println(userService.reserveGift(user, gift));
-        return "gift/reserve/confirmed";
-    }
 
-//    //Reserve a gift
-//    //This method gets the current user as a User object and adds it to a Model object as an attribute.
-//    @PostMapping("/reserve")
-//    public String test(@ModelAttribute Gift gift, Model model){
-//        //Get Authentication object via AuthenticationFacade
-//        final Authentication authentication = authenticationFacade.getAuthentication();
-//        //Get CustomUserDetailsObject using Authentication object
-//        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-//        //Get User object using CustomUserDetails object
-//        model.addAttribute("user", customUserDetails.getUser());
-//        model.addAttribute("gift", new Gift());
-//        return "home/test-result";
-//    }
+        //Reserve the gift
+        userService.reserveGift(user.getId(), id);  //passing user's id and gift's id
+        return "gift/gift-reserved";
+    }
 
     /*
         * Admin-only actions

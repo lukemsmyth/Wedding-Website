@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class GiftService {
 
     @Autowired
@@ -57,6 +56,7 @@ public class GiftService {
         return initGiftObj(giftId);
     }
 
+
     @Transactional
     public void updateGiftInfo(Long giftId, String name, String description, String image, Double price, String link){
         Gift gift = initGiftObj(giftId);
@@ -81,14 +81,4 @@ public class GiftService {
                 );
     }
 
-//    @Transactional
-//    public void reserveGift(Gift gift, User user) {
-//
-//        user.addGift(gift);
-//        Set<User> userSet = new HashSet<>();
-//        userSet.add(user);
-//        gift.setReservees(userSet);
-//        giftRepository.setReservees(gift);
-//
-//    }
 }
