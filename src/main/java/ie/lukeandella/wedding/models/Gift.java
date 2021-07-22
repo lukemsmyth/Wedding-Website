@@ -168,7 +168,7 @@ public class Gift {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", link='" + link + '\'' +
-                ", reservees=" + reservees +
+//                ", reservees=" + reservees +
                 ", percentageReserved=" + percentageReserved +
                 ", visible=" + visible +
                 '}';
