@@ -115,6 +115,7 @@ public class UserService {
      *
      * https://stackoverflow.com/questions/46708063/springboot-jpa-need-no-save-on-transactional
      */
+
     @Transactional
     public void reserveGift(Long userId, Long giftId){
 
@@ -128,6 +129,13 @@ public class UserService {
         reservees.add(user);
         //set reservees
         gift.setReservees(reservees);
+
+        //set percentageReserved
+        if(gift.isSplitable()){
+//            gift.setPercentageReserved(percentageToReserve);
+        }else{
+            gift.setPercentageReserved(100);
+        }
 
         //get gifts
         Set<Gift> gifts = user.getGifts();

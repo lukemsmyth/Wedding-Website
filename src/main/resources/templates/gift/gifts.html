@@ -7,24 +7,35 @@
 <body>
 <div class="container">
     <div class="gift-list-container">
-        <div class="gift-item" th:each="gift:${gifts}">
+
+        <div class="gift-item" th:each="gift_obj:${gift_list}">
             <!--this will send the gift's id back to the controller-->
-            <form action="#" th:action="@{/gifts/reserve/{id}(id = ${gift.id})}" method="post" th:object="${gift}">
-                <p th:text="${gift.name}"></p>
-                <p th:text="${gift.id}"></p>
-<!--                <input type="hidden" th:field="*{id}" />-->
-<!--                <input type="hidden" th:field="*{name}" />-->
-<!--                <input type="hidden" th:field="*{description}" />-->
-<!--                <input type="hidden" th:field="*{price}" />-->
-<!--                <input type="hidden" th:field="*{image}" />-->
-<!--                <input type="hidden" th:field="*{link}" />-->
-<!--                <input type="hidden" th:field="*{reservees}" />-->
-<!--                <input type="hidden" th:field="*{percentageReserved}" />-->
-<!--                <input type="hidden" th:field="*{visible}" />-->
-                <input type="submit" value="Reserve" />
+            <form action="#" th:action="@{/gifts/reserve/{id}(id = ${gift_obj.id})}" th:object="${chosen_gift}" method="post">
+
+                <p th:text="${gift_obj.name}"></p>
+                <p th:text="${gift_obj.id}"></p>
+                <label>Select percentage to reserve.
+                    <select type="number" th:field="*{percentageReserved}">
+                        <option disabled>---</option>
+                        <option value=25 th:value="${25}" th:text="25%"></option>
+                        <option value=25 th:value="${50}" th:text="50%"></option>
+                        <option value=25 th:value="${75}" th:text="75%"></option>
+                        <option value=25 th:value="${100}" th:text="100%"></option>
+                    </select>
+                </label>
+
+
+                <input th:if="${gift_obj.percentageReserved < 100}" type="submit" value="Reserve" />
+                <button th:unless="${gift_obj.percentageReserved < 100}" type="button" onclick="reserved()">Reserved</button>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    function reserved(){
+        alert("This gift has already been reserved!");
+    }
+</script>
 </body>
 </html>

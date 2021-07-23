@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -40,31 +41,26 @@ public class GiftController {
     //Show all gifts
     @GetMapping("/gifts")
     public String listGifts(Model model){
-        model.addAttribute("gifts", giftService.getGifts());
+        model.addAttribute("gift_list", giftService.getGifts());
+        model.addAttribute("chosen_gift", new Gift());
         return "gift/gifts";
     }
 
     @PostMapping("/gifts/reserve/{id}")
-    public String processReservation(@PathVariable("id") Long id, Model model){
+    public String processReservation(@PathVariable("id") Long id, @ModelAttribute("gift") Gift gift, Model model){
         //Get Authentication object via AuthenticationFacade
         final Authentication authentication = authenticationFacade.getAuthentication();
         //Get CustomUserDetailsObject using Authentication object
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         //Get User object using CustomUserDetails object
         User user = customUserDetails.getUser();
-        System.out.println("Current user: " + user.getName());
-
-        Gift gift = giftService.getGiftById(id);
-
-        assert gift != null;
-        System.out.println("Gift name: " + gift.getName());
-//        Gift theGift = giftService.getGiftById(gift.getId());
-
+        Gift giftById = giftService.getGiftById(id);
+        //set the percentage reserved of the gift
+//        gift.setPercentageReserved(x_gift.getPercentageReserved());
         //Add the user object as a model attribute
         model.addAttribute("user", user);
         //Also add the gift...
-        model.addAttribute("gift", gift);
-
+        model.addAttribute("gift", giftById);
         //Reserve the gift
         userService.reserveGift(user.getId(), id);  //passing user's id and gift's id
         return "gift/gift-reserved";

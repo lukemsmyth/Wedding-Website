@@ -1,6 +1,7 @@
 package ie.lukeandella.wedding.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 @Entity(name = "Gift")
 @Table//(name = "gift")
+@Accessors(fluent = false)
 public class Gift {
 
     //ID
@@ -36,6 +38,10 @@ public class Gift {
     @Column(name = "link", nullable = true)
     private String link;
 
+    //SPLIT-ABLE
+    @Column(name = "splitable", nullable = false)
+    private boolean splitable;
+
     //RESERVEES
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
@@ -47,11 +53,11 @@ public class Gift {
     private Set<User> reservees = new HashSet<>();
 
     //PERCENTAGE_RESERVED
-    @Column(name = "percentage_reserved", nullable = true)
+    @Column(name = "percentage_reserved", nullable = false)
     private Integer percentageReserved;
 
     //VISIBLE
-    @Column(name = "visible", nullable = true)
+    @Column(name = "visible", nullable = false)
     private boolean visible = true;
 
     public Gift(){}
@@ -59,6 +65,7 @@ public class Gift {
     public Gift(Long id){
         this.id = id;
     }
+
 
     public Gift(Long id, String name, String description, Double price, String image, String link, Set<User> reservees, Integer percentageReserved, boolean visible) {
         this.id = id;
@@ -72,13 +79,27 @@ public class Gift {
         this.visible = visible;
     }
 
-    public Gift(String name, String description, Double price, String image, String link, Integer percentageReserved){
+    public Gift(String name, String description, Double price, String image, String link, boolean splitable, Integer percentageReserved, boolean visible) {
         this.name = name;
-        this. description = description;
+        this.description = description;
         this.price = price;
         this.image = image;
         this.link = link;
+        this.splitable = splitable;
         this.percentageReserved = percentageReserved;
+        this.visible = visible;
+    }
+
+    public Gift(String name, String description, Double price, String image, String link, boolean splitable, Set<User> reservees, Integer percentageReserved, boolean visible) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.link = link;
+        this.splitable = splitable;
+        this.reservees = reservees;
+        this.percentageReserved = percentageReserved;
+        this.visible = visible;
     }
 
     public Long getId() {
@@ -145,20 +166,28 @@ public class Gift {
         this.percentageReserved = percentageReserved;
     }
 
-    public boolean getVisible(){
-        return this.visible;
+    public boolean isVisible() {
+        return visible;
     }
 
-    public void setVisible(boolean visible){
+    public void setVisible(boolean visible) {
         this.visible = visible;
     }
 
-    public void toggleVisibility(){
-        if(getVisible()){
-            setVisible(false);
-        }
-        setVisible(true);
+    public boolean isSplitable() {
+        return splitable;
     }
+
+    public void setSplitable(boolean splitable) {
+        this.splitable = splitable;
+    }
+
+//    public void toggleVisibility(){
+//        if(isVisible()()){
+//            setVisible(false);
+//        }
+//        setVisible(true);
+//    }
 
     @Override
     public String toString() {

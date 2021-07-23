@@ -9,15 +9,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
-//    @Bean
-//    CommandLineRunner commandLineRunner(GiftRepository repository){
-//        return args -> {
-//
+    @Bean
+    CommandLineRunner commandLineRunner(GiftRepository repository){
+        return args -> {
+
 //            Gift shoes = new Gift();
 //            shoes.setName("Shoes");
 //            shoes.setLink("schuh.com");
 //            shoes.setDescription("A nice pair of shoes");
 //            shoes.setPrice(89.99);
+//            shoes.setSplitable(true);
+//            shoes.setPercentageReserved(0);
 //            repository.save(shoes);
 //
 //            Gift jumper = new Gift();
@@ -25,8 +27,13 @@ public class AppConfig {
 //            jumper.setLink("jumpers.com");
 //            jumper.setDescription("A nice jumper");
 //            jumper.setPrice(67.99);
+//            jumper.setSplitable(false);
+//            jumper.setPercentageReserved(0);
 //            repository.save(jumper);
-//
-//        };
-//    }
+
+//            Gift oranges = new Gift("oranges", "a bag of oranges", 100.00, "null", "oranges.com", true, 0, true);
+//            repository.save(oranges);
+
+        };
+    }
 }

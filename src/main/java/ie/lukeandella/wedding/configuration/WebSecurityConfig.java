@@ -58,16 +58,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/verify/failure").permitAll()         //verify failure
                 .anyRequest().fullyAuthenticated()                              //Everything else is only accessible to authenticated users
             .and()
-                //The following overrides the default Spring Boot login page and makes the custom login page accessible to anyone.
-                .formLogin()
-                    .loginPage("/login").permitAll()
+                .formLogin()                             //overrides the default Spring Boot login page 
+
+                    .loginPage("/login").permitAll()    //makes the custom login page accessible to anyone.
                     .defaultSuccessUrl("/home", true)   //where users are directed after successful login
             .and()
                 //logout is also accessible to anyone
                 .logout().permitAll();
     }
 
-    //This permits access to resources folder before authentication - necessary for CSS/JS to be applied to custom login page and registration page
+    //This permits access to the css and images folders (both located inside the resources folder)
     @Override
     public void configure(WebSecurity web) throws Exception {
         // Solve the problem of static resources being intercepted

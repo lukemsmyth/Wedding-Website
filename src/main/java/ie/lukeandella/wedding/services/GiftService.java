@@ -68,11 +68,11 @@ public class GiftService {
         if(link != null) gift.setLink(link);
     }
 
-    @Transactional
-    public void toggleVisibility(Long giftId) {
-        Gift gift = initGiftObj(giftId);
-        gift.toggleVisibility();
-    }
+//    @Transactional
+//    public void toggleVisibility(Long giftId) {
+//        Gift gift = initGiftObj(giftId);
+//        gift.toggleVisibility();
+//    }
 
     //helper method
     public Gift initGiftObj(Long giftId){
