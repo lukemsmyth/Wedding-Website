@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class UserController {
 
@@ -18,6 +20,19 @@ public class UserController {
     @Autowired
     public UserController(UserService userService){
         this.userService = userService;
+    }
+
+    @GetMapping("/user")
+    public String showUser(Model model){
+        User user = userService.getById(3L);
+        model.addAttribute("user", user);
+        return "user";
+    }
+
+    @PostMapping("/update-user")
+    public String updateUser(@ModelAttribute("user") User user){
+        userService.updateUserInfo(3L, null, user.getEmail(), null);
+        return "updated-user";
     }
 
 

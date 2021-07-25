@@ -1,6 +1,8 @@
 package ie.lukeandella.wedding.services;
 
 
+import ie.lukeandella.wedding.configuration.IAuthenticationFacade;
+import ie.lukeandella.wedding.models.CustomUserDetails;
 import ie.lukeandella.wedding.models.Gift;
 import ie.lukeandella.wedding.models.User;
 import ie.lukeandella.wedding.repositories.GiftRepository;
@@ -9,6 +11,7 @@ import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,9 @@ public class UserService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
 
     @Autowired
     public UserService(UserRepository userRepository, GiftRepository giftRepository){
@@ -96,6 +102,13 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
+    public User getById(Long userId){
+        if(!userRepository.existsById(userId)){
+            throw new IllegalStateException("user with id " + userId + " does not exist");
+        }
+        return initUserObj(userId);
+    }
+
     public Set<Gift> getGiftsOfUser(Long userId){
         User user = initUserObj(userId);
         return user.getGifts();
@@ -115,6 +128,15 @@ public class UserService {
      *
      * https://stackoverflow.com/questions/46708063/springboot-jpa-need-no-save-on-transactional
      */
+
+    public User getCurrentUser(){
+        //Get Authentication object via AuthenticationFacade
+        final Authentication authentication = authenticationFacade.getAuthentication();
+        //Get CustomUserDetailsObject using Authentication object
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        //Get User object using CustomUserDetails object
+        return customUserDetails.getUser();
+    }
 
     @Transactional
     public void reserveGift(Long userId, Long giftId){

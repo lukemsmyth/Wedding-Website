@@ -1,6 +1,5 @@
 package ie.lukeandella.wedding.services;
 
-import ie.lukeandella.wedding.models.CustomUserDetails;
 import ie.lukeandella.wedding.models.Gift;
 import ie.lukeandella.wedding.models.User;
 import ie.lukeandella.wedding.repositories.GiftRepository;
@@ -8,10 +7,7 @@ import ie.lukeandella.wedding.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.transaction.Transactional;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -56,6 +52,15 @@ public class GiftService {
         return initGiftObj(giftId);
     }
 
+    @Transactional
+    public void reserveGifts(List<Gift> gifts, User user){
+        //for each gift in ReservationRequest object, add reservee and set percentage reserved.
+        for(Gift gift : gifts){
+            Gift g = initGiftObj(gift.getId());
+            g.setPercentageReserved(gift.getPercentageReserved() + g.getPercentageReserved());
+            g.addReservee(initUserObj(user.getId()));
+        }
+    }
 
     @Transactional
     public void updateGiftInfo(Long giftId, String name, String description, String image, Double price, String link){
@@ -68,17 +73,43 @@ public class GiftService {
         if(link != null) gift.setLink(link);
     }
 
+    @Transactional
+    public void setPercentageReserved(Long giftId, Integer percentage){
+        Gift gift = initGiftObj(giftId);
+        gift.setPercentageReserved(percentage);
+    }
+
 //    @Transactional
 //    public void toggleVisibility(Long giftId) {
 //        Gift gift = initGiftObj(giftId);
 //        gift.toggleVisibility();
 //    }
 
-    //helper method
+    //helper methods
     public Gift initGiftObj(Long giftId){
         return giftRepository.findById(giftId).orElseThrow(
                 () -> new IllegalStateException("Gift with ID: " + giftId + " does not exist.")
                 );
     }
+    public User initUserObj(Long userId){
+        return userRepository.findById(userId).orElseThrow(
+                () -> new IllegalStateException("User with ID: " + userId + " does not exist.")
+        );
+    }
 
+    @Transactional
+    public void reserveGift(Long userId, Long giftId, Integer percentage) {
+
+        //Get Gift and User objects
+        Gift gift = initGiftObj(giftId);
+        User user = initUserObj(userId);
+
+        //Update set of reservees
+        Set<User> reservees = gift.getReservees();
+        reservees.add(user);
+        gift.setReservees(reservees);
+
+        //Update percentage of gift reserved
+        gift.setPercentageReserved(percentage);
+    }
 }

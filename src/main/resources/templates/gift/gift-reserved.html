@@ -5,8 +5,9 @@
     <title>Gift reserved</title>
 </head>
 <body>
-<h1 align="center">Gift reserved</h1>
-<p align="center" th:text="${gift.name} + ' reserved by ' + ${user.name}"> reserved by</p>
-<p th:if="${gift.percentageReserved < 100}" th:text="You reserved + ${gift.percentageReserved} + of this gift"></p>
+<p th:text="
+    ${user.name} + ' reserved ' + ${gift.name} +
+    ' which is now ' + ${gift.percentageReserved} + ' percent reserved.'
+"></p>
 </body>
 </html>
