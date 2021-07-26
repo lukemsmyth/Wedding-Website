@@ -5,11 +5,11 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "Gift")
-@Table//(name = "gift")
-@Accessors(fluent = false)
+@Table(name = "gift")
 public class Gift {
 
     //ID
@@ -30,6 +30,11 @@ public class Gift {
     @Column(name = "price", nullable = true)
     private Double price;
 
+    //RESERVATIONS
+    @JsonIgnore
+    @OneToMany(mappedBy = "gift")
+    private Set<Reservation> reservations = new HashSet<>();
+
     //IMAGE
     @Column(name = "image", nullable = true)
     private String image;
@@ -41,16 +46,6 @@ public class Gift {
     //SPLIT-ABLE
     @Column(name = "splitable", nullable = false)
     private boolean splitable;
-
-    //RESERVEES
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "gift_user",
-            joinColumns = @JoinColumn(name = "gift_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> reservees = new HashSet<>();
 
     //PERCENTAGE_RESERVED
     @Column(name = "percentage_reserved", nullable = false)
@@ -66,19 +61,6 @@ public class Gift {
         this.id = id;
     }
 
-
-    public Gift(Long id, String name, String description, Double price, String image, String link, Set<User> reservees, Integer percentageReserved, boolean visible) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.image = image;
-        this.link = link;
-        this.reservees = reservees;
-        this.percentageReserved = percentageReserved;
-        this.visible = visible;
-    }
-
     public Gift(String name, String description, Double price, String image, String link, boolean splitable, Integer percentageReserved, boolean visible) {
         this.name = name;
         this.description = description;
@@ -90,20 +72,24 @@ public class Gift {
         this.visible = visible;
     }
 
-    public Gift(String name, String description, Double price, String image, String link, boolean splitable, Set<User> reservees, Integer percentageReserved, boolean visible) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.image = image;
-        this.link = link;
-        this.splitable = splitable;
-        this.reservees = reservees;
-        this.percentageReserved = percentageReserved;
-        this.visible = visible;
+    //Can be used to add or remove a reservation
+    public void updateReservations(Reservation reservation){
+        Set<Reservation> rs = getReservations();
+        if(rs.contains(reservation)){
+            rs.remove(reservation);
+        }else{
+            rs.add(reservation);
+        }
+
+        setReservations(rs);
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -130,6 +116,14 @@ public class Gift {
         this.price = price;
     }
 
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
     public String getImage() {
         return image;
     }
@@ -146,16 +140,12 @@ public class Gift {
         this.link = link;
     }
 
-    public Set<User> getReservees() {
-        return reservees;
+    public boolean isSplitable() {
+        return splitable;
     }
 
-    public void setReservees(Set<User> reservees) {
-        this.reservees = reservees;
-    }
-
-    public void addReservee(User user){
-        reservees.add(user);
+    public void setSplitable(boolean splitable) {
+        this.splitable = splitable;
     }
 
     public Integer getPercentageReserved() {
@@ -174,21 +164,6 @@ public class Gift {
         this.visible = visible;
     }
 
-    public boolean isSplitable() {
-        return splitable;
-    }
-
-    public void setSplitable(boolean splitable) {
-        this.splitable = splitable;
-    }
-
-//    public void toggleVisibility(){
-//        if(isVisible()()){
-//            setVisible(false);
-//        }
-//        setVisible(true);
-//    }
-
     @Override
     public String toString() {
         return "Gift{" +
@@ -196,10 +171,25 @@ public class Gift {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
+                ", reservations=" + reservations +
+                ", image='" + image + '\'' +
                 ", link='" + link + '\'' +
-//                ", reservees=" + reservees +
+                ", splitable=" + splitable +
                 ", percentageReserved=" + percentageReserved +
                 ", visible=" + visible +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Gift gift = (Gift) o;
+        return Objects.equals(id, gift.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

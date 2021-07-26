@@ -109,11 +109,6 @@ public class UserService {
         return initUserObj(userId);
     }
 
-    public Set<Gift> getGiftsOfUser(Long userId){
-        User user = initUserObj(userId);
-        return user.getGifts();
-    }
-
     /*
      * "If you retrieve an entity, for example using the findOne method call
      * within a transactional method it has become managed from that point
@@ -136,50 +131,6 @@ public class UserService {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         //Get User object using CustomUserDetails object
         return customUserDetails.getUser();
-    }
-
-    @Transactional
-    public void reserveGift(Long userId, Long giftId){
-
-        //Init user and gift objects
-        User user = initUserObj(userId);
-        Gift gift = initGiftObj(giftId);
-
-        //get reservees
-        Set<User> reservees = gift.getReservees();
-        //add user to reservees
-        reservees.add(user);
-        //set reservees
-        gift.setReservees(reservees);
-
-        //set percentageReserved
-        if(gift.isSplitable()){
-//            gift.setPercentageReserved(percentageToReserve);
-        }else{
-            gift.setPercentageReserved(100);
-        }
-
-        //get gifts
-        Set<Gift> gifts = user.getGifts();
-        //add gift to gifts
-        gifts.add(gift);
-        //set gifts
-        user.setGifts(gifts);
-
-    }
-
-    //Return a boolean to verify that the gift has been removed.
-    @Transactional
-    public boolean removeGiftFromUser(Long userId, Long giftId){
-        User user = initUserObj(userId);
-        Set<Gift> gifts = user.getGifts();
-        for(Gift gift : gifts){
-            if(gift.getId().equals(giftId)){
-                user.removeGift(gift);
-                return true;
-            }
-        }
-        return false;
     }
 
     @Transactional

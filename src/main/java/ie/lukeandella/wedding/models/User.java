@@ -32,12 +32,10 @@ public class User {
     
     //ENABLED
     private boolean enabled;
-    
-    //GIFTS
-    //mappedBy = "groupMemberList" makes the Group entity the owning entity and so only changes to that entity are persisted. //https://stackoverflow.com/questions/52203892/updating-manytomany-relationships-in-jpa-or-hibernate
-    @ManyToMany(mappedBy = "reservees", fetch = FetchType.EAGER) //"gifts" is the name of var Set<User> in class Gift
-    @JsonIgnore
-    private Set<Gift> gifts = new HashSet<>();
+
+    //RESERVATIONS
+    @OneToMany(mappedBy = "user")
+    private Set<Reservation> reservations = new HashSet<>();
 
     public User(){}
 
@@ -52,41 +50,36 @@ public class User {
         this.email = email;
     }
 
-    public void addGift(Gift gift){
-        gifts.add(gift);
-    }
-
-    //Return a boolean to verify that the gift has been removed.
-    public boolean removeGift(Gift giftToRemove){
-        for(Gift currentGift : gifts){
-            if(currentGift.equals(giftToRemove)){
-                gifts.remove(currentGift);
-                return true;
-            }
+    //Can be used to add or remove a reservation
+    public void updateReservations(Reservation reservation){
+        Set<Reservation> rs = getReservations();
+        if(rs.contains(reservation)){
+            rs.remove(reservation);
+        }else{
+            rs.add(reservation);
         }
-        return false;
-    }
-
-    public Double getAmountCommitted(){
-        Double total = 0.0;
-        for(Gift gift : gifts){
-            total += gift.getPrice();
-        }
-        return total;
+        setReservations(rs);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + name + '\'' +
-                ", password=" + password +
-                ", gifts=" + gifts +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", verificationCode='" + verificationCode + '\'' +
+                ", enabled=" + enabled +
+                ", reservations=" + reservations +
                 '}';
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -113,14 +106,6 @@ public class User {
         this.email = email;
     }
 
-    public Set<Gift> getGifts() {
-        return gifts;
-    }
-
-    public void setGifts(Set<Gift> gifts) {
-        this.gifts = gifts;
-    }
-
     public String getVerificationCode() {
         return verificationCode;
     }
@@ -135,5 +120,13 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }

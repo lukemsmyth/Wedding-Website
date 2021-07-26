@@ -10,7 +10,4 @@ import java.util.Set;
 
 public interface GiftRepository extends JpaRepository<Gift, Long> {
 
-    @Modifying
-    @Query("update Gift g set g.reservees = ?1 where g.id = ?2")
-    void setReservees(User user, Long giftId);
 }
