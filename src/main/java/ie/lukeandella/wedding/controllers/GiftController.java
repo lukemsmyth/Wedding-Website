@@ -1,9 +1,6 @@
 package ie.lukeandella.wedding.controllers;
 
-import ie.lukeandella.wedding.models.Gift;
-import ie.lukeandella.wedding.models.Percentage;
-import ie.lukeandella.wedding.models.Reservation;
-import ie.lukeandella.wedding.models.User;
+import ie.lukeandella.wedding.models.*;
 import ie.lukeandella.wedding.services.GiftService;
 import ie.lukeandella.wedding.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +36,9 @@ public class GiftController {
     @GetMapping("/gifts")
     public String showGifts(Model model){
         User currentUser = userService.getCurrentUser();
-        List<Gift> giftsForDisplay = giftService.getGiftsForDisplay(currentUser);
+        List<GiftForDisplay> giftsForDisplay = giftService.getGiftsForDisplay(currentUser);
         model.addAttribute("gifts", giftsForDisplay);
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("percentage", new Percentage());
         return "gift/gifts";
     }
@@ -52,7 +50,8 @@ public class GiftController {
         //Get gift object
         Gift gift = giftService.getGiftById(giftId);
         //Reserve the gift
-        //Note: use the ReservationRequest object to pass the percentage
+        //Note:
+        //      Use the ReservationRequest object to pass the percentage
         //      reserved and the PathVariable to pass the giftId
         giftService.reserveGift(user.getId(), gift.getId(), percentage.getP());
         //Add model attributes

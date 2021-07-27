@@ -10,8 +10,12 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
 //    @Bean
-//    CommandLineRunner commandLineRunner(GiftRepository repository){
+//    CommandLineRunner commandLineRunner(GiftRepository repository) {
 //        return args -> {
+//
+//            Gift laptop = new Gift("Laptop", "A Lenovo laptop.", 1000.00, "null", "laptopsdirect.ie", true, 0, true);
+//            repository.save(laptop);
+//            repository.save(laptop);
 //
 //            Gift shoes = new Gift();
 //            shoes.setName("Shoes (splitable)");
@@ -36,4 +40,5 @@ public class AppConfig {
 //
 //        };
 //    }
+
 }

@@ -1,6 +1,7 @@
 package ie.lukeandella.wedding.services;
 
 import ie.lukeandella.wedding.models.Gift;
+import ie.lukeandella.wedding.models.GiftForDisplay;
 import ie.lukeandella.wedding.models.Reservation;
 import ie.lukeandella.wedding.models.User;
 import ie.lukeandella.wedding.repositories.GiftRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -46,59 +48,54 @@ public class GiftService {
         * reserved by the current user (to allow cancellation of reservation).
         * **********************************************************************
      */
-    public List<Gift> getGiftsForDisplay(User currentUser){
-        //Get all gifts
-        List<Gift> gifts = giftRepository.findAll();
-        //Remove gifts which are fully reserved and which
-        //were not reserved in part or in whole by the
-        //current user.
-        int i = 0;
-        while(i < gifts.size()){
-            if(gifts.get(i).getPercentageReserved() == 100){
-                Set<Reservation> reservations = gifts.get(i).getReservations();
-                for(Reservation reservation : reservations){
-                    if(!reservation.getUser().equals(currentUser)){
-                        gifts.remove((gifts.get(i)));
-                    }
-                }
-            }
-            i++;
+    public List<GiftForDisplay> getGiftsForDisplay(User currentUser){
+        //Get list of current user's reservations
+        List<Reservation> reservations = reservationRepository.findReservationsByActiveEqualsAndUserEquals(true, currentUser);
+        //Make lift of gifts which have been reserved by current user
+        List<Gift> giftsOfCurrentUser = new ArrayList<>();
+        for(Reservation res : reservations){
+            giftsOfCurrentUser.add(res.getGift());
         }
-        //Return redacted list
-        return gifts;
+        //get list of gifts with percentage reserved less than 100
+        List<Gift> gifts = giftRepository.findGiftsByPercentageReservedIsLessThan(100);
+        //Remove g from gifts where giftsOfCurrentUser contains g
+        gifts.removeIf(giftsOfCurrentUser::contains);
+        //Init list of GiftForDisplay
+        List<GiftForDisplay> giftsForDisplay = new ArrayList<>();
+        for(Gift g : gifts){
+            giftsForDisplay.add(new GiftForDisplay(g, false));
+        }
+        for(Gift g : giftsOfCurrentUser){
+            giftsForDisplay.add(new GiftForDisplay(g, true));
+        }
+        return giftsForDisplay;
     }
 
     /*
-        * ***********************
+        * ************************************
         * Reserve a gift (in whole or in part)
-        * ***********************
+        * ************************************
      */
     @Transactional
     public void reserveGift(Long userId, Long giftId, Integer percentage) {
-
         //Get Gift User objects
         try{
             Gift gift = initGiftObj(giftId);
-            User user = initUserObj(giftId);
+            User user = initUserObj(userId);
             //Instantiate new Reservation object
-            Reservation reservation = new Reservation(percentage, gift, user);
-
+            Reservation reservation = new Reservation(percentage,true, gift, user);
             //Update Gift and User objects
             user.updateReservations(reservation);   //No need to persist already existing db objects bc of @Transactional
             gift.updateReservations(reservation);
-
             //Persist Reservation object
             reservationRepository.save(reservation);
-
             //Update percentage of gift reserved
-            //This is, strictly speaking, redundant but it is helpful for determining
-            //whether a gift will be rendered by Thymeleaf
+            //This is, strictly speaking, redundant but it is helpful
+            //for determining whether a gift will be rendered by Thymeleaf
             gift.setPercentageReserved(gift.getPercentageReserved() + percentage);
         }catch(IllegalStateException e){
             e.printStackTrace();
         }
-
-
     }
 
     /*
@@ -112,20 +109,36 @@ public class GiftService {
             //Get Gift User objects
             Gift gift = initGiftObj(giftId);
             User user = initUserObj(userId);
-
-            //Get the associated reservation object
-            Reservation reservation = reservationRepository.findByGiftAndUser(gift, user);
-
-            //Remove reservation from gift and user
-            gift.updateReservations(reservation);
-            user.updateReservations(reservation);
-
-            //Delete reservation
-            reservationRepository.delete(reservation);
+            //Get the associated reservation object and set active to false
+            Reservation res = reservationRepository.findByGiftAndUser(gift, user);
+            res.setActive(false);
+            //Update gift's percentage reserved
+            gift.setPercentageReserved(gift.getPercentageReserved() - res.getPercentage());
         }catch(IllegalStateException e){
             e.printStackTrace();
         }
     }
+
+//    @Transactional
+//    public void cancelReservation(Long userId, Long giftId) {
+//        try{
+//            //Get Gift User objects
+//            Gift gift = initGiftObj(giftId);
+//            User user = initUserObj(userId);
+//
+//            //Get the associated reservation object
+//            Reservation reservation = reservationRepository.findByGiftAndUser(gift, user);
+//
+//            //Remove reservation from gift and user
+//            gift.updateReservations(reservation);
+//            user.updateReservations(reservation);
+//
+//            //Delete reservation
+//            reservationRepository.deleteById(reservation.getId());
+//        }catch(IllegalStateException e){
+//            e.printStackTrace();
+//        }
+//    }
 
     public void addGift(Gift gift){
         giftRepository.save(gift);

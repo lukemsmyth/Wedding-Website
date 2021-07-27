@@ -8,11 +8,11 @@
 <div class="container">
     <div class="gift-list-container">
     <div th:each="gift : ${gifts}">
-        <p th:text="${gift.name}"></p>
-        <p th:text="${gift.description}"></p>
-        <p th:text="${gift.price}"></p>
-        <p th:text="${gift.id} + 'is giftID'"></p>
-        <form th:if="${gift.percentageReserved < 100}" th:action="@{/gifts/reserve/{id} (id = ${gift.id})}" th:object="${percentage}" method="post">
+        <p th:text="${gift.g.name}"></p>
+        <p th:text="${gift.g.description}"></p>
+        <p th:text="${gift.g.price}"></p>
+        <p th:text="${gift.g.id} + 'is giftID'"></p>
+        <form th:if="${gift.res == false}" th:action="@{/gifts/reserve/{id} (id = ${gift.g.id})}" th:object="${percentage}" method="post">
             <label>Select percentage to reserve.
                 <select th:field="*{p}">
                     <option value="25">25%</option>
@@ -24,7 +24,7 @@
             <!--Hide "Reserve" button if gift has already been reserved. Need to also cover this on the back end-->
             <input type="submit" value="Reserve" />
         </form>
-        <form th:if="${gift.percentageReserved == 100}" th:action="@{/gifts/cancel-reservation/{id} (id = ${gift.id})}" method="post">
+        <form th:if="${gift.res == true}" th:action="@{/gifts/cancel-reservation/{id} (id = ${gift.g.id})}" method="post">
             <input  type="submit" value="Cancel reservation" />
         </form>
     </div>
