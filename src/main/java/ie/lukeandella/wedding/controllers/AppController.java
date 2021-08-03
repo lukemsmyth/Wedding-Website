@@ -1,6 +1,6 @@
 package ie.lukeandella.wedding.controllers;
 
-import ie.lukeandella.wedding.models.User;
+import ie.lukeandella.wedding.pojos.User;
 import ie.lukeandella.wedding.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -66,18 +66,4 @@ public class AppController {
     public String home(){
         return "home/home";
     }
-
-    //FAQS - need to move this to FAQs controller
-    @GetMapping("/faqs")
-    public String faqs(){
-        return "faqs/faqs";
-    }
-
-//    @GetMapping("/users")
-//    public String listUsers(Model model) {
-//        List<User> users = userService.getUsers();
-////        List<User> listUsers = userRepo.findAll();
-//        model.addAttribute("listUsers", users);
-//        return "users";
-//    }
 }

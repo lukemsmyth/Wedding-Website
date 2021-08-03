@@ -1,4 +1,4 @@
-package ie.lukeandella.wedding.models;
+package ie.lukeandella.wedding.pojos;
 
 public class GiftForDisplay {
 

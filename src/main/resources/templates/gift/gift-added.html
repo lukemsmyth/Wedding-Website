@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
+<div class="navbar">
+    <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
+    <a th:href="@{/where}" id="nav1">Where</a>
+    <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+    <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
+    <a th:href="@{/gifts}" id="nav4">Gift List</a>
+</div>
   <div align="center">
     <h2>Gift Added Successfully!</h2>
     <span>Name:</span><span th:text="${gift.name}"></span><br/>

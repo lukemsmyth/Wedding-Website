@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html
+        id="faq-updated"
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>FAQ updated</title>
+</head>
+<body>
+<div class="navbar">
+    <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
+    <a th:href="@{/where}" id="nav1">Where</a>
+    <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+    <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
+    <a th:href="@{/gifts}" id="nav4">Gift List</a>
+</div>
+<div class="faq-updated" sec:authorize="hasAuthority('ADMIN')">
+  <h1>Updated FAQ</h1>
+  <h2 th:text="${updated_faq.question}"></h2>
+  <h3 th:text="${updated_faq.answer}"></h3>
+</div>
+</body>
+</html>

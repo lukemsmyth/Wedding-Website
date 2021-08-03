@@ -2,9 +2,9 @@ package ie.lukeandella.wedding.services;
 
 
 import ie.lukeandella.wedding.configuration.IAuthenticationFacade;
-import ie.lukeandella.wedding.models.CustomUserDetails;
-import ie.lukeandella.wedding.models.Gift;
-import ie.lukeandella.wedding.models.User;
+import ie.lukeandella.wedding.pojos.CustomUserDetails;
+import ie.lukeandella.wedding.pojos.Gift;
+import ie.lukeandella.wedding.pojos.User;
 import ie.lukeandella.wedding.repositories.GiftRepository;
 import ie.lukeandella.wedding.repositories.UserRepository;
 import net.bytebuddy.utility.RandomString;
@@ -20,7 +20,6 @@ import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserService {

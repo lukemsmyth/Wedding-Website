@@ -1,6 +1,5 @@
-package ie.lukeandella.wedding.models;
+package ie.lukeandella.wedding.pojos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.*;
 
@@ -25,7 +24,16 @@ public class User {
     //EMAIL
     @Column(name = "email", nullable = true)
     private String email;
-    
+
+    //ROLE
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
     //VERIFICATION CODE - FOR EMAIL VERIFICATION OF REGISTRATION
     @Column(name = "verification_code", length = 64)
     private String verificationCode;
@@ -44,9 +52,16 @@ public class User {
         this.password = password;
     }
 
-    public User(String username, String password, String email) {
-        this.name = name.toLowerCase();
+    public User(String name, String password, String role) {
+        this.name = name.toLowerCase(); //name does not need to be case sensitive
         this.password = password;
+        this.roles.add(new Role(role));
+    }
+
+    public User(String name, String password, String role, String email) {
+        this.name = name.toLowerCase(); //name does not need to be case sensitive
+        this.password = password;
+        this.roles.add(new Role(role));
         this.email = email;
     }
 
@@ -70,7 +85,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", verificationCode='" + verificationCode + '\'' +
                 ", enabled=" + enabled +
-                ", reservations=" + reservations +
                 '}';
     }
 
@@ -104,6 +118,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getVerificationCode() {

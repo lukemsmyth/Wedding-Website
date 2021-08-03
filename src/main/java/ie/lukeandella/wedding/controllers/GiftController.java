@@ -1,6 +1,6 @@
 package ie.lukeandella.wedding.controllers;
 
-import ie.lukeandella.wedding.models.*;
+import ie.lukeandella.wedding.pojos.*;
 import ie.lukeandella.wedding.services.GiftService;
 import ie.lukeandella.wedding.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,7 @@ public class GiftController {
         model.addAttribute("gifts", giftsForDisplay);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("percentage", new Percentage());
+        model.addAttribute("gift_to_update_or_add", new Gift());       //for the admin to update gift object or add a gift to the db
         return "gift/gifts";
     }
 
@@ -76,20 +77,47 @@ public class GiftController {
             * Add a gift
             * Remove a gift
             * Edit a gift
+        * Note that all of these actions are performed from the gifts page.
      */
 
-    //Take a new gift as form input
-    @GetMapping("/gift/add")
-    public String addGiftForm(Model model){
-        model.addAttribute("gift", new Gift());
-        return "gift/gift-add";
-    }
-
-    //Add the book to the database
-    @PostMapping("/gift/added")
+    /*
+        * Add a gift to the database
+     */
+    @PostMapping("/gifts/add")
     public String submitForm(@ModelAttribute("gift") Gift gift){
         giftService.addGift(gift);
         return "gift/gift-added";
     }
+
+    /*
+        * Delete a gift form the database
+     */
+    @DeleteMapping("/gifts/delete/{id}")
+    public String deleteGift(@PathVariable("id") Long giftId, Model model){
+        //Get gift object
+        Gift gift = giftService.getGiftById(giftId);
+        giftService.deleteGift(giftId);
+        //Add model attributes to confirm that gift was deletedHye
+        model.addAttribute("gift", gift);
+        return "gift/gift-deleted";
+    }
+
+    /*
+        * Update a gift info
+        * NOTE: this method does not change reservation status of gift
+     */
+    @PostMapping("/gifts/update/{id}")
+    public String updateGiftInfo(@PathVariable("id") Long giftId, @ModelAttribute("gift_to_update") Gift giftToUpdate, Model model){
+        //Get gift object from the DB by ID
+        Gift giftFromDB = giftService.getGiftById(giftId);
+        //Update the gift object with fields contributed by the admin in the giftToUpdate object
+        giftService.updateGiftInfo(giftId, giftToUpdate.getName(), giftToUpdate.getDescription(), giftToUpdate.getPrice(), giftToUpdate.getLink());
+        model.addAttribute("gift", giftFromDB);
+        return "gift/gift-updated";
+    }
+
+
+
+
 
 }

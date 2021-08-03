@@ -11,10 +11,10 @@
 <body>
 <div class="container">
   <div class="navbar">
-    <a href="index.html" id="navLogo">Luke &amp; Ella 2022</a>
-    <a href="Where.html" id="nav1">Where</a>
-    <a href="itinerary.html" id="nav2">Itinerary</a>
-    <a href="/faqs" id="nav3" >Q&amp;A</a> <!--th:action="@{/faqs}"-->
+    <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
+    <a th:href="@{/where}" id="nav1">Where</a>
+    <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+    <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
     <a th:href="@{/gifts}" id="nav4">Gift List</a>
   </div>
   <div class="homeInfoBox">

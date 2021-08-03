@@ -2,7 +2,7 @@ package ie.lukeandella.wedding;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import ie.lukeandella.wedding.models.User;
+import ie.lukeandella.wedding.pojos.User;
 import ie.lukeandella.wedding.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

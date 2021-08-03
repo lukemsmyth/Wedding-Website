@@ -1,6 +1,6 @@
 package ie.lukeandella.wedding.configuration;
 
-import ie.lukeandella.wedding.services.CustomUserDetailsService;
+import ie.lukeandella.wedding.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
+        return new UserDetailsServiceImpl();
     }
 
     @Bean
@@ -50,6 +50,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()    //The following endpoints are accessible to unauthenticated users (i.e., anyone)
+                .antMatchers("/").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/new").hasAnyAuthority("ADMIN")
+                .antMatchers("/edit/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/delete/**").hasAuthority("ADMIN")
                 .antMatchers("/").permitAll()                       //landing page
                 .antMatchers("/register").permitAll()               //register page
                 .antMatchers("/process-registration").permitAll()   //process registration page
@@ -64,7 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/home", true)   //where users are directed after successful login
             .and()
                 //logout is also accessible to anyone
-                .logout().permitAll();
+                .logout().permitAll()
+            .and()
+                .exceptionHandling().accessDeniedPage("/403");
     }
 
     //This permits access to the css and images folders (both located inside the resources folder)

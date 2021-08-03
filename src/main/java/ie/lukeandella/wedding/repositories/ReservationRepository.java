@@ -1,14 +1,15 @@
 package ie.lukeandella.wedding.repositories;
 
-import ie.lukeandella.wedding.models.Gift;
-import ie.lukeandella.wedding.models.Reservation;
-import ie.lukeandella.wedding.models.User;
+import ie.lukeandella.wedding.pojos.Gift;
+import ie.lukeandella.wedding.pojos.Reservation;
+import ie.lukeandella.wedding.pojos.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 
+@Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Query("SELECT r FROM Reservation r WHERE r.gift = ?1 and r.user = ?2")

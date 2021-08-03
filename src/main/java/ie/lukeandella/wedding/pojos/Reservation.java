@@ -1,4 +1,4 @@
-package ie.lukeandella.wedding.models;
+package ie.lukeandella.wedding.pojos;
 
 import javax.persistence.*;
 import java.util.Objects;

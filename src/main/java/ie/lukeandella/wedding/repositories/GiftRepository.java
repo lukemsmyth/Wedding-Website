@@ -1,14 +1,13 @@
 package ie.lukeandella.wedding.repositories;
 
-import ie.lukeandella.wedding.models.Gift;
-import ie.lukeandella.wedding.models.User;
+import ie.lukeandella.wedding.pojos.Gift;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
+@Repository
 public interface GiftRepository extends JpaRepository<Gift, Long> {
 
     @Query

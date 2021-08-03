@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gift reserved</title>
+    <title>Gift deleted</title>
 </head>
 <body>
 <div class="navbar">
@@ -12,9 +12,6 @@
     <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
     <a th:href="@{/gifts}" id="nav4">Gift List</a>
 </div>
-<p th:text="
-    ${user.name} + ' reserved ' + ${gift.name} +
-    ' which is now ' + ${gift.percentageReserved} + ' percent reserved.'">
-</p>
+    <p th:text="${gift.name} + ' has been deleted.'"></p>
 </body>
 </html>

@@ -1,9 +1,9 @@
 package ie.lukeandella.wedding.services;
 
-import ie.lukeandella.wedding.models.Gift;
-import ie.lukeandella.wedding.models.GiftForDisplay;
-import ie.lukeandella.wedding.models.Reservation;
-import ie.lukeandella.wedding.models.User;
+import ie.lukeandella.wedding.pojos.Gift;
+import ie.lukeandella.wedding.pojos.GiftForDisplay;
+import ie.lukeandella.wedding.pojos.Reservation;
+import ie.lukeandella.wedding.pojos.User;
 import ie.lukeandella.wedding.repositories.GiftRepository;
 import ie.lukeandella.wedding.repositories.ReservationRepository;
 import ie.lukeandella.wedding.repositories.UserRepository;
@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class GiftService {
@@ -119,31 +117,12 @@ public class GiftService {
         }
     }
 
-//    @Transactional
-//    public void cancelReservation(Long userId, Long giftId) {
-//        try{
-//            //Get Gift User objects
-//            Gift gift = initGiftObj(giftId);
-//            User user = initUserObj(userId);
-//
-//            //Get the associated reservation object
-//            Reservation reservation = reservationRepository.findByGiftAndUser(gift, user);
-//
-//            //Remove reservation from gift and user
-//            gift.updateReservations(reservation);
-//            user.updateReservations(reservation);
-//
-//            //Delete reservation
-//            reservationRepository.deleteById(reservation.getId());
-//        }catch(IllegalStateException e){
-//            e.printStackTrace();
-//        }
-//    }
-
     public void addGift(Gift gift){
+        gift.setPercentageReserved(0);
         giftRepository.save(gift);
     }
 
+    @Transactional
     public void deleteGift(Long giftId){
         if(!giftRepository.existsById(giftId)){
             throw new IllegalStateException("The gift with ID " + giftId + " does not exist");
@@ -157,14 +136,29 @@ public class GiftService {
     }
 
     @Transactional
-    public void updateGiftInfo(Long giftId, String name, String description, String image, Double price, String link){
+    public void updateGiftInfo(Long giftId, String name, String description, Double price, String link){
         Gift gift = initGiftObj(giftId);
         //Only set the fields which have been modified by the admin
-        if(name != null) gift.setName(name);
-        if(description != null) gift.setDescription(description);
-        if(image != null) gift.setImage(image);
-        if(price != null) gift.setPrice(price);
-        if(link != null) gift.setLink(link);
+        if(name != null){
+            gift.setName(name);
+        }else{
+            gift.setName(gift.getName());
+        }
+        if(description != null){
+            gift.setDescription(description);
+        }else{
+            gift.setDescription(gift.getDescription());
+        }
+        if(price != null){
+            gift.setPrice(price);
+        }else{
+            gift.setPrice(gift.getPrice());
+        }
+        if(link != null){
+            gift.setLink(link);
+        }else{
+            gift.setLink(gift.getLink());
+        }
     }
 
     @Transactional

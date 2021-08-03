@@ -1,7 +1,6 @@
-package ie.lukeandella.wedding.models;
+package ie.lukeandella.wedding.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.HashSet;
