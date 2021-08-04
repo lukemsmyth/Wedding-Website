@@ -22,7 +22,7 @@
         <h2 th:text="${it.dateTime}"></h2>
         <h2 th:text="${it.location}"></h2>
         <h3 th:text="${it.description}"></h3>
-        <p th:text="${it.lastUpdated}"></p>
+        <p th:text="'Last updated: ' + ${it.lastUpdated}"></p>
         <!--Admin only actions-->
         <div sec:authorize="hasAuthority('ADMIN')" class="update-delete">
             <p>Hi Admin!</p>
@@ -30,11 +30,14 @@
                 <input  type="submit" value="Delete item" />
             </form>
             <form th:action="@{/itinerary/update/{id} (id = ${it.id})}" th:object="${item_to_add_or_update}" th:method="post">
-                <label>Title</label><input type="text" th:field="*{title}" />
-                <label>Date and Time</label><input type="datetime-local" min="2017-06-01T08:30" max="2017-06-30T16:30" th:field="*{dateTime}" />
-                <label>Location</label><input type="text" th:field="*{location}" />
-                <label>Description</label><textarea rows="10" cols="50" th:field="*{description}"></textarea>
-                </label><input  type="submit" value="Update item" />
+                <label>Title</label><input type="text" th:value="${it.title}" th:field="*{title}" />
+
+<!--                <label>Date and Time</label><input type="datetime-local" th:field="*{dateTime}" />-->
+                <label>Date Time: </label><input type="datetime-local" th:field="*{dateTime}"/>
+
+                <label>Location</label><input type="text" th:value="${it.location}" th:field="*{location}" />
+                <label>Description</label><textarea rows="10" cols="50" th:value="${it.description}" th:field="*{description}"></textarea>
+                </label><input type="submit" value="Update item" />
             </form>
         </div>
     </div>
@@ -43,7 +46,7 @@
     <form th:action="@{/itinerary/add}" th:object="${item_to_add_or_update}" method="post">
         <h1>ADD ITINERARY ITEM</h1>
         <label>Date and Time</label>
-        <input type="datetime-local" min="2017-06-01T08:30" max="2017-06-30T16:30" th:field="*{dateTime}" />
+        <label>Date Time: </label><input type="datetime-local" th:field="*{dateTime}"/>
         <label>Location</label>
         <input type="text" th:field="*{location}" />
         <label>Title</label>

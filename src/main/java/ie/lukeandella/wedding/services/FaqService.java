@@ -4,9 +4,8 @@ import ie.lukeandella.wedding.pojos.Faq;
 import ie.lukeandella.wedding.repositories.FaqRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,8 +24,9 @@ public class FaqService {
         return faqRepository.findAll();
     }
 
-    public void addFaq(String question, String answer, LocalDateTime lastUpdated){
-        faqRepository.save(new Faq(question, answer, lastUpdated));
+    public void addFaq(Faq faq){
+        faq.setLastUpdated(LocalDateTime.now());
+        faqRepository.save(faq);
     }
 
     public void deleteFaq(Long faqId){

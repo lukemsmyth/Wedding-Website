@@ -25,7 +25,6 @@
     <div th:each="faq : ${faqs}" class="cell">
       <h3 th:text="${faq.question}"></h3>
       <p th:text="${faq.answer}"></p>
-
       <!--Admin only actions-->
       <div sec:authorize="hasAuthority('ADMIN')" class="update-delete">
         <form th:action="@{/faqs/delete/{id} (id = ${faq.id})}" th:method="post">
@@ -37,10 +36,19 @@
           </label><input  type="submit" value="Update FAQ" />
         </form>
       </div>
-      <!-- -->
     </div>
   </div>
-  <div sec:authorize="hasAuthority('ADMIN')"></div>
+
+  <!--Consider removing update form from each object and instead allowing admin to
+      update AND add using form at bottom (by providing id in order to update)-->
+
+  <div sec:authorize="hasAuthority('ADMIN')" class="add">
+    <form th:action="@{/faqs/add}" th:object="${faq_to_add_or_update}" th:method="post">
+      <label>Question</label><input type="text" th:field="*{question}" />
+      <label>Answer</label><textarea rows="10" cols="50" th:field="*{answer}"></textarea>
+      </label><input  type="submit" value="Update FAQ" />
+    </form>
+  </div>
 </div>
 </body>
 </html>

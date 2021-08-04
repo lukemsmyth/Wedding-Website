@@ -16,13 +16,13 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Controller
-public class FaqsController {
+public class FaqController {
 
     @Autowired
     FaqService faqService;
 
     @Autowired
-    public FaqsController(FaqService faqService){
+    public FaqController(FaqService faqService){
         this.faqService = faqService;
     }
 
@@ -34,7 +34,16 @@ public class FaqsController {
     }
 
     /*
-        * Update a FAQ item
+        * Add an FAQ
+     */
+    @PostMapping("faqs/add")
+    public String addFaq(@ModelAttribute("faq_to_add_or_update") Faq faq){
+        faqService.addFaq(faq);
+        return "faqs/faq-added";
+    }
+
+    /*
+        * Update an FAQ
      */
     @PostMapping("/faqs/update/{id}")
     public String updateGiftInfo(@PathVariable("id") Long faqId, @ModelAttribute("faq_to_add_or_update") Faq faqToUpdate, Model model){
@@ -45,7 +54,7 @@ public class FaqsController {
     }
 
     /*
-        * Delete a FAQ item
+        * Delete an FAQ
      */
     @PostMapping("/faqs/delete/{id}")
     public String deleteFaq(@PathVariable("id") Long faqId, Model model){

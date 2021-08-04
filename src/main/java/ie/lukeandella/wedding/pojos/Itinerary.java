@@ -1,9 +1,9 @@
 package ie.lukeandella.wedding.pojos;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity(name = "Itinerary")
 @Table(name = "itinerary")
@@ -16,6 +16,7 @@ public class Itinerary implements Comparable<Itinerary>{
     private Long id;
 
     @Column(name = "date_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime dateTime;
 
     //LOCATION

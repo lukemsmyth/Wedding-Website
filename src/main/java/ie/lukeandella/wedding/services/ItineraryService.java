@@ -26,7 +26,9 @@ public class ItineraryService {
     }
 
     /*
-        * List all itinerary items in order
+        * List all itinerary items.
+            * Itinerary implements Comparable interface so that natural ordering
+            * of Itinerary objects is chronological from nearest to furthest.
      */
     public List<Itinerary> getItineraryItemsInOrder(){
         List<Itinerary> items = itineraryRepository.findAll();
@@ -52,16 +54,25 @@ public class ItineraryService {
         * Update an itinerary item
      */
     @Transactional
-    public void updateItineraryItem(Long id, String dateTime, String location, String title, String description){
-        //YYYY-MM-DDThh:mm
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);
+    public void updateItineraryItem(Long id, LocalDateTime dateTime, String location, String title, String description){
+//        //YYYY-MM-DDThh:mm
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
+//        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);
+
+//        if(!localDateTime.equals(it.getDateTime())) it.setDateTime(localDateTime);
+
         Itinerary it = initItineraryObj(id);
-        if(!localDateTime.equals(it.getDateTime())) it.setDateTime(localDateTime);
+        String s = dateTime == null ? "null" : "not null";
+        System.out.println(s);
+        if(!dateTime.equals(it.getDateTime())) it.setDateTime(dateTime);
         if(!location.isEmpty()) it.setLocation(location);
         if(!title.isEmpty()) it.setTitle(title);
         if(!description.isEmpty()) it.setDescription(description);
         it.setLastUpdated(LocalDateTime.now());
+    }
+
+    public Itinerary getById(Long id){
+        return initItineraryObj(id);
     }
 
     //helper method

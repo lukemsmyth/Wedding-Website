@@ -8,15 +8,21 @@ import ie.lukeandella.wedding.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.IEngineConfiguration;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
+import org.thymeleaf.spring5.ISpringTemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.ITemplateResolver;
+import org.thymeleaf.templateresolver.TemplateResolution;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Map;
 
 @Configuration
 public class AppConfig {
-
 
     @Bean
     CommandLineRunner commandLineRunner(GiftRepository giftRepository,
@@ -26,18 +32,18 @@ public class AppConfig {
                                         ItineraryRepository itineraryRepository)
     {
         return args -> {
-            String smokedSalmon = "Smoked salmon is a preparation of salmon, typically a fillet that has been cured and hot or cold smoked.Due to its moderately high price, smoked salmon is considered a delicacy.";
-            Itinerary it1 = new Itinerary(LocalDateTime.of(2020, 6, 15, 12, 30),"Sandycove", "Swim at the Forty Foot", "Going for a dip at the Forty Foot", LocalDateTime.now());
-            itineraryRepository.save(it1);
-            Itinerary it2 = new Itinerary(LocalDateTime.of(2020, 6, 16, 13, 30),"Clontarf", "Walk in the park", "Going for a walk in St. Anne's Park", LocalDateTime.now());
-            itineraryRepository.save(it2);
-            Itinerary it3 = new Itinerary(LocalDateTime.of(2020, 6, 17, 18, 30),"Dublin", "Night on the beer", "Going for a night on the beer", LocalDateTime.now());
-            itineraryRepository.save(it3);
+
         };
     }
 
 
-
+//            String smokedSalmon = "Smoked salmon is a preparation of salmon, typically a fillet that has been cured and hot or cold smoked.Due to its moderately high price, smoked salmon is considered a delicacy.";
+//            Itinerary it1 = new Itinerary(LocalDateTime.of(2020, 6, 15, 12, 30),"Sandycove", "Swim at the Forty Foot", "Going for a dip at the Forty Foot", LocalDateTime.now());
+//            itineraryRepository.save(it1);
+//            Itinerary it2 = new Itinerary(LocalDateTime.of(2020, 6, 16, 13, 30),"Clontarf", "Walk in the park", "Going for a walk in St. Anne's Park", LocalDateTime.now());
+//            itineraryRepository.save(it2);
+//            Itinerary it3 = new Itinerary(LocalDateTime.of(2020, 6, 17, 18, 30),"Dublin", "Night on the beer", "Going for a night on the beer", LocalDateTime.now());
+//            itineraryRepository.save(it3);
 
 //
 //            Role admin = new Role("ADMIN");

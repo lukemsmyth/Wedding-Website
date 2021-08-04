@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Gift reserved</title>
+  <title>Itinerary Item Deleted</title>
   <link th:href="@{css/main.css}" rel="stylesheet">
   <link th:href="@{css/home.css}" rel="stylesheet">
 </head>
@@ -14,9 +14,12 @@
   <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
   <a th:href="@{/gifts}" id="nav4">Gift List</a>
 </div>
-<p th:text="${gift.name} + 'updated'"></p><br>
-<p th:text="${gift.description}"></p><br>
-<p th:text="${gift.price}"></p><br>
-<p th:text="${gift.link}"></p><br>
+<div style="align-content: center;">
+  <h2>Deleted the following itinerary item:</h2>
+  <p th:text="${item.title}"></p><br>
+  <p th:text="${item.location}"></p><br>
+  <p th:text="${item.description}"></p><br>
+  <p th:text="${item.dateTime.toString()}"></p><br>
+</div>
 </body>
 </html>

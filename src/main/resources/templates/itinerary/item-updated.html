@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Itinerary Item Updated</title>
+  <link th:href="@{css/main.css}" rel="stylesheet">
+  <link th:href="@{css/home.css}" rel="stylesheet">
+</head>
+<body>
+  <div class="navbar">
+    <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
+    <a th:href="@{/where}" id="nav1">Where</a>
+    <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+    <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
+    <a th:href="@{/gifts}" id="nav4">Gift List</a>
+  </div>
+  <div style="align-content: center;">
+    <p th:text="${item_to_add_or_update.title}"></p><br>
+    <p th:text="${item_to_add_or_update.location}"></p><br>
+    <p th:text="${item_to_add_or_update.description}"></p><br>
+    <p th:text="${item_to_add_or_update.dateTime.toString()}"></p><br>
+  </div>
+</body>
+</html>
