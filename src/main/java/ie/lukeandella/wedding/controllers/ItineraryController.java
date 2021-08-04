@@ -41,12 +41,12 @@ public class ItineraryController {
         return "itinerary/item-added";
     }
 
-    @PostMapping("/itinerary/update/{id}")
-    public String updateItem(@PathVariable("id") Long id, @ModelAttribute("item_to_add_or_update") Itinerary item){
+    @PostMapping("/itinerary/update")
+    public String updateItem(@ModelAttribute("item_to_add_or_update") Itinerary item, Model model){
         //update the object
-        System.out.println(item.getDescription());
-        System.out.println(item.getDateTime().toString());
-        itineraryService.updateItineraryItem(id, item.getDateTime(), item.getLocation(), item.getTitle(), item.getDescription());
+        itineraryService.updateItineraryItem(item.getId(), item.getDateTime(), item.getLocation(), item.getTitle(), item.getDescription());
+        Itinerary updatedItem = itineraryService.getById(item.getId());
+        model.addAttribute("updated_item", updatedItem);
         return "itinerary/item-updated";
     }
 

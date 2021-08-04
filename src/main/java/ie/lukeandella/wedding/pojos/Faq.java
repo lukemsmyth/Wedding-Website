@@ -1,5 +1,7 @@
 package ie.lukeandella.wedding.pojos;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -16,7 +18,8 @@ public class Faq {
     @Column(name = "q")
     private String question;
 
-    @Column(name = "a")
+    //Necesary to define type of TEXT to allow for large strings as varchar has max length of 255 characters.
+    @Column(name = "a", columnDefinition="TEXT")
     private String answer;
 
     @Column(name = "last_updated")

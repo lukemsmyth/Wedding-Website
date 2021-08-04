@@ -1,20 +1,23 @@
-#FAQs{
-    background: url("../images/onTopOfTheHill2.png") no-repeat center center fixed;
+#faqs{
+    background: url("../images/onTopOfTheHill2.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    scrollbar-color: #b8b8b8 #666666;
+    scrollbar-width: thin;
+}
+body{
     overflow-x: hidden;
     overflow-y: scroll;
     margin-bottom: 100px;
 }
 .faqsGrid{
     grid-column: 2/span 10;
-    grid-row-start: 4;
+    grid-row-start: 3;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 20px 20px;
-
 }
 .cell{
     background: rgba(255, 255, 255, 0.2);
@@ -35,7 +38,7 @@
 .cell:hover{
     color: #2a2e26;
     border-color: #434c3b;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.8);
 }
 .cell:hover h3{
     color: #2a2e26;
@@ -52,4 +55,27 @@
     text-decoration: none;
     color: #2a2e26;
     font-size:1em;
+}
+.add-or-update-item{
+    padding:2%;
+}
+.add-or-update-elements{
+    width: 100%;
+}
+.add-or-update-elements input{
+    width: 100%;
+}
+.add-or-update-elements textarea{
+    width: 100%;
+}
+.add-or-update-elements button{
+    width: 100%;
+}
+.add-or-update-elements h3{
+    width: 100%;
+    text-align: center;
+}
+#dirty-hack{
+    grid-column: 1 / span 3;
+    height: 15px;
 }

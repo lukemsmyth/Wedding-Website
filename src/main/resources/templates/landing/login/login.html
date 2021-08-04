@@ -2,12 +2,14 @@
 <html id="login-page" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <link th:href="@{/css/main.css}" rel="stylesheet">
+
     <link th:href="@{/css/login.css}" rel="stylesheet">
+    <link th:href="@{/css/xmain.css}" rel="stylesheet">
+
     <title>Welcome</title>
 </head>
 <body>
-<div class="container">
+<div class="container-main">
     <div id="login-div">
         <form th:action="@{/login}" method="post">
             <input name="username" type="text" class="input-fields" id="email" placeholder="username"/>

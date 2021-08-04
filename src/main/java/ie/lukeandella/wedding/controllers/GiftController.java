@@ -106,13 +106,11 @@ public class GiftController {
         * Update a gift info
         * NOTE: this method does not change reservation status of gift
      */
-    @PostMapping("/gifts/update/{id}")
-    public String updateGiftInfo(@PathVariable("id") Long giftId, @ModelAttribute("gift_to_update") Gift giftToUpdate, Model model){
-        //Get gift object from the DB by ID
-        Gift giftFromDB = giftService.getGiftById(giftId);
+    @PostMapping("/gifts/update")
+    public String updateGiftInfo(@ModelAttribute("gift_to_update") Gift giftToUpdate, Model model){
         //Update the gift object with fields contributed by the admin in the giftToUpdate object
-        giftService.updateGiftInfo(giftId, giftToUpdate.getName(), giftToUpdate.getDescription(), giftToUpdate.getPrice(), giftToUpdate.getLink());
-        model.addAttribute("gift", giftFromDB);
+        giftService.updateGiftInfo(giftToUpdate.getId(), giftToUpdate.getName(), giftToUpdate.getDescription(), giftToUpdate.getPrice(), giftToUpdate.getLink());
+        model.addAttribute("gift", giftService.getGiftById(giftToUpdate.getId()));
         return "gift/gift-updated";
     }
 

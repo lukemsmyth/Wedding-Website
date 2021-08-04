@@ -28,7 +28,7 @@ public class Itinerary implements Comparable<Itinerary>{
     private String title;
 
     //DESCRIPTION
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "last_updated")

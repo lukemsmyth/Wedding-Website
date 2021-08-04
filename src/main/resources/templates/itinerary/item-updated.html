@@ -15,10 +15,10 @@
     <a th:href="@{/gifts}" id="nav4">Gift List</a>
   </div>
   <div style="align-content: center;">
-    <p th:text="${item_to_add_or_update.title}"></p><br>
-    <p th:text="${item_to_add_or_update.location}"></p><br>
-    <p th:text="${item_to_add_or_update.description}"></p><br>
-    <p th:text="${item_to_add_or_update.dateTime.toString()}"></p><br>
+    <p th:text="${updated_item.title}"></p><br>
+    <p th:text="${updated_item.location}"></p><br>
+    <p th:text="${updated_item.description}"></p><br>
+    <p th:text="${updated_item.dateTime.toString()}"></p><br>
   </div>
 </body>
 </html>

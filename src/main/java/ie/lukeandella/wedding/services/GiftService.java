@@ -139,12 +139,12 @@ public class GiftService {
     public void updateGiftInfo(Long giftId, String name, String description, Double price, String link){
         Gift gift = initGiftObj(giftId);
         //Only set the fields which have been modified by the admin
-        if(name != null){
+        if(!name.isEmpty()){
             gift.setName(name);
         }else{
             gift.setName(gift.getName());
         }
-        if(description != null){
+        if(!description.isEmpty()){
             gift.setDescription(description);
         }else{
             gift.setDescription(gift.getDescription());
@@ -154,7 +154,7 @@ public class GiftService {
         }else{
             gift.setPrice(gift.getPrice());
         }
-        if(link != null){
+        if(!link.isEmpty()){
             gift.setLink(link);
         }else{
             gift.setLink(gift.getLink());

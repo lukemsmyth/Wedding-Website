@@ -4,6 +4,13 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    scrollbar-color: #b8b8b8 #666666;
+    scrollbar-width: thin;
+}
+body{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin-bottom: 100px;
 }
 #login-div{
     grid-column: 6/span 2;
@@ -30,4 +37,3 @@
     color: #2a2e26;
     background: rgba(255,255,255,0.8);
 }
-

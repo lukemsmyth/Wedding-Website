@@ -1,59 +1,81 @@
 <!DOCTYPE html>
 <html
+        id="itinerary"
         lang="en"
         xmlns:th="https://www.thymeleaf.org"
         xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
 <head>
     <meta charset="UTF-8">
+
+    <link th:href="@{css/itinerary.css}" rel="stylesheet" />
+    <link th:href="@{css/xmain.css}" rel="stylesheet" />
+
+
     <title>Itinerary</title>
 </head>
 <body>
-<div class="navbar">
-    <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
-    <a th:href="@{/where}" id="nav1">Where</a>
-    <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
-    <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
-    <a th:href="@{/gifts}" id="nav4">Gift List</a>
-</div>
-<div class="itinerary-list" style="align-content: center">
-    <div th:each="it : ${items}" class="itinerary-items">
-        <h1 th:text="${it.title}"></h1>
-        <h2 th:text="${it.dateTime}"></h2>
-        <h2 th:text="${it.location}"></h2>
-        <h3 th:text="${it.description}"></h3>
-        <p th:text="'Last updated: ' + ${it.lastUpdated}"></p>
-        <!--Admin only actions-->
-        <div sec:authorize="hasAuthority('ADMIN')" class="update-delete">
-            <p>Hi Admin!</p>
-            <form th:action="@{/itinerary/delete/{id} (id = ${it.id})}" th:method="post">
-                <input  type="submit" value="Delete item" />
-            </form>
-            <form th:action="@{/itinerary/update/{id} (id = ${it.id})}" th:object="${item_to_add_or_update}" th:method="post">
-                <label>Title</label><input type="text" th:value="${it.title}" th:field="*{title}" />
-
-<!--                <label>Date and Time</label><input type="datetime-local" th:field="*{dateTime}" />-->
-                <label>Date Time: </label><input type="datetime-local" th:field="*{dateTime}"/>
-
-                <label>Location</label><input type="text" th:value="${it.location}" th:field="*{location}" />
-                <label>Description</label><textarea rows="10" cols="50" th:value="${it.description}" th:field="*{description}"></textarea>
-                </label><input type="submit" value="Update item" />
-            </form>
+<div class="container-main">
+    <div class="navbar">
+        <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
+        <a th:href="@{/where}" id="nav1">Where</a>
+        <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+        <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a>
+        <a th:href="@{/gifts}" id="nav4">Gift List</a>
+    </div>
+    <div class="itinerary-list">
+        <div th:each="it : ${items}" class="itinerary-item">
+            <h1 th:text="${it.title}"></h1>
+            <h2 th:text="${it.dateTime}"></h2>
+            <h2 th:text="${it.location}"></h2>
+            <h3 th:text="${it.description}"></h3>
+            <p th:text="'Last updated: ' + ${it.lastUpdated}"></p>
+            <!--ADMIN ONLY-->
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <p th:text="'ID: ' + ${it.id}"></p>
+                <form th:action="@{/itinerary/delete/{id} (id = ${it.id})}" th:method="post">
+                    <input  type="submit" value="Delete item" />
+                </form>
+            </div>
         </div>
+        <!--ADMIN ONLY-->
+        <div sec:authorize="hasAuthority('ADMIN')" class="itinerary-item">
+            <div class="add-or-update-item">
+                <div><h1>Add Itinerary Item</h1></div>
+                <form th:action="@{/itinerary/add}" th:object="${item_to_add_or_update}" method="post">
+                    <div><label>Title</label></div>
+                    <div><input type="text" th:value="${null}" th:field="*{title}" /></div>
+                    <div><label>Date Time: </label></div>
+                    <div><input type="datetime-local" th:value="${null}" th:field="*{dateTime}"/></div>
+                    <div><label>Location</label></div>
+                    <div><input type="text" th:value="${null}" th:field="*{location}" /></div>
+                    <div><label>Description</label></div>
+                    <div><textarea rows="5" cols="25" th:value="${null}" th:field="*{description}"></textarea></div>
+                    <div><input type="submit" value="Update item" /></div>
+                </form>
+            </div>
+        </div>
+        <div sec:authorize="hasAuthority('ADMIN')" class="itinerary-item">
+            <div class="add-or-update-item">
+                <div><h1>Update Itinerary Item</h1></div>
+                <form th:action="@{/itinerary/update}" th:object="${item_to_add_or_update}" th:method="post">
+                    <div><label>ID (N.B. provide correct value)</label></div>
+                    <div><input type="number" th:value="${null}" th:field="*{id}" /></div>
+                    <div><label>Title</label></div>
+                    <div><input type="text" th:value="${null}" th:field="*{title}" /></div>
+                    <div><label>Date Time: </label></div>
+                    <div><input type="datetime-local" th:value="${null}" th:field="*{dateTime}"/></div>
+                    <div><label>Location</label></div>
+                    <div><input type="text" th:value="${null}" th:field="*{location}" /></div>
+                    <div><label>Description</label></div>
+                    <div><textarea rows="5" cols="25" th:value="${null}" th:field="*{description}"></textarea></div>
+                    <div><input type="submit" value="Update item" /></div>
+                </form>
+            </div>
+        </div>
+        <div id="dirty-hack"></div>
     </div>
 </div>
-<div sec:authorize="hasAuthority('ADMIN')" class="add-item" style="align-content: center; border-top-style: solid; border-width: 5px"></div>
-    <form th:action="@{/itinerary/add}" th:object="${item_to_add_or_update}" method="post">
-        <h1>ADD ITINERARY ITEM</h1>
-        <label>Date and Time</label>
-        <label>Date Time: </label><input type="datetime-local" th:field="*{dateTime}"/>
-        <label>Location</label>
-        <input type="text" th:field="*{location}" />
-        <label>Title</label>
-        <input type="text" th:field="*{title}" />
-        <label>Description</label>
-        <textarea rows="10" cols="50" th:field="*{description}"></textarea>
-        <input type="submit" value="Add item" />
-    </form>
+
 </body>
 </html>

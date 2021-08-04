@@ -1,11 +1,18 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<!doctype html>
+<html
+        id="gifts"
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <link th:href="@{/css/gifts.css}" rel="stylesheet" />
+    <link th:href="@{/css/xmain.css}" rel="stylesheet" />
     <title>Gifts</title>
 </head>
 <body>
-<div class="container">
+<div class="main-container">
     <div class="navbar">
         <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
         <a th:href="@{/where}" id="nav1">Where</a>
@@ -13,51 +20,61 @@
         <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
         <a th:href="@{/gifts}" id="nav4">Gift List</a>
     </div>
-    <div class="gift-list-container" style="border-style:solid;border-width: 2px;margin: 5%;">
-        <div th:each="gift : ${gifts}" style="border-style:solid;border-width: 2px;margin: 5%;">
-            <p th:text="${gift.g.name}"></p>
-            <p th:text="${gift.g.description}"></p>
-            <p th:text="${gift.g.price}"></p>
-            <p th:text="${gift.g.id} + 'is giftID'"></p>
-            <form th:if="${gift.res == false}" th:action="@{/gifts/reserve/{id} (id = ${gift.g.id})}" th:object="${percentage}" method="post">
-                <label>Select percentage to reserve.
-                    <select th:if="${gift.g.splitable == true}" th:field="*{p}"> <!--only display for splitable gifts-->
-                        <option value="25">25%</option>
-                        <option value="50">50%</option>
-                        <option value="75">75%</option>
-                        <option value="100">100%</option>
-                    </select>
-                </label>
-                <!--Hide "Reserve" button if gift has already been reserved. Need to also cover this on the back end-->
-                <input type="submit" value="Reserve" />
-            </form>
-            <form th:if="${gift.res == true}" th:action="@{/gifts/cancel-reservation/{id} (id = ${gift.g.id})}" method="post">
-                <input  type="submit" value="Cancel reservation" />
-            </form>
-            <div class="delete-gift" style="border-style:solid;border-width: 2px;margin-bottom: 5px;">
-                <form sec:authorize="hasAuthority('ADMIN')" th:action="@{/gifts/delete/{id} (id = ${gift.g.id})}" th:method="delete">
-                    <input  type="submit" value="Delete gift" />
-                </form>
-                <!--UPDATE GIFT INFO-->
-                <form sec:authorize="hasAuthority('ADMIN')" th:action="@{/gifts/update/{id} (id = ${gift.g.id})}" th:object="${gift_to_update_or_add}" method="post" id="update-gift-form">
-                    <div><label>Name</label><input type="text" th:field="*{name}" /></div>
-                    <div><label>Description</label><textarea rows="10" cols="50" th:field="*{description}"></textarea></div>
-                    <div><label>Price</label><input type="number" step="0.01" th:field="*{price}" /></div>
-                    <div><label>Link</label><input type="text" th:field="*{link}" /></div>
-                    <div><input type="submit" value="Update gift" /></div>
-                </form>
-            </div>
-        </div>
-        <div class="add-gift" style="border-style:solid;border-width: 2px;margin: 5%;">
-            <form sec:authorize="hasAuthority('ADMIN')" th:action="@{/gifts/add}" th:object="${gift_to_update_or_add}" method="post" id="add-gift-form">
-                <label>ADD GIFT</label>
-                <input type="text" th:field="*{name}" />
-                <textarea rows="10" cols="50" th:field="*{description}"></textarea>
-                <input type="number" step="0.01" th:field="*{price}" />
-                <input type="text" th:field="*{link}" />
-                <input type="submit" value="Add gift" />
+    <div th:each="gift : ${gifts}" class="gift-div">
+        <p th:text="${gift.g.name}"></p>
+        <p th:text="${gift.g.description}"></p>
+        <p th:text="${gift.g.price}"></p>
+        <form th:if="${gift.res == false}" th:action="@{/gifts/reserve/{id} (id = ${gift.g.id})}" th:object="${percentage}" method="post">
+            <label>Select percentage to reserve.
+                <select th:if="${gift.g.splitable == true}" th:field="*{p}"> <!--only display for splitable gifts-->
+                    <option value="25">25%</option>
+                    <option value="50">50%</option>
+                    <option value="75">75%</option>
+                    <option value="100">100%</option>
+                </select>
+            </label>
+            <!--Hide "Reserve" button if gift has already been reserved. Need to also cover this on the back end-->
+            <input type="submit" value="Reserve" />
+        </form>
+        <form th:if="${gift.res == true}" th:action="@{/gifts/cancel-reservation/{id} (id = ${gift.g.id})}" method="post">
+            <input  type="submit" value="Cancel reservation" />
+        </form>
+        <div class="delete-gift" sec:authorize="hasAuthority('ADMIN')">
+            <p th:text="'ID: ' + ${gift.g.id}"></p>
+            <form  th:action="@{/gifts/delete/{id} (id = ${gift.g.id})}" th:method="delete">
+                <input  type="submit" value="Delete gift" />
             </form>
         </div>
+    </div>
+    <div sec:authorize="hasAuthority('ADMIN')" class="gift-div">
+        <!--UPDATE GIFT INFO-->
+        <form  th:action="@{/gifts/update}" th:object="${gift_to_update_or_add}" method="post" id="update-gift-form">
+            <div class="add-update-gift-elements"><label>ID</label></div>
+            <div class="add-update-gift-elements"><input type="number" th:field="*{id}" /></div>
+            <div class="add-update-gift-elements"><label>Name</label></div>
+            <div class="add-update-gift-elements"><input type="text" th:field="*{name}" /></div>
+            <div class="add-update-gift-elements"><label>Description</label></div>
+            <div class="add-update-gift-elements"><textarea rows="10" cols="50" th:field="*{description}"></textarea></div>
+            <div class="add-update-gift-elements"><label>Price</label></div>
+            <div class="add-update-gift-elements"><input type="number" step="0.01" th:field="*{price}" /></div>
+            <div class="add-update-gift-elements"><label>Link</label></div>
+            <div class="add-update-gift-elements"><input type="text" th:field="*{link}" /></div>
+            <div class="add-update-gift-elements"><input type="submit" value="Update gift" /></div>
+        </form>
+    </div>
+    <div sec:authorize="hasAuthority('ADMIN')" class="gift-div">
+        <!--UPDATE GIFT INFO-->
+        <form  th:action="@{/gifts/add}" th:object="${gift_to_update_or_add}" method="post">
+            <div class="add-update-gift-elements"><label>Name</label></div>
+            <div class="add-update-gift-elements"><input type="text" th:field="*{name}" /></div>
+            <div class="add-update-gift-elements"><label>Description</label></div>
+            <div class="add-update-gift-elements"><textarea rows="10" cols="50" th:field="*{description}"></textarea></div>
+            <div class="add-update-gift-elements"><label>Price</label></div>
+            <div class="add-update-gift-elements"><input type="number" step="0.01" th:field="*{price}" /></div>
+            <div class="add-update-gift-elements"><label>Link</label></div>
+            <div class="add-update-gift-elements"><input type="text" th:field="*{link}" /></div>
+            <div class="add-update-gift-elements"><input type="submit" value="Add gift" /></div>
+        </form>
     </div>
 </div>
 <script>

@@ -5,50 +5,60 @@
         xmlns:th="https://www.thymeleaf.org"
         xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
-
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-  <link th:href="@{/css/main.css}" rel="stylesheet">
-  <link th:href="@{/css/faqs.css}" rel="stylesheet">
+  <link th:href="@{/css/faqs.css}" rel="stylesheet" />
+  <link th:href="@{/css/xmain.css}" rel="stylesheet" />
   <title>Q&amp;A</title>
 </head>
 <body>
-<div class="container">
-  <div class="navbar">
-    <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
-    <a th:href="@{/where}" id="nav1">Where</a>
-    <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
-    <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
-    <a th:href="@{/gifts}" id="nav4">Gift List</a>
-  </div>
-  <div class="faqsGrid">
-    <div th:each="faq : ${faqs}" class="cell">
-      <h3 th:text="${faq.question}"></h3>
-      <p th:text="${faq.answer}"></p>
-      <!--Admin only actions-->
-      <div sec:authorize="hasAuthority('ADMIN')" class="update-delete">
-        <form th:action="@{/faqs/delete/{id} (id = ${faq.id})}" th:method="post">
-          <input  type="submit" value="Delete item" />
-        </form>
-        <form th:action="@{/faqs/update/{id} (id = ${faq.id})}" th:object="${faq_to_add_or_update}" th:method="post">
-          <label>Question</label><input type="text" th:field="*{question}" />
-          <label>Answer</label><textarea rows="10" cols="50" th:field="*{answer}"></textarea>
-          </label><input  type="submit" value="Update FAQ" />
-        </form>
+  <div class="container-main">
+    <div class="navbar">
+      <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
+      <a th:href="@{/where}" id="nav1">Where</a>
+      <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+      <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
+      <a th:href="@{/gifts}" id="nav4">Gift List</a>
+    </div>
+    <div class="faqsGrid">
+      <div th:each="faq : ${faqs}" class="cell">
+        <h3 th:text="${faq.question}"></h3>
+        <p th:text="${faq.answer}"></p>
+        <div sec:authorize="hasAuthority('ADMIN')">
+          <p  th:text="'ID: ' + ${faq.id}"></p>
+          <form th:action="@{/faqs/delete/{id} (id = ${faq.id})}" th:method="post">
+            <input  type="submit" value="Delete item" />
+          </form>
+        </div>
       </div>
+      <div sec:authorize="hasAuthority('ADMIN')" class="cell">
+        <div class="add-or-update-item">
+          <div class="add-or-update-elements"><h3>Update FAQ by ID</h3></div>
+          <form th:action="@{/faqs/update}" th:object="${faq_to_add_or_update}" th:method="post">
+            <div class="add-or-update-elements">ID</div>
+            <div class="add-or-update-elements"><input type="number" th:field="*{id}" /></div>
+            <div class="add-or-update-elements"><label>Question</label></div>
+            <div class="add-or-update-elements"><input type="text" th:value="${null}" th:field="*{question}" /></div>
+            <div class="add-or-update-elements"><label>Answer</label></div>
+            <div class="add-or-update-elements"><textarea rows="10" cols="50" th:value="${null}"  th:field="*{answer}"></textarea></div>
+            <div class="add-or-update-elements"><button type="submit" class="the-button">Update FAQ</button></div>
+          </form>
+        </div>
+      </div>
+      <div sec:authorize="hasAuthority('ADMIN')" class="cell">
+        <div class="add-or-update-item">
+          <div class="add-or-update-elements"><h3>Add new FAQ</h3></div>
+          <form th:action="@{/faqs/add}" th:object="${faq_to_add_or_update}" th:method="post">
+            <div class="add-or-update-elements"><label>Question</label></div>
+            <div class="add-or-update-elements"><input type="text" th:field="*{question}" /></div>
+            <div class="add-or-update-elements"><label>Answer</label></div>
+            <div class="add-or-update-elements"><textarea rows="10" cols="50" th:field="*{answer}"></textarea></div>
+            <div class="add-or-update-elements"><button type="submit" class="the-button">Update FAQ</button></div>
+          </form>
+        </div>
+      </div>
+      <div id="dirty-hack"></div>
     </div>
   </div>
-
-  <!--Consider removing update form from each object and instead allowing admin to
-      update AND add using form at bottom (by providing id in order to update)-->
-
-  <div sec:authorize="hasAuthority('ADMIN')" class="add">
-    <form th:action="@{/faqs/add}" th:object="${faq_to_add_or_update}" th:method="post">
-      <label>Question</label><input type="text" th:field="*{question}" />
-      <label>Answer</label><textarea rows="10" cols="50" th:field="*{answer}"></textarea>
-      </label><input  type="submit" value="Update FAQ" />
-    </form>
-  </div>
-</div>
 </body>
 </html>

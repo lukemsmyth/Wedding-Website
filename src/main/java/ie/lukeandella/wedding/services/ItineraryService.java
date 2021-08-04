@@ -40,6 +40,7 @@ public class ItineraryService {
         * Add an itinerary item
      */
     public void addItineraryItem(Itinerary it){
+        it.setLastUpdated(LocalDateTime.now());
         itineraryRepository.save(it);
     }
 
@@ -52,22 +53,46 @@ public class ItineraryService {
 
     /*
         * Update an itinerary item
+        * Each field will submit a null value as default. Therefore, by
+        * checking each field for null, we can update every field in one method.
      */
     @Transactional
     public void updateItineraryItem(Long id, LocalDateTime dateTime, String location, String title, String description){
 //        //YYYY-MM-DDThh:mm
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
 //        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);
-
 //        if(!localDateTime.equals(it.getDateTime())) it.setDateTime(localDateTime);
+//        if(!dateTime.equals(it.getDateTime())) it.setDateTime(dateTime);
+//        if(!location.isEmpty()) it.setLocation(location);
+//        if(!title.isEmpty()) it.setTitle(title);
+//        if(!description.isEmpty()) it.setDescription(description);
 
+        /*
+         * Each time this method is called, every field is updated by Hibernate.
+         * So, it is necessary to explicitly reset every value even if the admin
+         * has provided null. Hence, the somewhat verbose if-else statements below.
+         */
         Itinerary it = initItineraryObj(id);
-        String s = dateTime == null ? "null" : "not null";
-        System.out.println(s);
-        if(!dateTime.equals(it.getDateTime())) it.setDateTime(dateTime);
-        if(!location.isEmpty()) it.setLocation(location);
-        if(!title.isEmpty()) it.setTitle(title);
-        if(!description.isEmpty()) it.setDescription(description);
+        if(dateTime != null){
+            it.setDateTime(dateTime);
+        }else{
+            it.setDateTime(it.getDateTime());
+        }
+        if(!location.isEmpty()){
+            it.setLocation(location);
+        }else{
+            it.setLocation(it.getLocation());
+        }
+        if(!title.isEmpty()){
+            it.setTitle(title);
+        }else{
+            it.setTitle(it.getTitle());
+        }
+        if(!description.isEmpty()){
+            it.setDescription(description);
+        }else{
+            it.setTitle(it.getTitle());
+        }
         it.setLastUpdated(LocalDateTime.now());
     }
 

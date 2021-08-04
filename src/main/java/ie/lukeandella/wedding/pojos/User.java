@@ -52,17 +52,10 @@ public class User {
         this.password = password;
     }
 
-    public User(String name, String password, String role) {
-        this.name = name.toLowerCase(); //name does not need to be case sensitive
+    public User(String name, String password, boolean enabled) {
+        this.name = name;
         this.password = password;
-        this.roles.add(new Role(role));
-    }
-
-    public User(String name, String password, String role, String email) {
-        this.name = name.toLowerCase(); //name does not need to be case sensitive
-        this.password = password;
-        this.roles.add(new Role(role));
-        this.email = email;
+        this.enabled = enabled;
     }
 
     //Can be used to add or remove a reservation
@@ -86,6 +79,10 @@ public class User {
                 ", verificationCode='" + verificationCode + '\'' +
                 ", enabled=" + enabled +
                 '}';
+    }
+
+    public void addRole(Role role){
+        this.roles.add(role);
     }
 
     public Long getId() {

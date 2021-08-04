@@ -34,19 +34,19 @@ public class FaqService {
     }
 
     @Transactional
-    public void updateFaq(Long faqId, String question, String answer, LocalDateTime lastUpdated){
+    public void updateFaq(Long faqId, String question, String answer){
         Faq faq = initFaqObj(faqId);
-        if(answer != null){
-            faq.setAnswer(answer);
-        }else{
-            faq.setAnswer(faq.getAnswer());
-        }
-        if(question != null){
+        if(!question.isEmpty()){
             faq.setQuestion(question);
         }else{
             faq.setQuestion(faq.getQuestion());
         }
-        faq.setLastUpdated(lastUpdated);
+        if(!answer.isEmpty()){
+            faq.setAnswer(answer);
+        }else{
+            faq.setAnswer(faq.getAnswer());
+        }
+        faq.setLastUpdated(LocalDateTime.now());
     }
 
     public Faq initFaqObj(Long faqId){

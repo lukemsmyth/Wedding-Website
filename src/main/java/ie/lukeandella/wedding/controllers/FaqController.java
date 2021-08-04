@@ -45,11 +45,11 @@ public class FaqController {
     /*
         * Update an FAQ
      */
-    @PostMapping("/faqs/update/{id}")
-    public String updateGiftInfo(@PathVariable("id") Long faqId, @ModelAttribute("faq_to_add_or_update") Faq faqToUpdate, Model model){
+    @PostMapping("/faqs/update")
+    public String updateFaqInfo(@ModelAttribute("faq_to_add_or_update") Faq faqToUpdate, Model model){
         //Update the FAQ object with info provided by the admin
-        faqService.updateFaq(faqId, faqToUpdate.getQuestion(), faqToUpdate.getAnswer(), LocalDateTime.now());
-        model.addAttribute("updated_faq", faqService.getFaqById(faqId));
+        faqService.updateFaq(faqToUpdate.getId(), faqToUpdate.getQuestion(), faqToUpdate.getAnswer());
+        model.addAttribute("updated_faq", faqService.getFaqById(faqToUpdate.getId()));
         return "faqs/faq-updated";
     }
 

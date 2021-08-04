@@ -1,0 +1,66 @@
+#itinerary {
+    background: url("../images/ella_and_billie_at_the_sea.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    scrollbar-color: #b8b8b8 #666666;
+    scrollbar-width: thin;
+
+}
+body{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-bottom: 100px;
+}
+.itinerary-list {
+    grid-column: 4/span 6;
+    grid-row-start: 3;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+}
+.itinerary-list div:last-child{
+    margin-bottom:50px;
+}
+.itinerary-item {
+    background: rgba(255, 255, 255, 0.2);
+    border-style: solid;
+    border-color: #434C3B;
+    border-width: 1px;
+    color: #343b2e;
+    padding: 5%;
+}
+.itinerary-item h1 {
+    font-size: 1.5em;
+    font-style: italic;
+    padding: 2%;
+}
+.itinerary-item p {
+    font-size: 1em;
+    padding: 2%;
+}
+.itinerary-item:hover {
+    color: #2a2e26;
+    border-color: #434c3b;
+    background: rgba(255, 255, 255, 0.2);
+}
+.itinerary-item:hover h3 {
+    color: #2a2e26;
+}
+.itinerary-item:hover p {
+    color: #2a2e26;
+}
+.itinerary-item a:visited, .cell a:link, .cell a:active {
+    text-decoration: none;
+    color: #434C3B;
+    font-size: 1em;
+}
+.itinerary-item a:hover {
+    text-decoration: none;
+    color: #2a2e26;
+    font-size: 1em;
+}
+.add-or-update-item{
+    justify-content: center;
+}
