@@ -3,18 +3,18 @@
 <head>
     <link th:href="@{/css/landing-login-register.css}" rel="stylesheet">
     <link th:href="@{/css/xmain.css}" rel="stylesheet">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <title>Login</title>
+    <title>Welcome</title>
 </head>
 <body>
 <div class="container-main">
     <div class="container-sub">
-        <form th:action="@{/login}" method="post">
-            <input name="username" type="email" class="input-fields" id="email" placeholder="username"/>
-            <input name="password" type="password" class="input-fields" id="password" placeholder="password"/>
+        <form th:action="@{/login}" th:object="${user}" th:method="post">
+            <input th:field="*{email}" name="email" type="hidden" class="input-fields" id="email" />
+            <input th:field="*{password}" name="password" type="password" class="input-fields" id="password" placeholder="Speak, friend, and enter..."/>
             <button type="submit" class="input-fields" id="login-button">Login</button>
         </form>
-        <a th:href="@{/register}"><div class="input-fields">Register</div></a>
     </div>
 </div>
 </body>
