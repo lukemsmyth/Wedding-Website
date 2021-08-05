@@ -1,5 +1,7 @@
 package ie.lukeandella.wedding.services;
 
+import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
+import ie.lukeandella.wedding.exceptions.UserNotExistsException;
 import ie.lukeandella.wedding.pojos.Gift;
 import ie.lukeandella.wedding.pojos.GiftForDisplay;
 import ie.lukeandella.wedding.pojos.Reservation;
@@ -75,25 +77,21 @@ public class GiftService {
         * ************************************
      */
     @Transactional
-    public void reserveGift(Long userId, Long giftId, Integer percentage) {
+    public void reserveGift(Long userId, Long giftId, Integer percentage) throws GiftNotExistsException, UserNotExistsException {
         //Get Gift User objects
-        try{
-            Gift gift = initGiftObj(giftId);
-            User user = initUserObj(userId);
-            //Instantiate new Reservation object
-            Reservation reservation = new Reservation(percentage,true, gift, user);
-            //Update Gift and User objects
-            user.updateReservations(reservation);   //No need to persist already existing db objects bc of @Transactional
-            gift.updateReservations(reservation);
-            //Persist Reservation object
-            reservationRepository.save(reservation);
-            //Update percentage of gift reserved
-            //This is, strictly speaking, redundant but it is helpful
-            //for determining whether a gift will be rendered by Thymeleaf
-            gift.setPercentageReserved(gift.getPercentageReserved() + percentage);
-        }catch(IllegalStateException e){
-            e.printStackTrace();
-        }
+        Gift gift = initGiftObj(giftId);
+        User user = initUserObj(userId);
+        //Instantiate new Reservation object
+        Reservation reservation = new Reservation(percentage,true, gift, user);
+        //Update Gift and User objects
+        user.updateReservations(reservation);   //No need to persist already existing db objects bc of @Transactional
+        gift.updateReservations(reservation);
+        //Persist Reservation object
+        reservationRepository.save(reservation);
+        //Update percentage of gift reserved
+        //This is, strictly speaking, redundant but it is helpful
+        //for determining whether a gift will be rendered by Thymeleaf
+        gift.setPercentageReserved(gift.getPercentageReserved() + percentage);
     }
 
     /*
@@ -102,19 +100,15 @@ public class GiftService {
      * ***********************
      */
     @Transactional
-    public void cancelReservation(Long userId, Long giftId) {
-        try{
-            //Get Gift User objects
-            Gift gift = initGiftObj(giftId);
-            User user = initUserObj(userId);
-            //Get the associated reservation object and set active to false
-            Reservation res = reservationRepository.findByGiftAndUser(gift, user);
-            res.setActive(false);
-            //Update gift's percentage reserved
-            gift.setPercentageReserved(gift.getPercentageReserved() - res.getPercentage());
-        }catch(IllegalStateException e){
-            e.printStackTrace();
-        }
+    public void cancelReservation(Long userId, Long giftId) throws GiftNotExistsException, UserNotExistsException {
+        //Get Gift User objects
+        Gift gift = initGiftObj(giftId);
+        User user = initUserObj(userId);
+        //Get the associated reservation object and set active to false
+        Reservation res = reservationRepository.findByGiftAndUser(gift, user);
+        res.setActive(false);
+        //Update gift's percentage reserved
+        gift.setPercentageReserved(gift.getPercentageReserved() - res.getPercentage());
     }
 
     public void addGift(Gift gift){
@@ -131,12 +125,12 @@ public class GiftService {
     }
 
     //Remember that initGiftObj throws an exception!!
-    public Gift getGiftById(Long giftId){
+    public Gift getGiftById(Long giftId) throws GiftNotExistsException {
         return initGiftObj(giftId);
     }
 
     @Transactional
-    public void updateGiftInfo(Long giftId, String name, String description, Double price, String link){
+    public void updateGiftInfo(Long giftId, String name, String description, Double price, String link) throws GiftNotExistsException {
         Gift gift = initGiftObj(giftId);
         //Only set the fields which have been modified by the admin
         if(!name.isEmpty()){
@@ -162,20 +156,21 @@ public class GiftService {
     }
 
     @Transactional
-    public void setPercentageReserved(Long giftId, Integer percentage){
+    public void setPercentageReserved(Long giftId, Integer percentage) throws GiftNotExistsException {
         Gift gift = initGiftObj(giftId);
         gift.setPercentageReserved(percentage);
     }
 
     //helper methods
-    public Gift initGiftObj(Long giftId){
+
+    public Gift initGiftObj(Long giftId) throws GiftNotExistsException {
         return giftRepository.findById(giftId).orElseThrow(
-                () -> new IllegalStateException("Gift with ID: " + giftId + " does not exist.")
+                () -> new GiftNotExistsException("Gift with ID: " + giftId + " does not exist.")
                 );
     }
-    public User initUserObj(Long userId){
+    public User initUserObj(Long userId) throws UserNotExistsException {
         return userRepository.findById(userId).orElseThrow(
-                () -> new IllegalStateException("User with ID: " + userId + " does not exist.")
+                () -> new UserNotExistsException("User with ID: " + userId + " does not exist.")
         );
     }
 

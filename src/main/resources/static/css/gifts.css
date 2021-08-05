@@ -12,13 +12,45 @@ body{
     scrollbar-color: #b8b8b8 #666666;
     scrollbar-width: thin;
 }
-
-.gift-div{
+.gift-list{
+    grid-row-start: 3;
     grid-column: 4 / span 6;
+}
+.gift-div{
+    width:100%;
+    height: auto;
     border-style: solid;
     border-width: 1px;
     border-color: #343b2e;
     color: #343b2e;
     margin-bottom: 15px;
+    padding-top: 3%;
+    padding-bottom: 1%;
     background: rgba(255,255,255, 0.3);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.gift-info-span{
+    grid-column: 1 / span 2;
+    padding: 2% 5%;
+    align-content: center;
+}
+.gift-info-left{
+    grid-column: 1 / span 1;
+    padding: 2% 5%;
+}
+.gift-info-right{
+    grid-column: 2 / span 1;
+    padding: 2% 5%;
+}
+.gift-div a{
+    text-decoration: none;
+    color: #2a2e26;
+}
+.gift-div a :hover{
+    color: #434c3b;
+}
+#hack{
+    width: 100%;
+    padding-bottom: 20px;
 }

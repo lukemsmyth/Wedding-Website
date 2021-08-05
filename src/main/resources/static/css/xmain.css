@@ -4,10 +4,6 @@
     margin: 0;
     font-family: Baskerville Old Face, serif;
 }
-html{
-    scrollbar-color: #b8b8b8 #666666;
-    scrollbar-width: thin;
-}
 /*
     12*20 grid with no gap.
 */
