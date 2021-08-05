@@ -24,18 +24,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    //Landing page - options to login or register
+//    //Landing page - options to login or register
+//    @GetMapping("/")
+//    public String landing(Model model){
+//        return "landing/landing";
+//    }
     @GetMapping("/")
     public String landing(Model model){
-        return "landing/landing";
+        model.addAttribute("user", new User());
+        return "landing/landing2";
     }
-
-//    //Show the registration form
-//    @GetMapping("/register")
-//    public String showRegistrationForm(Model model) {
-//        model.addAttribute("user", new User());
-//        return "landing/registration/register";
-//    }
 
     @GetMapping("/register")
     public String registerForm(Model model){

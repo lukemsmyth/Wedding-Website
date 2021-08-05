@@ -26,8 +26,15 @@
             <div class="gift-info-left"><h1 th:text="${gift.g.name}"></h1></div>
             <div class="gift-info-left"><a th:href="${gift.g.link}"><p th:text="${gift.g.description}"></p></a> </div>
             <div class="gift-info-left"><p th:text="'€' + ${gift.g.price}"></p></div>
-            <div class="gift-info-left"><p>Select percentage to reserve.</p></div>
-            <div class="gift-info-left">
+            <div class="gift-info-left" sec:authorize="hasAuthority('VISITOR')">
+                <p>To reserve a gift or cancel a reservation, please register/login.</p>
+            </div>
+            <div class="gift-info-left" sec:authorize="hasAuthority('VISITOR')">
+                <a th:href="@{/login}"><span>Login</span></a>
+                <a th:href="@{/register}"><span>Register</span></a>
+            </div>
+            <div class="gift-info-left" sec:authorize="hasAuthority('USER')"><p>Select percentage to reserve.</p></div>
+            <div class="gift-info-left" sec:authorize="hasAuthority('USER')"> <!--Only show option to reserve to users with role USER (and not to VISITOR)-->
                 <form th:if="${gift.res == false}" th:action="@{/gifts/reserve/{id} (id = ${gift.g.id})}" th:object="${percentage}" method="post">
                     <select th:if="${gift.g.splitable == true}" th:field="*{p}"> <!--only display for splitable gifts-->
                         <option value="25">25%</option>

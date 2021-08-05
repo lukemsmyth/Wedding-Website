@@ -74,7 +74,13 @@ public class GiftController {
         } catch (RoleNotExistsException e) {
             e.printStackTrace();
         }
-        model.addAttribute("user_role", userRole);
+        Role visitorRole = null;
+        try {
+            userRole = roleservice.getRoleByName("VISITOR");
+        } catch (RoleNotExistsException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("visitor_role", userRole);
         //Get gifts for display
         List<GiftForDisplay> giftsForDisplay = giftService.getGiftsForDisplay(currentUser);
         model.addAttribute("gifts", giftsForDisplay);

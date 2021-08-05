@@ -10,9 +10,9 @@
 <body>
 <div class="container-main">
     <div class="container-sub">
-        <form th:action="@{/login}" th:object="${user}" th:method="post">
-            <input th:field="*{email}" name="email" type="hidden" class="input-fields" id="email" />
-            <input th:field="*{password}" name="password" type="password" class="input-fields" id="password" placeholder="Speak, friend, and enter..."/>
+        <form th:action="@{/login}" method="post">
+            <input name="username" type="hidden" class="input-fields" id="email" value="smythlu@tcd.ie"/>
+            <input name="password" type="password" class="input-fields" id="password" placeholder="password"/>
             <button type="submit" class="input-fields" id="login-button">Login</button>
         </form>
     </div>
