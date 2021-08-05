@@ -2,6 +2,8 @@ package ie.lukeandella.wedding.services;
 
 
 import ie.lukeandella.wedding.configuration.IAuthenticationFacade;
+import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
+import ie.lukeandella.wedding.exceptions.UserNotExistsException;
 import ie.lukeandella.wedding.pojos.CustomUserDetails;
 import ie.lukeandella.wedding.pojos.Gift;
 import ie.lukeandella.wedding.pojos.User;
@@ -101,10 +103,7 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    public User getById(Long userId){
-        if(!userRepository.existsById(userId)){
-            throw new IllegalStateException("user with id " + userId + " does not exist");
-        }
+    public User getById(Long userId) throws UserNotExistsException {
         return initUserObj(userId);
     }
 
@@ -133,7 +132,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserInfo(Long userId, String name, String email, String password){
+    public void updateUserInfo(Long userId, String name, String email, String password) throws UserNotExistsException {
         User user = initUserObj(userId);
         if(name != null) user.setName(name);
         if(email != null) user.setEmail(email);
@@ -141,22 +140,15 @@ public class UserService {
     }
 
     //Helper method - throws exception if user cannot be found by id.
-    public User initUserObj(Long userId){
-        User user = userRepository.findById(userId)
-                .orElseThrow(
-                        () -> new IllegalStateException
-                                ("User with ID: " + userId + " does not exist.")
-                );
-        return user;
+    public User initUserObj(Long userId) throws UserNotExistsException {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotExistsException("User with ID: " + userId + " does not exist."));
     }
 
-    public Gift initGiftObj(Long giftId){
-        Gift gift = giftRepository.findById(giftId)
-                .orElseThrow(
-                        () -> new IllegalStateException
-                                ("User with ID: " + giftId + " does not exist.")
-                );
-        return gift;
+    public Gift initGiftObj(Long giftId) throws GiftNotExistsException {
+        return giftRepository.findById(giftId)
+                .orElseThrow(() ->
+                        new GiftNotExistsException("User with ID: " + giftId + " does not exist."));
     }
 
     public User findByUsername(String username) {

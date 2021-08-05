@@ -1,18 +1,17 @@
 <!doctype html>
-<html id="landing" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="landing-login-register" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-
-  <link th:href="@{/css/landing.css}" rel="stylesheet">
+  <link th:href="@{/css/landing-login-register.css}" rel="stylesheet">
   <link th:href="@{/css/xmain.css}" rel="stylesheet">
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
   <title>Welcome</title>
 </head>
 <body>
-<div class="container-main">
-  <div class="sub-container">
-    <div class="input-fields"><a th:href="@{/login}">Login</a></div>
-    <div class="input-fields"><a th:href="@{/register}">Register</a></div>
+<div class="container-main" id="x">
+  <div class="container-sub">
+    <a th:href="@{/login}"><div class="input-fields">Login</div></a>
+    <a th:href="@{/register}"><div class="input-fields">Register</div></a>
   </div>
 </div>
 </body>

@@ -1,5 +1,6 @@
 package ie.lukeandella.wedding.services;
 
+import ie.lukeandella.wedding.exceptions.RoleNotExistsException;
 import ie.lukeandella.wedding.pojos.Role;
 import ie.lukeandella.wedding.repositories.ItineraryRepository;
 import ie.lukeandella.wedding.repositories.RoleRepository;
@@ -19,14 +20,14 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Role getRoleByName(String name){
+    public Role getRoleByName(String name) throws RoleNotExistsException {
         List<Role> roles = roleRepository.findAll();
         for(Role role : roles){
             if(role.getName().equals(name)){
                 return role;
             }
         }
-        return null;
+        throw new RoleNotExistsException("No role exists with the name " + name + ".");
     }
 
 }

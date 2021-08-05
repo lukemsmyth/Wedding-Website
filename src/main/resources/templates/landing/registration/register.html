@@ -1,27 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="landing-login-register" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link th:href="@{/css/landing-login-register.css}" rel="stylesheet">
+  <link th:href="@{/css/xmain.css}" rel="stylesheet">
   <meta charset="UTF-8">
   <title>Register</title>
 </head>
 <body>
-<div class="main-container">
-  <div id="register-form">
+<div class="container-main">
+  <div class="container-sub">
     <form th:action="@{/process-registration}" th:object="${user}" method="post">
-      <div><input type="text" th:field="*{name}" class="input-fields" placeholder="username"></div>
-      <div><input type="email" th:field="*{email}" class="input-fields" placeholder="email" /></div>
-      <div><input type="password" th:field="*{password}" class="input-fields" id="p1" placeholder="password" onchange="check_pass()"/></div>
-      <div><input type="password" class="input-fields" id="p2" placeholder="confirm password" onchange="check_pass()"/></div>
-      <div><input type="submit" name="submit"  value="Register"  id="submit" disabled/></div>
+      <input type="text" th:field="*{name}" class="input-fields" placeholder="username">
+      <input type="email" th:field="*{email}" class="input-fields" placeholder="email" />
+      <input type="password" th:field="*{password}" class="input-fields" id="p1" placeholder="password"/>
+      <button type="submit" class="input-fields">Register</button>
     </form>
   </div>
 </div>
-<script>
-// https://stackoverflow.com/questions/21727317/how-to-check-confirm-password-field-in-form-without-reloading-page
-  function check_pass() {
-    document.getElementById('submit').disabled = document.getElementById('p1').value !== document.getElementById('p2').value;
-    postMessage("Passwords must match.");
-  }
-</script>
 </body>
 </html>

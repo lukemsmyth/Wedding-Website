@@ -1,8 +1,8 @@
 package ie.lukeandella.wedding.exceptions;
 
-public class UserNotExistsException extends WeddingApplicationException{
+public class RoleNotExistsException extends WeddingApplicationException{
 
-    public UserNotExistsException(String message){
+    public RoleNotExistsException(String message){
         super(message);
     }
 

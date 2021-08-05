@@ -1,5 +1,6 @@
 package ie.lukeandella.wedding.services;
 
+import ie.lukeandella.wedding.exceptions.ItineraryNotExistsException;
 import ie.lukeandella.wedding.pojos.Gift;
 import ie.lukeandella.wedding.pojos.Itinerary;
 import ie.lukeandella.wedding.repositories.ItineraryRepository;
@@ -57,16 +58,7 @@ public class ItineraryService {
         * checking each field for null, we can update every field in one method.
      */
     @Transactional
-    public void updateItineraryItem(Long id, LocalDateTime dateTime, String location, String title, String description){
-//        //YYYY-MM-DDThh:mm
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
-//        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);
-//        if(!localDateTime.equals(it.getDateTime())) it.setDateTime(localDateTime);
-//        if(!dateTime.equals(it.getDateTime())) it.setDateTime(dateTime);
-//        if(!location.isEmpty()) it.setLocation(location);
-//        if(!title.isEmpty()) it.setTitle(title);
-//        if(!description.isEmpty()) it.setDescription(description);
-
+    public void updateItineraryItem(Long id, LocalDateTime dateTime, String location, String title, String description) throws ItineraryNotExistsException {
         /*
          * Each time this method is called, every field is updated by Hibernate.
          * So, it is necessary to explicitly reset every value even if the admin
@@ -96,14 +88,14 @@ public class ItineraryService {
         it.setLastUpdated(LocalDateTime.now());
     }
 
-    public Itinerary getById(Long id){
+    public Itinerary getById(Long id) throws ItineraryNotExistsException {
         return initItineraryObj(id);
     }
 
     //helper method
-    public Itinerary initItineraryObj(Long id){
+    public Itinerary initItineraryObj(Long id) throws ItineraryNotExistsException {
         return itineraryRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("Itinerary item with ID: " + id + " does not exist.")
+                () -> new ItineraryNotExistsException("Itinerary item with ID: " + id + " does not exist.")
         );
     }
 

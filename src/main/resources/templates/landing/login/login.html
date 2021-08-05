@@ -1,21 +1,20 @@
 <!doctype html>
-<html id="login-page" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="landing-login-register" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-
-    <link th:href="@{/css/login.css}" rel="stylesheet">
+    <link th:href="@{/css/landing-login-register.css}" rel="stylesheet">
     <link th:href="@{/css/xmain.css}" rel="stylesheet">
-
-    <title>Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <title>Login</title>
 </head>
 <body>
 <div class="container-main">
-    <div id="login-div">
+    <div class="container-sub">
         <form th:action="@{/login}" method="post">
             <input name="username" type="text" class="input-fields" id="email" placeholder="username"/>
             <input name="password" type="password" class="input-fields" id="password" placeholder="password"/>
             <button type="submit" class="input-fields" id="login-button">Login</button>
         </form>
+        <a th:href="@{/register}"><div class="input-fields">Register</div></a>
     </div>
 </div>
 </body>

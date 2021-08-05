@@ -1,5 +1,6 @@
 package ie.lukeandella.wedding.services;
 
+import ie.lukeandella.wedding.exceptions.FaqNotExistsException;
 import ie.lukeandella.wedding.pojos.Faq;
 import ie.lukeandella.wedding.repositories.FaqRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class FaqService {
     }
 
     @Transactional
-    public void updateFaq(Long faqId, String question, String answer){
+    public void updateFaq(Long faqId, String question, String answer) throws FaqNotExistsException {
         Faq faq = initFaqObj(faqId);
         if(!question.isEmpty()){
             faq.setQuestion(question);
@@ -49,13 +50,14 @@ public class FaqService {
         faq.setLastUpdated(LocalDateTime.now());
     }
 
-    public Faq initFaqObj(Long faqId){
+    public Faq initFaqObj(Long faqId) throws FaqNotExistsException {
         return faqRepository.findById(faqId)
-                .orElseThrow(() -> new IllegalStateException
+                .orElseThrow(() ->
+                        new FaqNotExistsException
                                 ("Faq with ID: " + faqId + " does not exist."));
     }
 
-    public Faq getFaqById(Long faqId) {
+    public Faq getFaqById(Long faqId) throws FaqNotExistsException {
         return initFaqObj(faqId);
     }
 }

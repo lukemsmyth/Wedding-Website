@@ -2,11 +2,13 @@ package ie.lukeandella.wedding.controllers;
 
 import com.sun.deploy.net.HttpResponse;
 import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
+import ie.lukeandella.wedding.exceptions.RoleNotExistsException;
 import ie.lukeandella.wedding.exceptions.UserNotExistsException;
 import ie.lukeandella.wedding.pojos.*;
 import ie.lukeandella.wedding.services.GiftService;
 import ie.lukeandella.wedding.services.RoleService;
 import ie.lukeandella.wedding.services.UserService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -59,9 +61,19 @@ public class GiftController {
         User currentUser = userService.getCurrentUser();
         model.addAttribute("current_user", currentUser);
         //Get roles
-        Role adminRole = roleservice.getRoleByName("ADMIN");
+        Role adminRole = null;
+        try {
+            adminRole = roleservice.getRoleByName("ADMIN");
+        } catch (RoleNotExistsException e) {
+            e.getMessage();
+        }
         model.addAttribute("admin_role", adminRole);
-        Role userRole = roleservice.getRoleByName("USER");
+        Role userRole = null;
+        try {
+            userRole = roleservice.getRoleByName("USER");
+        } catch (RoleNotExistsException e) {
+            e.printStackTrace();
+        }
         model.addAttribute("user_role", userRole);
         //Get gifts for display
         List<GiftForDisplay> giftsForDisplay = giftService.getGiftsForDisplay(currentUser);

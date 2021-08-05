@@ -1,5 +1,6 @@
 package ie.lukeandella.wedding.controllers;
 
+import ie.lukeandella.wedding.exceptions.ItineraryNotExistsException;
 import ie.lukeandella.wedding.pojos.Gift;
 import ie.lukeandella.wedding.pojos.Itinerary;
 import ie.lukeandella.wedding.services.ItineraryService;
@@ -43,17 +44,27 @@ public class ItineraryController {
 
     @PostMapping("/itinerary/update")
     public String updateItem(@ModelAttribute("item_to_add_or_update") Itinerary item, Model model){
-        //update the object
-        itineraryService.updateItineraryItem(item.getId(), item.getDateTime(), item.getLocation(), item.getTitle(), item.getDescription());
-        Itinerary updatedItem = itineraryService.getById(item.getId());
-        model.addAttribute("updated_item", updatedItem);
+        try{
+            //update the object
+            itineraryService.updateItineraryItem(item.getId(), item.getDateTime(), item.getLocation(), item.getTitle(), item.getDescription());
+            Itinerary updatedItem = itineraryService.getById(item.getId());
+            model.addAttribute("updated_item", updatedItem);
+        } catch (ItineraryNotExistsException e) {
+            e.printStackTrace();
+            return "itinerary/itinerary-not-exists";
+        }
         return "itinerary/item-updated";
     }
 
     @PostMapping("/itinerary/delete/{id}")
     public String deleteItem(@PathVariable("id") Long id, Model model){
-        model.addAttribute("item", itineraryService.getById(id));
-        itineraryService.deleteItineraryItem(id);
+        try{
+            model.addAttribute("item", itineraryService.getById(id));
+            itineraryService.deleteItineraryItem(id);
+        } catch (ItineraryNotExistsException e) {
+            e.printStackTrace();
+            return "itinerary/itinerary-not-exists";
+        }
         return "itinerary/item-deleted";
     }
 
