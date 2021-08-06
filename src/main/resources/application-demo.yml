@@ -1,12 +1,13 @@
 server:
+  port: 5000
   error:
     include-message: always
 spring:
   datasource:
+    username: luke
     password: purplekush
-    url: jdbc:postgresql://localhost:5432/wedding
-#    wedding.ccylpjkqgbbw.eu-west-1.rds.amazonaws.com
-    username: postgres
+    url: jdbc:postgresql://wedding.ccylpjkqgbbw.eu-west-1.rds.amazonaws.com:5432/wedding
+    #    wedding.ccylpjkqgbbw.eu-west-1.rds.amazonaws.com
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -31,3 +32,6 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+  config:
+    activate:
+      on-profile: "demo"
