@@ -10,7 +10,7 @@
 <div class="container-main">
   <div class="container-sub">
     <form th:action="@{/process-registration}" th:object="${user}" th:method="post">
-      <input type="text" th:field="*{name}" class="input-fields" placeholder="username">
+<!--      <input type="text" th:field="*{name}" class="input-fields" placeholder="username">-->
       <input type="email" th:field="*{email}" class="input-fields" placeholder="email" />
       <input type="password" th:field="*{password}" class="input-fields" id="p1" placeholder="password"/>
       <button type="submit" class="input-fields">Register</button>

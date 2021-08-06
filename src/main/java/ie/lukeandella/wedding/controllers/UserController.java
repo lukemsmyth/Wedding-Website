@@ -31,7 +31,8 @@ public class UserController {
 //    }
     @GetMapping("/")
     public String landing(Model model){
-        model.addAttribute("user", new User());
+        User visitor = userService.findByUsername("visitor@x.com");
+        model.addAttribute("user", visitor);
         return "landing/landing2";
     }
 
@@ -45,7 +46,7 @@ public class UserController {
     public String processRegistration(User user, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
         user.setName(user.getEmail());
-        userService.register(user, getSiteURL(request));
+        userService.register(user, getSiteURL(request));    //quick hack to make email the username to enforce unique usernames.
         return "landing/registration/success";
     }
 

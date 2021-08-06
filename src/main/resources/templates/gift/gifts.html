@@ -33,8 +33,8 @@
                 <a th:href="@{/login}"><span>Login</span></a>
                 <a th:href="@{/register}"><span>Register</span></a>
             </div>
-            <div class="gift-info-left" sec:authorize="hasAuthority('USER')"><p>Select percentage to reserve.</p></div>
-            <div class="gift-info-left" sec:authorize="hasAuthority('USER')"> <!--Only show option to reserve to users with role USER (and not to VISITOR)-->
+            <div class="gift-info-left" sec:authorize="hasAuthority('MEMBER')"><p>Select percentage to reserve.</p></div>
+            <div class="gift-info-left" sec:authorize="hasAuthority('MEMBER')"> <!--Only show option to reserve to users with role USER (and not to VISITOR)-->
                 <form th:if="${gift.res == false}" th:action="@{/gifts/reserve/{id} (id = ${gift.g.id})}" th:object="${percentage}" method="post">
                     <select th:if="${gift.g.splitable == true}" th:field="*{p}"> <!--only display for splitable gifts-->
                         <option value="25">25%</option>

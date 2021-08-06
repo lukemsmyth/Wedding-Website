@@ -6,8 +6,10 @@ import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
 import ie.lukeandella.wedding.exceptions.UserNotExistsException;
 import ie.lukeandella.wedding.pojos.CustomUserDetails;
 import ie.lukeandella.wedding.pojos.Gift;
+import ie.lukeandella.wedding.pojos.Role;
 import ie.lukeandella.wedding.pojos.User;
 import ie.lukeandella.wedding.repositories.GiftRepository;
+import ie.lukeandella.wedding.repositories.RoleRepository;
 import ie.lukeandella.wedding.repositories.UserRepository;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -33,6 +36,9 @@ public class UserService {
     private final GiftRepository giftRepository;
 
     @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -42,9 +48,10 @@ public class UserService {
     private IAuthenticationFacade authenticationFacade;
 
     @Autowired
-    public UserService(UserRepository userRepository, GiftRepository giftRepository){
+    public UserService(UserRepository userRepository, GiftRepository giftRepository, RoleRepository roleRepository){
         this.userRepository = userRepository;
         this.giftRepository = giftRepository;
+        this.roleRepository = roleRepository;
     }
 
     public void register(User user, String siteURL) throws UnsupportedEncodingException, MessagingException {
@@ -53,6 +60,7 @@ public class UserService {
         String randomCode = RandomString.make(64);
         user.setVerificationCode(randomCode);
         user.setEnabled(false);
+        user.addRole(roleRepository.findByNameIs("MEMBER"));
         userRepository.save(user);
         sendVerificationEmail(user, siteURL);
     }
@@ -63,7 +71,7 @@ public class UserService {
         String fromAddress = "lukeandella2022@gmail.com";
         String senderName = "Luke & Ella";
         String subject = "Please verify your registration";
-        String content = "Hi [[name]]!<br>"
+        String content = "Hello!<br>"
                 + "<br>Thanks for registering :) <br>"
                 + "Please click the link to verify your registration. <br>"
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"

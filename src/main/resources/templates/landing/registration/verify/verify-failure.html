@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html class="landing-login-register" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link th:href="@{/css/landing-login-register.css}" rel="stylesheet">
+  <link th:href="@{/css/xmain.css}" rel="stylesheet">
   <meta charset="UTF-8">
-  <title>Verification Failure!</title>
+  <title>Verification Failed</title>
 </head>
 <body>
-<div class="main-container text-center">
-  <h3>Sorry, we could not verify account. It maybe already verified,
-    or verification code is incorrect.</h3>
+<div class="container-main">
+  <div class="container-sub">
+    <h3>Your verification failed.</h3>
+    <p>You may have already verified your account by double-clicking the link. Please check your
+    other browser tabs for a success message.</p>
+  </div>
 </div>
 </body>
 </html>

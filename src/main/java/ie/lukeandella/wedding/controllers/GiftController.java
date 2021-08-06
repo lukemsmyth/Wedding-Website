@@ -1,6 +1,5 @@
 package ie.lukeandella.wedding.controllers;
 
-import com.sun.deploy.net.HttpResponse;
 import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
 import ie.lukeandella.wedding.exceptions.RoleNotExistsException;
 import ie.lukeandella.wedding.exceptions.UserNotExistsException;
@@ -8,13 +7,11 @@ import ie.lukeandella.wedding.pojos.*;
 import ie.lukeandella.wedding.services.GiftService;
 import ie.lukeandella.wedding.services.RoleService;
 import ie.lukeandella.wedding.services.UserService;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 
