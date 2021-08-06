@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ie.lukeandella</groupId>
 	<artifactId>wedding</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<name>wedding</name>
 	<description>Wedding Website</description>
 	<properties>
@@ -104,19 +104,19 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>demo</id>
-			<properties>
-				<spring.profiles.active>
-					demo
-				</spring.profiles.active>
-			</properties>
-		</profile>
-	</profiles>
-
-
 </project>
