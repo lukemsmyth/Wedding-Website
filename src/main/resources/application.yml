@@ -1,0 +1,33 @@
+server:
+  error:
+    include-message: always
+spring:
+  datasource:
+    password: purplekush
+    url: jdbc:postgresql://localhost:5432/wedding
+#    wedding.ccylpjkqgbbw.eu-west-1.rds.amazonaws.com
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+    show-sql: false
+  mail:
+    host: smtp.gmail.com
+    password: 1.d4d52.c4
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    username: lukeandella2022@gmail.com
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
