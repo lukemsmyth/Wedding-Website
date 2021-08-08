@@ -107,13 +107,13 @@ public class UserController {
         return "user/user-added";
     }
 
-    @PostMapping("update/user/{id}")
-    public String updateUser(@ModelAttribute("user_to_update") User user, @PathVariable("id") Long id, Model model){
+    @PostMapping("update/user")
+    public String updateUser(@ModelAttribute("user_to_update") User user, Model model){
         try {
-            userService.updateUserInfo(id, user.getEmail(), user.getPassword());
+            userService.updateUserInfo(user.getId(), user.getEmail(), user.getPassword());
         } catch (UserNotExistsException e) {
             e.printStackTrace();
-            model.addAttribute("id", id);
+            model.addAttribute("id", user.getId());
             return "user/user-not-exists";
         }
         return "user/user-updated";
