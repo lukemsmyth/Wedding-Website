@@ -1,0 +1,31 @@
+#manage-users{
+    background: url("../images/ella_and_billie_at_the_sea.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    overflow-x: hidden;
+}
+.users-container{
+    grid-row: 5 / span 6;
+    grid-column: 3 / span 8;
+    align-content: center;
+}
+.user-block{
+    text-align: center;
+    color: #343b2e;
+    background: rgba(255,255,255,0.4);
+    border-style: solid;
+    border-color: #2a2e26;
+    border-width: 1px;
+    padding: 1%;
+    margin-bottom: 2%;
+    text-decoration: none;
+}
+.user-block a{
+    text-decoration: none;
+    color: #343b2e;
+}
+.user-block a:hover{
+    color: #434c3b;
+}

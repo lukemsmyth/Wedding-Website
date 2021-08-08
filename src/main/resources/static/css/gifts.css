@@ -4,13 +4,10 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-
 }
 body{
     overflow-x: hidden;
     overflow-y: scroll;
-    scrollbar-color: #b8b8b8 #666666;
-    scrollbar-width: thin;
 }
 .gift-list{
     grid-row-start: 3;

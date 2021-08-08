@@ -50,6 +50,7 @@ public class FaqController {
             model.addAttribute("updated_faq", faqService.getFaqById(faqToUpdate.getId()));
         } catch (FaqNotExistsException e) {
             e.printStackTrace();
+            model.addAttribute("id", faqToUpdate.getId());
             return "faqs/faq-not-exists";
         }
         return "faqs/faq-updated";
@@ -65,6 +66,7 @@ public class FaqController {
             faqService.deleteFaq(faqId);
         } catch (FaqNotExistsException e) {
             e.printStackTrace();
+            model.addAttribute("id", faqId);
             return "faqs/faq-not-exists";
         }
         return "faqs/faq-deleted";

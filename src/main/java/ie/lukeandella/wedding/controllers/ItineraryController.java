@@ -51,6 +51,7 @@ public class ItineraryController {
             model.addAttribute("updated_item", updatedItem);
         } catch (ItineraryNotExistsException e) {
             e.printStackTrace();
+            model.addAttribute("id", item.getId());
             return "itinerary/itinerary-not-exists";
         }
         return "itinerary/item-updated";
@@ -63,6 +64,7 @@ public class ItineraryController {
             itineraryService.deleteItineraryItem(id);
         } catch (ItineraryNotExistsException e) {
             e.printStackTrace();
+            model.addAttribute("id", id);
             return "itinerary/itinerary-not-exists";
         }
         return "itinerary/item-deleted";

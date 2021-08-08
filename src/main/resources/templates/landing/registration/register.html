@@ -2,8 +2,7 @@
 <html class="landing-login-register"
       lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <link th:href="@{/css/landing-login-register.css}" rel="stylesheet">
   <link th:href="@{/css/xmain.css}" rel="stylesheet">
@@ -20,7 +19,6 @@
     </div>
   <div class="container-sub">
     <form th:action="@{/process-registration}" th:object="${user}" th:method="post">
-<!--      <input type="text" th:field="*{name}" class="input-fields" placeholder="username">-->
       <input type="email" th:field="*{email}" class="input-fields" placeholder="email" />
       <input type="password" th:field="*{password}" class="input-fields" id="p1" placeholder="password"/>
       <button type="submit" class="input-fields">Register</button>

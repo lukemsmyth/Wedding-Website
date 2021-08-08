@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+  <link th:href="@{/css/add-update-delete.css}" rel="stylesheet" />
+  <link th:href="@{/css/xmain.css}" rel="stylesheet" />
   <title>User updated</title>
 </head>
 <body>
-<div class="navbar">
-  <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
-  <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>
-  <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
-  <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
-  <a th:href="@{/gifts}" id="nav4">Gift List</a>
-</div>
-<div align="center">
-  <h2>User Updated Successfully!</h2>
-  <p th:text="${user_to_update.email}"></p>
+<div class="container-main">
+  <div class="navbar">
+    <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
+    <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>
+    <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+    <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
+    <a th:href="@{/gifts}" id="nav4">Gift List</a>
+  </div>
+  <div class="add-update-delete">
+    <h2 th:text="${updatedUser.email} + ' updated succesfully.'"></h2>
+  </div>
 </div>
 </body>
 </html>

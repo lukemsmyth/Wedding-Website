@@ -156,7 +156,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserInfo(Long id, String email, String password) throws UserNotExistsException {
+    public User updateUserInfo(Long id, String email, String password) throws UserNotExistsException {
         User user = initUserObj(id);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         //Only set the fields which have been modified by the admin
@@ -171,6 +171,7 @@ public class UserService {
         }else{
             user.setPassword(user.getPassword());
         }
+        return user;
     }
 
     @Transactional

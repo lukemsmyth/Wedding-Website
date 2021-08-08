@@ -1,0 +1,23 @@
+html{
+    background: url("../images/atTheSeaCroppedBottom2.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+body{
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.add-update-delete{
+    grid-row: 5 / span 6;
+    grid-column: 3 / span 8;
+    align-content: center;
+    text-align: center;
+    color: #343b2e;
+    background: rgba(255,255,255,0.4);
+    border-style: solid;
+    border-color: #2a2e26;
+    border-width: 1px;
+    padding: 3%;
+}

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html
-        id="faq-updated"
-        lang="en"
-        xmlns:th="https://www.thymeleaf.org"
-        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
+<html id="faq-updated"
+      lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <link th:href="@{/css/add-update-delete.css}" rel="stylesheet" />
+    <link th:href="@{/css/xmain.css}" rel="stylesheet" />
     <title>FAQ updated</title>
 </head>
 <body>
@@ -17,10 +17,13 @@
     <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
     <a th:href="@{/gifts}" id="nav4">Gift List</a>
 </div>
-<div class="faq-updated" sec:authorize="hasAuthority('ADMIN')">
-  <h1>Updated FAQ</h1>
-  <h2 th:text="${updated_faq.question}"></h2>
-  <h3 th:text="${updated_faq.answer}"></h3>
+<div class="container-main">
+    <div class="add-update-delete" sec:authorize="hasAuthority('ADMIN')">
+        <h1>Updated FAQ</h1>
+        <h2 th:text="${updated_faq.question}"></h2>
+        <h3 th:text="${updated_faq.answer}"></h3>
+    </div>
 </div>
+
 </body>
 </html>

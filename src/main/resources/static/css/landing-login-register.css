@@ -27,14 +27,12 @@ a {
     text-align: center;
     font-size: small;
 }
-#verify{
+.verify{
     text-align: center;
     grid-column: 5 / span 4;
     grid-row: 8;
     color: #343b2e;
-    /*border-style: solid;*/
-    /*border-width: 1px;*/
-    /*border-color: #343b2e;*/
-    /*border-radius: 2px;*/
-    /*background: rgba(255,255,255, 0.5);*/
+}
+.verify a{
+    text-decoration: none;
 }

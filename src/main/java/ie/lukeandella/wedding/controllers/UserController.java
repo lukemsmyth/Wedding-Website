@@ -85,16 +85,17 @@ public class UserController {
     public String manageUsers(Model model){
         model.addAttribute("user_to_update", new User());
         model.addAttribute("new_user", new NewUser());
+        model.addAttribute("users", userService.getUsers());
         return "user/manage-users";
     }
 
-    @GetMapping("/users/all")
-    public String showAllUsers(Model model){
-        model.addAttribute("user_to_update", new User());
-        model.addAttribute("new_user", new NewUser());
-        model.addAttribute("users", userService.getUsers());
-        return "user/manage-users-show-all";
-    }
+//    @GetMapping("/users/all")
+//    public String showAllUsers(Model model){
+//        model.addAttribute("user_to_update", new User());
+//        model.addAttribute("new_user", new NewUser());
+//        model.addAttribute("users", userService.getUsers());
+//        return "user/manage-users-show-all";
+//    }
 
     @PostMapping("/new/user")
     public String newUser(@ModelAttribute("new_user") NewUser newUser){
@@ -110,7 +111,8 @@ public class UserController {
     @PostMapping("update/user")
     public String updateUser(@ModelAttribute("user_to_update") User user, Model model){
         try {
-            userService.updateUserInfo(user.getId(), user.getEmail(), user.getPassword());
+            User updatedUser = userService.updateUserInfo(user.getId(), user.getEmail(), user.getPassword());
+            model.addAttribute("updatedUser", updatedUser);
         } catch (UserNotExistsException e) {
             e.printStackTrace();
             model.addAttribute("id", user.getId());

@@ -7,20 +7,16 @@ import ie.lukeandella.wedding.pojos.*;
 import ie.lukeandella.wedding.services.GiftService;
 import ie.lukeandella.wedding.services.RoleService;
 import ie.lukeandella.wedding.services.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
 @Controller
 public class GiftController {
-
-//    public GiftController() {
-//        super();
-//    }
 
     @Autowired
     private final GiftService giftService;
@@ -30,9 +26,6 @@ public class GiftController {
 
     @Autowired
     private final RoleService roleservice;
-
-//    @Autowired
-//    RestResponseEntityExceptionHandler exceptionHandler;
 
     public GiftController(GiftService giftService,
                           UserService userService,
@@ -99,9 +92,16 @@ public class GiftController {
             giftService.reserveGift(user.getId(), gift.getId(), percentage.getP());
             //Add model attributes
             model.addAttribute("user", user);
+            Long userId = user.getId();
             model.addAttribute("gift", gift);
-        }catch(GiftNotExistsException | UserNotExistsException ex){
+        } catch(UserNotExistsException ex){
             ex.printStackTrace();
+//            model.addAttribute("id", userService.getCurrentUser().getId());
+            return "gift/gift-not-exists";
+        }
+        catch(GiftNotExistsException ex){
+            ex.printStackTrace();
+            model.addAttribute("id", giftId);
             return "gift/gift-not-exists";
         }
         return "gift/gift-reserved";
@@ -172,6 +172,7 @@ public class GiftController {
             model.addAttribute("gift", giftService.getGiftById(giftToUpdate.getId()));
         } catch (GiftNotExistsException e) {
             e.printStackTrace();
+            model.addAttribute("id", giftToUpdate.getId());
             return "gift/gift-not-exists";
         }
         return "gift/gift-updated";
