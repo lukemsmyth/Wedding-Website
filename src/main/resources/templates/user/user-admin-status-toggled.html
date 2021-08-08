@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html
-        id="faq-updated"
-        lang="en"
-        xmlns:th="https://www.thymeleaf.org"
-        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
 <head>
     <meta charset="UTF-8">
-    <title>FAQ updated</title>
+    <title>User admin status changed</title>
 </head>
 <body>
 <div class="navbar">
@@ -17,10 +15,9 @@
     <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
     <a th:href="@{/gifts}" id="nav4">Gift List</a>
 </div>
-<div class="faq-updated" sec:authorize="hasAuthority('ADMIN')">
-  <h1>Updated FAQ</h1>
-  <h2 th:text="${updated_faq.question}"></h2>
-  <h3 th:text="${updated_faq.answer}"></h3>
+<div align="center">
+    <h2>User Admin Status Toggled Successfully!</h2>
+    <span>Email:</span><span th:text="${user_admin_status_toggled.email}"></span><br/>
 </div>
 </body>
 </html>

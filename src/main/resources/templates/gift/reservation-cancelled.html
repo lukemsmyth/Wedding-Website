@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
 <head>
   <meta charset="UTF-8">
   <title>Reservation cancelled</title>
@@ -7,15 +11,10 @@
 <body>
 <div class="navbar">
   <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
-  <a th:href="@{/where}" id="nav1">Where</a>
-  <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+  <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>  <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
   <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
   <a th:href="@{/gifts}" id="nav4">Gift List</a>
 </div>
-  <p th:text="
-      ${user.name} + ' cancelled their reservation of ' + ${gift.name} +
-      ' which is now ' + ${gift.percentageReserved} + ' percent reserved.'">
-
-  </p>
+  <p th:text="${current_user.name} + ', You succesfully cancelled your reservation of ' + ${gift.name} +'.'"></p>
 </body>
 </html>

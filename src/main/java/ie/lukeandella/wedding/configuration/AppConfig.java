@@ -35,7 +35,7 @@ public class AppConfig {
         return args -> {
 
             /*
-                * Initialise the application with 3 users.
+             * Initialise the application with 3 users.
              */
 
             //Make a password
@@ -90,13 +90,7 @@ public class AppConfig {
             giftRepository.save(shoes);
             Gift oranges = new Gift("Oranges", "A nice bag of oranges.", 100.00, "null", "orange.com", true, 0, true);
             giftRepository.save(oranges);
-
         };
     }
-
-
-
-
-
 
 }

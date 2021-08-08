@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
 <head>
     <meta charset="UTF-8">
     <title>Gift added</title>
@@ -7,7 +11,7 @@
 <body>
 <div class="navbar">
     <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
-    <a th:href="@{/where}" id="nav1">Where</a>
+    <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>
     <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
     <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
     <a th:href="@{/gifts}" id="nav4">Gift List</a>
@@ -16,8 +20,6 @@
     <h2>Gift Added Successfully!</h2>
     <span>Name:</span><span th:text="${gift.name}"></span><br/>
     <span>Description:</span><span th:text="${gift.description}"></span><br/>
-    <button><a href="/gift/all">Show all gifts</a></button>
-    <button><a href="/gift/add">Add another gift</a></button>
   </div>
 </body>
 </html>

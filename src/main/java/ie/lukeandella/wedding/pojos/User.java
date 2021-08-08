@@ -26,7 +26,7 @@ public class User {
     private String email;
 
     //ROLE
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -67,6 +67,14 @@ public class User {
             rs.add(reservation);
         }
         setReservations(rs);
+    }
+
+    public boolean hasRole(String roleName){
+        List<String> roleNames = new ArrayList<>();
+        for(Role role : roles){
+            roleNames.add(role.getName());
+        }
+        return roleNames.contains(roleName);
     }
 
     @Override
@@ -147,5 +155,14 @@ public class User {
 
     public void setReservations(Set<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public Role getRoleByName(String roleName){
+        for(Role role : roles){
+            if(role.getName().equals(roleName)){
+                return role;
+            }
+        }
+        return null;
     }
 }

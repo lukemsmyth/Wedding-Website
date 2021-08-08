@@ -3,11 +3,9 @@ package ie.lukeandella.wedding.services;
 
 import ie.lukeandella.wedding.configuration.IAuthenticationFacade;
 import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
+import ie.lukeandella.wedding.exceptions.RoleNotExistsException;
 import ie.lukeandella.wedding.exceptions.UserNotExistsException;
-import ie.lukeandella.wedding.pojos.CustomUserDetails;
-import ie.lukeandella.wedding.pojos.Gift;
-import ie.lukeandella.wedding.pojos.Role;
-import ie.lukeandella.wedding.pojos.User;
+import ie.lukeandella.wedding.pojos.*;
 import ie.lukeandella.wedding.repositories.GiftRepository;
 import ie.lukeandella.wedding.repositories.RoleRepository;
 import ie.lukeandella.wedding.repositories.UserRepository;
@@ -16,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +73,7 @@ public class UserService {
         String content = "Hello!<br>"
                 + "<br>Thanks for registering :) <br>"
                 + "Please click the link to verify your registration. <br>"
-                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
+                + "<a href=\"[[URL]]\" target=\"_self\">VERIFY</a>"
                 + "Thanks,<br>"
                 + "Luke & Ella";
         MimeMessage message = mailSender.createMimeMessage();
@@ -139,13 +138,52 @@ public class UserService {
         return customUserDetails.getUser();
     }
 
-    @Transactional
-    public void updateUserInfo(Long userId, String name, String email, String password) throws UserNotExistsException {
-        User user = initUserObj(userId);
-        if(name != null) user.setName(name);
-        if(email != null) user.setEmail(email);
-        if(password != null) user.setPassword(password);
+    public void addNewUser(NewUser newUser) throws RoleNotExistsException {
+        User user = new User();
+        user.setName(newUser.getEmail());
+        user.setEmail(newUser.getEmail());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String password = passwordEncoder.encode(newUser.getPassword());
+        user.setPassword(password);
+        user.setEnabled(true);
+        Role adminRole = initRoleObj(roleRepository.findByNameIs("ADMIN").getId());
+        Role memberRole = initRoleObj(roleRepository.findByNameIs("MEMBER").getId());
+        if(newUser.getRole().equals("ADMIN")){
+            user.addRole(adminRole);        //admin will also be member
+        }
+        user.addRole(memberRole);
+        userRepository.save(user);
     }
+
+    @Transactional
+    public void updateUserInfo(Long id, String email, String password) throws UserNotExistsException {
+        User user = initUserObj(id);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //Only set the fields which have been modified by the admin
+        if(!email.isEmpty()){
+            user.setName(email);
+            user.setEmail(email);
+        }else{
+            user.setName(user.getName());
+        }
+        if(!password.isEmpty()){
+            user.setPassword(passwordEncoder.encode(password));
+        }else{
+            user.setPassword(user.getPassword());
+        }
+    }
+
+    @Transactional
+    public void toggleUserAdminStatus(Long id) throws UserNotExistsException, RoleNotExistsException {
+        User user = initUserObj(id);
+        if(user.hasRole("ADMIN")){
+            user.getRoles().remove(user.getRoleByName("ADMIN"));
+        }else{
+            Role adminRole = initRoleObj(roleRepository.findByNameIs("ADMIN").getId());
+            user.addRole(adminRole);
+        }
+    }
+
 
     //Helper method - throws exception if user cannot be found by id.
     public User initUserObj(Long userId) throws UserNotExistsException {
@@ -159,7 +197,13 @@ public class UserService {
                         new GiftNotExistsException("User with ID: " + giftId + " does not exist."));
     }
 
+    public Role initRoleObj(Long id) throws RoleNotExistsException {
+        return roleRepository.findById(id)
+                .orElseThrow(() -> new RoleNotExistsException("Role with ID: " + id + " does not exist."));
+    }
+
     public User findByUsername(String username) {
         return userRepository.findByName(username);
     }
+
 }

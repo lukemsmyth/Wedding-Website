@@ -34,12 +34,9 @@ public class GiftController {
 //    @Autowired
 //    RestResponseEntityExceptionHandler exceptionHandler;
 
-    public GiftController
-            (
-            GiftService giftService,
-            UserService userService,
-            RoleService roleservice
-            )
+    public GiftController(GiftService giftService,
+                          UserService userService,
+                          RoleService roleservice)
     {
         this.giftService = giftService;
         this.userService = userService;
@@ -88,7 +85,7 @@ public class GiftController {
         return "gift/gifts";
     }
 
-    @PostMapping("/gifts/reserve/{id}")
+    @PostMapping("/reserve/{id}")
     public String processReservation(@ModelAttribute("percentage") Percentage percentage, @PathVariable("id") Long giftId, Model model){
         try{
             //First get the current User
@@ -110,7 +107,7 @@ public class GiftController {
         return "gift/gift-reserved";
     }
 
-    @PostMapping("/gifts/cancel-reservation/{id}")
+    @PostMapping("/cancel-reservation/{id}")
     public String cancelReservation(@ModelAttribute("percentage") Percentage percentage, @PathVariable("id") Long giftId, Model model){
         try{
             //First get the current User
@@ -138,7 +135,7 @@ public class GiftController {
     /*
         * Add a gift to the database
      */
-    @PostMapping("/gifts/add")
+    @PostMapping("/new/gift")
     public String submitForm(@ModelAttribute("gift") Gift gift){
         giftService.addGift(gift);
         return "gift/gift-added";
@@ -147,7 +144,7 @@ public class GiftController {
     /*
         * Delete a gift form the database
      */
-    @DeleteMapping("/gifts/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteGift(@PathVariable("id") Long giftId, Model model){
         //Get gift object
         Gift gift = null;
@@ -167,15 +164,7 @@ public class GiftController {
         * Update a gift info
         * NOTE: this method does not change reservation status of gift
      */
-//    @PostMapping("/gifts/update")
-//    public String updateGiftInfo(@ModelAttribute("gift_to_update") Gift giftToUpdate, Model model){
-//        //Update the gift object with fields contributed by the admin in the giftToUpdate object
-//        giftService.updateGiftInfo(giftToUpdate.getId(), giftToUpdate.getName(), giftToUpdate.getDescription(), giftToUpdate.getPrice(), giftToUpdate.getLink());
-//        model.addAttribute("gift", giftService.getGiftById(giftToUpdate.getId()));
-//        return "gift/gift-updated";
-//    }
-
-    @PostMapping("/gifts/update")
+    @PostMapping("/update/gift")
     public String updateGiftInfo(@ModelAttribute("gift_to_update") Gift giftToUpdate, Model model){
         try {
             giftService.updateGiftInfo(giftToUpdate.getId(), giftToUpdate.getName(), giftToUpdate.getDescription(), giftToUpdate.getPrice(), giftToUpdate.getLink());
@@ -187,6 +176,5 @@ public class GiftController {
         }
         return "gift/gift-updated";
     }
-
 
 }

@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html class="landing-login-register" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="landing-login-register"
+      lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
 <head>
   <link th:href="@{/css/landing-login-register.css}" rel="stylesheet">
   <link th:href="@{/css/xmain.css}" rel="stylesheet">
@@ -8,6 +12,12 @@
 </head>
 <body>
 <div class="container-main">
+    <div class="navbar">
+        <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
+        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>        <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+        <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
+        <a th:href="@{/gifts}" id="nav4">Gift List</a>
+    </div>
   <div class="container-sub">
     <form th:action="@{/process-registration}" th:object="${user}" th:method="post">
 <!--      <input type="text" th:field="*{name}" class="input-fields" placeholder="username">-->

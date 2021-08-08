@@ -15,7 +15,7 @@
   <div class="container-main">
     <div class="navbar">
       <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
-      <a th:href="@{/where}" id="nav1">Where</a>
+      <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>
       <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
       <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
       <a th:href="@{/gifts}" id="nav4">Gift List</a>
@@ -26,7 +26,7 @@
         <p th:text="${faq.answer}"></p>
         <div sec:authorize="hasAuthority('ADMIN')">
           <p  th:text="'ID: ' + ${faq.id}"></p>
-          <form th:action="@{/faqs/delete/{id} (id = ${faq.id})}" th:method="post">
+          <form th:action="@{/delete/faq/{id} (id = ${faq.id})}" th:method="post">
             <input  type="submit" value="Delete item" />
           </form>
         </div>
@@ -34,7 +34,7 @@
       <div sec:authorize="hasAuthority('ADMIN')" class="cell">
         <div class="add-or-update-item">
           <div class="add-or-update-elements"><h3>Update FAQ by ID</h3></div>
-          <form th:action="@{/faqs/update}" th:object="${faq_to_add_or_update}" th:method="post">
+          <form th:action="@{/update/faq}" th:object="${faq_to_add_or_update}" th:method="post">
             <div class="add-or-update-elements">ID</div>
             <div class="add-or-update-elements"><input type="number" th:field="*{id}" /></div>
             <div class="add-or-update-elements"><label>Question</label></div>
@@ -48,7 +48,7 @@
       <div sec:authorize="hasAuthority('ADMIN')" class="cell">
         <div class="add-or-update-item">
           <div class="add-or-update-elements"><h3>Add new FAQ</h3></div>
-          <form th:action="@{/faqs/add}" th:object="${faq_to_add_or_update}" th:method="post">
+          <form th:action="@{/new/faq}" th:object="${faq_to_add_or_update}" th:method="post">
             <div class="add-or-update-elements"><label>Question</label></div>
             <div class="add-or-update-elements"><input type="text" th:field="*{question}" /></div>
             <div class="add-or-update-elements"><label>Answer</label></div>

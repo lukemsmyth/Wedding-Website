@@ -33,7 +33,7 @@ public class FaqController {
     /*
         * Add an FAQ
      */
-    @PostMapping("faqs/add")
+    @PostMapping("new/faq")
     public String addFaq(@ModelAttribute("faq_to_add_or_update") Faq faq){
         faqService.addFaq(faq);
         return "faqs/faq-added";
@@ -42,7 +42,7 @@ public class FaqController {
     /*
         * Update an FAQ
      */
-    @PostMapping("/faqs/update")
+    @PostMapping("/update/faq")
     public String updateFaqInfo(@ModelAttribute("faq_to_add_or_update") Faq faqToUpdate, Model model){
         try{
             //Update the FAQ object with info provided by the admin
@@ -58,7 +58,7 @@ public class FaqController {
     /*
         * Delete an FAQ
      */
-    @PostMapping("/faqs/delete/{id}")
+    @PostMapping("/delete/faq/{id}")
     public String deleteFaq(@PathVariable("id") Long faqId, Model model){
         try{
             model.addAttribute("faq", faqService.getFaqById(faqId));

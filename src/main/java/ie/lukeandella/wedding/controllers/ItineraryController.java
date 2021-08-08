@@ -36,13 +36,13 @@ public class ItineraryController {
         return "itinerary/itinerary";
     }
 
-    @PostMapping("/itinerary/add")
+    @PostMapping("/new/itinerary")
     public String addItem(Model model, @ModelAttribute("item_to_add_or_update") Itinerary item){
         itineraryService.addItineraryItem(item);
         return "itinerary/item-added";
     }
 
-    @PostMapping("/itinerary/update")
+    @PostMapping("/update/itinerary")
     public String updateItem(@ModelAttribute("item_to_add_or_update") Itinerary item, Model model){
         try{
             //update the object
@@ -56,7 +56,7 @@ public class ItineraryController {
         return "itinerary/item-updated";
     }
 
-    @PostMapping("/itinerary/delete/{id}")
+    @PostMapping("/delete/itinerary{id}")
     public String deleteItem(@PathVariable("id") Long id, Model model){
         try{
             model.addAttribute("item", itineraryService.getById(id));

@@ -18,7 +18,7 @@
 <div class="container-main">
     <div class="navbar">
         <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
-        <a th:href="@{/where}" id="nav1">Where</a>
+        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>
         <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
         <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a>
         <a th:href="@{/gifts}" id="nav4">Gift List</a>
@@ -33,7 +33,7 @@
             <!--ADMIN ONLY-->
             <div sec:authorize="hasAuthority('ADMIN')">
                 <p th:text="'ID: ' + ${it.id}"></p>
-                <form th:action="@{/itinerary/delete/{id} (id = ${it.id})}" th:method="post">
+                <form th:action="@{/delete/itinerary/{id} (id = ${it.id})}" th:method="post">
                     <input  type="submit" value="Delete item" />
                 </form>
             </div>
@@ -42,7 +42,7 @@
         <div sec:authorize="hasAuthority('ADMIN')" class="itinerary-item">
             <div class="add-or-update-item">
                 <div><h1>Add Itinerary Item</h1></div>
-                <form th:action="@{/itinerary/add}" th:object="${item_to_add_or_update}" method="post">
+                <form th:action="@{/new/itinerary}" th:object="${item_to_add_or_update}" method="post">
                     <div><label>Title</label></div>
                     <div><input type="text" th:value="${null}" th:field="*{title}" /></div>
                     <div><label>Date Time: </label></div>
@@ -58,7 +58,7 @@
         <div sec:authorize="hasAuthority('ADMIN')" class="itinerary-item">
             <div class="add-or-update-item">
                 <div><h1>Update Itinerary Item</h1></div>
-                <form th:action="@{/itinerary/update}" th:object="${item_to_add_or_update}" th:method="post">
+                <form th:action="@{/update/itinerary}" th:object="${item_to_add_or_update}" th:method="post">
                     <div><label>ID (N.B. provide correct value)</label></div>
                     <div><input type="number" th:value="${null}" th:field="*{id}" /></div>
                     <div><label>Title</label></div>

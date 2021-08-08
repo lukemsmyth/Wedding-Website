@@ -22,7 +22,7 @@ public class Reservation {
     private boolean active;
 
     //GIFT
-    @ManyToOne(cascade = CascadeType.ALL)  //many instances of reservation can be mapped to one instance of gift.
+    @ManyToOne(cascade = CascadeType.PERSIST)  //many instances of reservation can be mapped to one instance of gift.
     @JoinColumn(name = "gift_id")
     private Gift gift;
 

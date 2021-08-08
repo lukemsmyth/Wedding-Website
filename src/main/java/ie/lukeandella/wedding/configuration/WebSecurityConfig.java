@@ -50,8 +50,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/new").hasAnyAuthority("ADMIN")
-                .antMatchers("/edit/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/update/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/delete/**").hasAuthority("ADMIN")
+                .antMatchers("/users/**").hasAuthority("ADMIN")
+                .antMatchers("/reserve/**").hasAuthority("USER")
+                .antMatchers("/reserve/**").hasAuthority("ADMIN")
+                .antMatchers("/cancel-reservation/**").hasAuthority("USER")
+                .antMatchers("/cancel-reservation/**").hasAuthority("ADMIN")
                 .antMatchers("/").permitAll()                       //landing page
                 .antMatchers("/register").permitAll()               //register page
                 .antMatchers("/process-registration").permitAll()   //process registration page
@@ -60,10 +65,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/verify/failure").permitAll()         //verify failure
                 .anyRequest().fullyAuthenticated()                              //Everything else is only accessible to authenticated users
             .and()
-                .formLogin()                             //overrides the default Spring Boot login page 
-
-                    .loginPage("/login").permitAll()    //makes the custom login page accessible to anyone.
-                    .defaultSuccessUrl("/home", true)   //where users are directed after successful login
+                .formLogin()                             //overrides the default Spring Boot login page
+                .loginPage("/login").permitAll()    //makes the custom login page accessible to anyone.
+                .defaultSuccessUrl("/home", true)   //where users are directed after successful login
+                .failureUrl("/invalid-credential")
             .and()
                 //logout is also accessible to anyone
                 .logout().permitAll()
