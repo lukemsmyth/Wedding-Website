@@ -31,7 +31,7 @@ public class Gift {
 
     //RESERVATIONS
     @JsonIgnore
-    @OneToMany(mappedBy = "gift")
+    @OneToMany(mappedBy = "gift", cascade = CascadeType.PERSIST)
     private Set<Reservation> reservations = new HashSet<>();
 
     //IMAGE

@@ -49,33 +49,54 @@ public class GiftController {
         model.addAttribute("current_user", currentUser);
         //Get roles
         Role adminRole = null;
+        Role memberRole = null;
+        Role visitorRole = null;
         try {
             adminRole = roleservice.getRoleByName("ADMIN");
+            memberRole = roleservice.getRoleByName("MEMBER");
+            visitorRole = roleservice.getRoleByName("VISITOR");
         } catch (RoleNotExistsException e) {
             e.getMessage();
         }
         model.addAttribute("admin_role", adminRole);
-        Role userRole = null;
-        try {
-            userRole = roleservice.getRoleByName("USER");
-        } catch (RoleNotExistsException e) {
-            e.printStackTrace();
-        }
-        Role visitorRole = null;
-        try {
-            userRole = roleservice.getRoleByName("VISITOR");
-        } catch (RoleNotExistsException e) {
-            e.printStackTrace();
-        }
-        model.addAttribute("visitor_role", userRole);
+        model.addAttribute("visitor_role", visitorRole);
+        model.addAttribute("member_role", memberRole);
         //Get gifts for display
         List<GiftForDisplay> giftsForDisplay = giftService.getGiftsForDisplay(currentUser);
-        model.addAttribute("gifts", giftsForDisplay);
+        model.addAttribute("giftsForDisplay", giftsForDisplay);
         //Get Percentage object
         model.addAttribute("percentage", new Percentage());
         //Get Gift object for adding/updating
-        model.addAttribute("gift_to_update_or_add", new Gift());
+        model.addAttribute("gift", new Gift());
         return "gift/gifts";
+    }
+
+//    @PostMapping("/p")
+//    public String p(@ModelAttribute("percentage") Percentage p, Model model){
+//        model.addAttribute("p", p.getP());
+//        return "p";
+//    }
+
+    @PostMapping("/p")
+    public String reserveGift(@ModelAttribute("gift") Gift gift, Model model){
+        try{
+            //First get the current User
+            User user = userService.getCurrentUser();
+            giftService.reserveGift(user.getId(), gift.getId(), gift.getPercentageReserved());
+            model.addAttribute("user", user);
+            model.addAttribute("gift", gift);
+        }
+        catch(UserNotExistsException ex){
+            ex.printStackTrace();
+            model.addAttribute("id", userService.getCurrentUser().getId());
+            return "user/user-not-exists";
+        }
+        catch(GiftNotExistsException ex){
+            ex.printStackTrace();
+            model.addAttribute("id", gift.getId());
+            return "gift/gift-not-exists";
+        }
+        return "gift/gift-reserved";
     }
 
     @PostMapping("/reserve/{id}")
@@ -97,7 +118,7 @@ public class GiftController {
         } catch(UserNotExistsException ex){
             ex.printStackTrace();
 //            model.addAttribute("id", userService.getCurrentUser().getId());
-            return "gift/gift-not-exists";
+            return "user/user-not-exists";
         }
         catch(GiftNotExistsException ex){
             ex.printStackTrace();
@@ -136,7 +157,7 @@ public class GiftController {
         * Add a gift to the database
      */
     @PostMapping("/new/gift")
-    public String submitForm(@ModelAttribute("gift") Gift gift){
+    public String addGift(@ModelAttribute("gift") Gift gift){
         giftService.addGift(gift);
         return "gift/gift-added";
     }
@@ -167,7 +188,7 @@ public class GiftController {
     @PostMapping("/update/gift")
     public String updateGiftInfo(@ModelAttribute("gift_to_update") Gift giftToUpdate, Model model){
         try {
-            giftService.updateGiftInfo(giftToUpdate.getId(), giftToUpdate.getName(), giftToUpdate.getDescription(), giftToUpdate.getPrice(), giftToUpdate.getLink());
+            giftService.updateGiftInfo(giftToUpdate.getId(), giftToUpdate.getName(), giftToUpdate.getDescription(), giftToUpdate.getPrice(), giftToUpdate.getLink(), giftToUpdate.isSplitable());
             //Update the gift object with fields contributed by the admin in the giftToUpdate object
             model.addAttribute("gift", giftService.getGiftById(giftToUpdate.getId()));
         } catch (GiftNotExistsException e) {

@@ -17,9 +17,9 @@ public class Reservation {
     @Column(name = "percentage")
     private Integer percentage;
 
-    //ACTIVE - set to true when res is made, set to false when res is cancelled
-    @Column(name = "active")
-    private boolean active;
+//    //ACTIVE - set to true when res is made, set to false when res is cancelled
+//    @Column(name = "active")
+//    private boolean active;
 
     //GIFT
     @ManyToOne(cascade = CascadeType.PERSIST)  //many instances of reservation can be mapped to one instance of gift.
@@ -27,16 +27,15 @@ public class Reservation {
     private Gift gift;
 
     //USER
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
 
     public Reservation() {
     }
 
-    public Reservation(Integer percentage, boolean active, Gift gift, User user) {
+    public Reservation(Integer percentage, Gift gift, User user) {
         this.percentage = percentage;
-        this.active = active;
         this.gift = gift;
         this.user = user;
     }
@@ -55,14 +54,6 @@ public class Reservation {
 
     public void setPercentage(Integer percentage) {
         this.percentage = percentage;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public User getUser() {

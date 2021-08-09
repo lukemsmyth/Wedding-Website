@@ -42,7 +42,7 @@ public class User {
     private boolean enabled;
 
     //RESERVATIONS
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Set<Reservation> reservations = new HashSet<>();
 
     public User(){}

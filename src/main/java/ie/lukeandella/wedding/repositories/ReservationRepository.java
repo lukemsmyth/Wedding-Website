@@ -26,15 +26,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         * *************************************************
      */
     @Query
-    List<Reservation> findReservationsByActiveEqualsAndUserEquals(boolean active, User currentUser);
+    List<Reservation> findReservationsByUserEquals(User currentUser);
 
+    @Query
+    void deleteAllByGiftIdEquals(Long giftId);
 
-//    @Query(value = "SELECT * FROM Reservation WHERE user_id = ?1 OR percentage <= 99", nativeQuery = true)
-//    List<Reservation> getGiftsForDisplay(Long userId);
-    //    @Query
-//    List<Reservation> findReservationsByPercentageIsLessThanOrUserEquals(Integer percentage, User user);
-//
-//    @Query
-//    List<Reservation> findReservationsByPercentageIsLessThan(Integer percentage);
-
+    @Query
+    void deleteAllByUserIdEquals(Long userId);
 }

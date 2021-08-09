@@ -50,7 +50,7 @@ public class GiftService {
      */
     public List<GiftForDisplay> getGiftsForDisplay(User currentUser){
         //Get list of current user's reservations
-        List<Reservation> reservations = reservationRepository.findReservationsByActiveEqualsAndUserEquals(true, currentUser);
+        List<Reservation> reservations = reservationRepository.findReservationsByUserEquals(currentUser);
         //Make lift of gifts which have been reserved by current user
         List<Gift> giftsOfCurrentUser = new ArrayList<>();
         for(Reservation res : reservations){
@@ -82,16 +82,20 @@ public class GiftService {
         Gift gift = initGiftObj(giftId);
         User user = initUserObj(userId);
         //Instantiate new Reservation object
-        Reservation reservation = new Reservation(percentage,true, gift, user);
+        Reservation reservation = new Reservation(percentage, gift, user);
         //Update Gift and User objects
         user.updateReservations(reservation);   //No need to persist already existing db objects bc of @Transactional
         gift.updateReservations(reservation);
         //Persist Reservation object
-        reservationRepository.save(reservation);
+        persistReservation(reservation);
         //Update percentage of gift reserved
         //This is, strictly speaking, redundant but it is helpful
         //for determining whether a gift will be rendered by Thymeleaf
         gift.setPercentageReserved(gift.getPercentageReserved() + percentage);
+    }
+
+    public void persistReservation(Reservation reservation){
+        reservationRepository.save(reservation);
     }
 
     /*
@@ -106,7 +110,7 @@ public class GiftService {
         User user = initUserObj(userId);
         //Get the associated reservation object and set active to false
         Reservation res = reservationRepository.findByGiftAndUser(gift, user);
-        res.setActive(false);
+        reservationRepository.deleteById(res.getId());
         //Update gift's percentage reserved
         gift.setPercentageReserved(gift.getPercentageReserved() - res.getPercentage());
     }
@@ -121,6 +125,7 @@ public class GiftService {
         if(!giftRepository.existsById(giftId)){
             throw new IllegalStateException("The gift with ID " + giftId + " does not exist");
         }
+        reservationRepository.deleteAllByGiftIdEquals(giftId);
         giftRepository.deleteById(giftId);
     }
 
@@ -130,7 +135,7 @@ public class GiftService {
     }
 
     @Transactional
-    public void updateGiftInfo(Long giftId, String name, String description, Double price, String link) throws GiftNotExistsException {
+    public void updateGiftInfo(Long giftId, String name, String description, Double price, String link, boolean splitable) throws GiftNotExistsException {
         Gift gift = initGiftObj(giftId);
         //Only set the fields which have been modified by the admin
         if(!name.isEmpty()){
@@ -153,6 +158,7 @@ public class GiftService {
         }else{
             gift.setLink(gift.getLink());
         }
+        gift.setSplitable(splitable);
     }
 
     @Transactional

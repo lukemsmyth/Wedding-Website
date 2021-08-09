@@ -89,14 +89,6 @@ public class UserController {
         return "user/manage-users";
     }
 
-//    @GetMapping("/users/all")
-//    public String showAllUsers(Model model){
-//        model.addAttribute("user_to_update", new User());
-//        model.addAttribute("new_user", new NewUser());
-//        model.addAttribute("users", userService.getUsers());
-//        return "user/manage-users-show-all";
-//    }
-
     @PostMapping("/new/user")
     public String newUser(@ModelAttribute("new_user") NewUser newUser){
         try {

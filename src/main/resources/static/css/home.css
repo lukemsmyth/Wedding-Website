@@ -19,9 +19,7 @@
     }
     body{
         overflow-x: hidden;
-        overflow-y: scroll;
-        scrollbar-color: #b8b8b8 #666666;
-        scrollbar-width: thin;
+        overflow-y: hidden;
     }
     .homeInfoBox{
         grid-column: 5/span 4;

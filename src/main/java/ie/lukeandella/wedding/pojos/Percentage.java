@@ -1,5 +1,7 @@
 package ie.lukeandella.wedding.pojos;
 
+import org.springframework.context.annotation.Bean;
+
 public class Percentage {
 
     private int p;

@@ -7,6 +7,7 @@ import ie.lukeandella.wedding.exceptions.RoleNotExistsException;
 import ie.lukeandella.wedding.exceptions.UserNotExistsException;
 import ie.lukeandella.wedding.pojos.*;
 import ie.lukeandella.wedding.repositories.GiftRepository;
+import ie.lukeandella.wedding.repositories.ReservationRepository;
 import ie.lukeandella.wedding.repositories.RoleRepository;
 import ie.lukeandella.wedding.repositories.UserRepository;
 import net.bytebuddy.utility.RandomString;
@@ -35,6 +36,9 @@ public class UserService {
     private final GiftRepository giftRepository;
 
     @Autowired
+    private final ReservationRepository reservationRepository;
+
+    @Autowired
     RoleRepository roleRepository;
 
     @Autowired
@@ -47,10 +51,11 @@ public class UserService {
     private IAuthenticationFacade authenticationFacade;
 
     @Autowired
-    public UserService(UserRepository userRepository, GiftRepository giftRepository, RoleRepository roleRepository){
+    public UserService(UserRepository userRepository, GiftRepository giftRepository, RoleRepository roleRepository, ReservationRepository reservationRepository){
         this.userRepository = userRepository;
         this.giftRepository = giftRepository;
         this.roleRepository = roleRepository;
+        this.reservationRepository = reservationRepository;
     }
 
     public void register(User user, String siteURL) throws UnsupportedEncodingException, MessagingException {
@@ -103,10 +108,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
     public void deleteUser(Long userId){
         if(!userRepository.existsById(userId)){
             throw new IllegalStateException("user with id " + userId + " does not exist");
         }
+        reservationRepository.deleteAllByUserIdEquals(userId);
         userRepository.deleteById(userId);
     }
 

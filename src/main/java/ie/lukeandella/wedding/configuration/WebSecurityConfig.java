@@ -53,10 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/update/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/delete/**").hasAuthority("ADMIN")
                 .antMatchers("/users/**").hasAuthority("ADMIN")
-                .antMatchers("/reserve/**").hasAuthority("USER")
-                .antMatchers("/reserve/**").hasAuthority("ADMIN")
-                .antMatchers("/cancel-reservation/**").hasAuthority("USER")
-                .antMatchers("/cancel-reservation/**").hasAuthority("ADMIN")
+                .antMatchers("/reserve/**").hasAuthority("MEMBER")
+                .antMatchers("/cancel-reservation/**").hasAuthority("MEMBER")
                 .antMatchers("/").permitAll()                       //landing page
                 .antMatchers("/register").permitAll()               //register page
                 .antMatchers("/process-registration").permitAll()   //process registration page
