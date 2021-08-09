@@ -22,40 +22,35 @@
     <div class="user-block">
       <h2>Add new user</h2>
       <form th:action="@{/new/user}" th:object="${new_user}" method="post">
-        <div><label>Email</label></div>
-        <div><input type="text" th:field="*{email}" /></div>
-        <div><label>Password</label></div>
-        <div><input type="password" th:field="*{password}" /></div>
-        <div><label>Description</label></div>
-        <div>
+        <div class="user-block-line"><input type="text" th:field="*{email}" placeholder="email"/></div>
+        <div class="user-block-line"><input type="password" th:field="*{password}" placeholder="password"/></div>
+        <div class="user-block-line">
           <select th:field="*{role}">
             <option value="ADMIN">ADMIN</option>
             <option value="MEMBER">MEMBER</option>
           </select>
         </div>
-        <div><button type="submit" >Add user</button></div>
+<!--        <div class="manage-users-hack"></div>-->
+        <div class="user-block-line"><button type="submit" >Add user</button></div>
       </form>
     </div>
     <div class="user-block">
       <h2>Update user info</h2>
       <form th:action="@{/update/user}" th:object="${user_to_update}" method="post">
-        <div><label>ID</label></div>
-        <div><input type="number" th:field="*{id}" /></div>
-        <div><label>Email</label></div>
-        <div><input type="text" th:field="*{email}" /></div>
-        <div><label>Password</label></div>
-        <div><input type="password" th:field="*{password}" /></div>
-        <div><label>Description</label></div>
-        <div><button type="submit">Update</button></div>
+        <div class="user-block-line"><input type="number" th:field="*{id}" placeholder="ID"/></div>
+        <div class="user-block-line"><input type="text" th:field="*{email}" placeholder="email" /></div>
+        <div class="user-block-line"><input type="password" th:field="*{password}" placeholder="password"/></div>
+<!--        <div class="manage-users-hack"></div>-->
+        <div class="user-block-line"><button type="submit">Update</button></div>
       </form>
     </div>
     <div class="user-block" th:each="user : ${users}">
-      <h2 th:text="'ID: ' + ${user.id}"></h2>
-      <h3 th:text="${user.email}"></h3>
-      <h3 th:if="${user.hasRole('ADMIN')}">ADMIN</h3>
-      <h3 th:unless="${user.hasRole('ADMIN')}">NOT ADMIN</h3>
-      <h4><a th:href="@{/update/user-admin-status/{id} (id = ${user.id})}" >Toggle user's admin status</a></h4>
-      <h4><a th:href="@{/delete/user/{id} (id=${user.id})}">Delete this user</a></h4>
+      <div class="user-block-line"><h2 th:text="'ID: ' + ${user.id}"></h2></div>
+      <div class="user-block-line"><h4 th:text="'Email: ' + ${user.email}"></h4></div>
+      <div class="user-block-line" th:if="${user.hasRole('ADMIN')}"><h4>Admin? true</h4></div>
+      <div class="user-block-line" th:unless="${user.hasRole('ADMIN')}"><h4>Admin? false</h4></div>
+      <div class="user-block-line"><button><a th:href="@{/update/user-admin-status/{id} (id = ${user.id})}" >Toggle admin</a></button></div>
+      <div class="user-block-line"><button><a th:href="@{/delete/user/{id} (id=${user.id})}">Delete user</a></button></div>
     </div>
     <div class="hack"></div>
   </div>

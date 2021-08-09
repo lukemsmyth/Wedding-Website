@@ -22,10 +22,47 @@
     margin-bottom: 2%;
     text-decoration: none;
 }
+/*.user-block-input{*/
+/*    width: 175px;*/
+/*    border-style: solid;*/
+/*    border-width:1px;*/
+/*    border-color: #434c3b;*/
+/*    border-radius: 2px;*/
+/*    padding: 5px 5px 5px 5px;*/
+/*    margin-bottom: 10px;*/
+/*    background:rgba(255,255,255,0.5);*/
+/*    color:#434c3b;*/
+/*    text-align: center;*/
+/*    font-size: small;*/
+/*}*/
 .user-block a{
     text-decoration: none;
     color: #343b2e;
 }
 .user-block a:hover{
     color: #434c3b;
+}
+.user-block button{
+    width: 175px;
+}
+.user-block input{
+    width: 175px;
+}
+.user-block select{
+    width: 175px;
+    text-align: center;
+    color: #343b2e;
+}
+.manage-users-hack{
+    height: 12px;
+}
+.user-block-line{
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+.user-block-line input{
+    text-align: center;
+}
+.user-block-line option{
+    text-align: center;
 }
