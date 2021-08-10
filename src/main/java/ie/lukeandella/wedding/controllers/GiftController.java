@@ -44,80 +44,43 @@ public class GiftController {
 
     @GetMapping("/gifts")
     public String showGifts(Model model){
-        //Get current
+
         User currentUser = userService.getCurrentUser();
         model.addAttribute("current_user", currentUser);
-        //Get roles
-        Role adminRole = null;
-        Role memberRole = null;
-        Role visitorRole = null;
+
         try {
-            adminRole = roleservice.getRoleByName("ADMIN");
-            memberRole = roleservice.getRoleByName("MEMBER");
-            visitorRole = roleservice.getRoleByName("VISITOR");
+            Role adminRole = roleservice.getRoleByName("ADMIN");
+            Role memberRole = roleservice.getRoleByName("MEMBER");
+            Role visitorRole = roleservice.getRoleByName("VISITOR");
+            model.addAttribute("admin_role", adminRole);
+            model.addAttribute("member_role", memberRole);
+            model.addAttribute("visitor_role", visitorRole);
         } catch (RoleNotExistsException e) {
             e.getMessage();
         }
-        model.addAttribute("admin_role", adminRole);
-        model.addAttribute("visitor_role", visitorRole);
-        model.addAttribute("member_role", memberRole);
-        //Get gifts for display
+
         List<GiftForDisplay> giftsForDisplay = giftService.getGiftsForDisplay(currentUser);
+        for(GiftForDisplay g : giftsForDisplay){
+            System.out.println(g.toString());
+        }
         model.addAttribute("giftsForDisplay", giftsForDisplay);
-        //Get Percentage object
         model.addAttribute("percentage", new Percentage());
-        //Get Gift object for adding/updating
         model.addAttribute("gift", new Gift());
         return "gift/gifts";
-    }
-
-//    @PostMapping("/p")
-//    public String p(@ModelAttribute("percentage") Percentage p, Model model){
-//        model.addAttribute("p", p.getP());
-//        return "p";
-//    }
-
-    @PostMapping("/p")
-    public String reserveGift(@ModelAttribute("gift") Gift gift, Model model){
-        try{
-            //First get the current User
-            User user = userService.getCurrentUser();
-            giftService.reserveGift(user.getId(), gift.getId(), gift.getPercentageReserved());
-            model.addAttribute("user", user);
-            model.addAttribute("gift", gift);
-        }
-        catch(UserNotExistsException ex){
-            ex.printStackTrace();
-            model.addAttribute("id", userService.getCurrentUser().getId());
-            return "user/user-not-exists";
-        }
-        catch(GiftNotExistsException ex){
-            ex.printStackTrace();
-            model.addAttribute("id", gift.getId());
-            return "gift/gift-not-exists";
-        }
-        return "gift/gift-reserved";
     }
 
     @PostMapping("/reserve/{id}")
     public String processReservation(@ModelAttribute("percentage") Percentage percentage, @PathVariable("id") Long giftId, Model model){
         try{
-            //First get the current User
             User user = userService.getCurrentUser();
-            //Get gift object
             Gift gift = giftService.getGiftById(giftId);
-            //Reserve the gift
-            //Note:
-            //      Use the ReservationRequest object to pass the percentage
-            //      reserved and the PathVariable to pass the giftId
             giftService.reserveGift(user.getId(), gift.getId(), percentage.getP());
-            //Add model attributes
+            System.out.println("################### " + percentage.getP());
             model.addAttribute("user", user);
-            Long userId = user.getId();
             model.addAttribute("gift", gift);
         } catch(UserNotExistsException ex){
             ex.printStackTrace();
-//            model.addAttribute("id", userService.getCurrentUser().getId());
+            model.addAttribute("id", userService.getCurrentUser().getId());
             return "user/user-not-exists";
         }
         catch(GiftNotExistsException ex){

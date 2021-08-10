@@ -84,14 +84,17 @@ public class AppConfig {
             Faq faq5 = new Faq("Am I invited?", smokedSalmon, LocalDateTime.now());
             faqRepository.save(faq5);
 
-            Gift laptop = new Gift("Laptop", "A Lenovo laptop.", 1000.00, "null", "laptopsdirect.ie", false, 0, true);
-            giftRepository.save(laptop);
-            Gift shoes = new Gift("Shoes", "A nice pair of shoes", 99.99, "N/A", "schuh.com", false, 0, true);
-            giftRepository.save(shoes);
-            Gift oranges = new Gift("Oranges", "A nice bag of oranges.", 100.00, "null", "orange.com", true, 0, true);
+            Gift tomato = new Gift("Tomato", "One ripe tomoato.", 1000.00, "null", "http://example.com/", false, 0, true);
+            giftRepository.save(tomato);
+            Gift potatoes = new Gift("Potatoes", "A sack of spuds", 99.99, "N/A", "http://example.com/", false, 0, true);
+            giftRepository.save(potatoes);
+            Gift oranges = new Gift("Oranges", "A nice bag of oranges.", 100.00, "null", "http://example.com/", true, 0, true);
             giftRepository.save(oranges);
-            Gift apples = new Gift("Apples", "A nice bag of apples.", 100.00, "null", "apple.com", false, 0, true);
+            Gift apples = new Gift("Apples", "A nice bag of apples.", 100.00, "null", "http://example.com/", false, 0, true);
             giftRepository.save(apples);
+            Gift tofu = new Gift("Tofu", "A packet of extra-firm tofu.", 100.00, "null", "http://example.com/", false, 0, true);
+            giftRepository.save(tofu);
+
         };
     }
 

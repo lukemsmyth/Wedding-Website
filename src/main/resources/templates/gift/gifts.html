@@ -14,11 +14,18 @@
 <div class="container-main">
     <div class="navbar">
         <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
-        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>        <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
+        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>
+        <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
         <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
         <a th:href="@{/gifts}" id="nav4">Gift List</a>
     </div>
     <div class="gift-list">
+        <div class="gift-div" sec:authorize="hasAuthority('VISITOR')">
+            <div class="gift-div-line">
+                <h3>To reserve a gift or cancel a reservation,<br>please <a th:href="@{/register}">register</a> or <a th:href="@{/login}">login</a></h3>
+            </div>
+        </div>
+
         <div sec:authorize="hasAuthority('ADMIN')" class="gift-div">
             <!--UPDATE GIFT INFO-->
             <form th:action="@{/update/gift}" th:object="${gift}" method="post" id="update-gift-form">
@@ -37,6 +44,7 @@
                 <div class="gift-div-line"><input type="submit" value="Update gift" /></div>
             </form>
         </div>
+
         <div sec:authorize="hasAuthority('ADMIN')" class="gift-div">
             <!--ADD NEW GIFT-->
             <form  th:action="@{/new/gift}" th:object="${gift}" method="post">
@@ -54,33 +62,31 @@
                 <div class="gift-div-line"><input type="submit" value="Add gift" /></div>
             </form>
         </div>
+
         <!--RESERVE A GIFT-->
         <div th:each="giftForDisplay : ${giftsForDisplay}" class="gift-div">
+
             <div class="gift-div-line"><h2 th:text="${giftForDisplay.g.name}"></h2></div>
             <div class="gift-div-line"><h4><a th:href="${giftForDisplay.g.link}" th:text="${giftForDisplay.g.description}"></a></h4></div>
             <div class="gift-div-line"><h4 th:text="'€' + ${giftForDisplay.g.price}"></h4></div>
-            <div class="gift-div-line" sec:authorize="hasAuthority('VISITOR')">
-                <p>To reserve a gift or cancel a reservation, please register/login.</p>
-            </div>
-            <div class="gift-div-line" sec:authorize="hasAuthority('VISITOR')">
-                <h4><a th:href="@{/login}"><span>Login</span></a></h4>
-                <h4><a th:href="@{/register}"><span>Register</span></a></h4>
-            </div>
-            <div th:if="${giftForDisplay.res == false}" class="gift-div-line" sec:authorize="hasAuthority('MEMBER')"><p>Select percentage to reserve.</p></div>
-            <div> <!--Only show option to reserve to users with role USER (and not to VISITOR)-->
-                <form th:if="${giftForDisplay.res == false}" th:action="@{/reserve/{id} (id = ${giftForDisplay.g.id})}" th:object="${percentage}" method="post">
-                   <div class="gift-div-line">
+
+            <!--Only show option to reserve to users with role USER (and not to VISITOR)-->
+            <div sec:authorize="hasAuthority('MEMBER')">
+
+                <form th:if="${giftForDisplay.available == true}" th:action="@{/reserve/{id} (id = ${giftForDisplay.g.id})}" th:object="${percentage}" method="post">
+                    <div class="gift-div-line"><p>Select percentage to reserve.</p></div>
+                    <div class="gift-div-line">
                        <select th:if="${giftForDisplay.g.splitable == true}" th:field="*{p}"> <!--only display for splitable gifts-->
                            <option value="25">25%</option>
                            <option value="50">50%</option>
                            <option value="75">75%</option>
                            <option value="100">100%</option>
                        </select>
-                   </div>
+                    </div>
                     <!--Hide "Reserve" button if giftForDisplay has already been reserved. Need to also cover this on the back end-->
                     <div class="gift-div-line"><input  type="submit" value="Reserve" /></div>
                 </form>
-                <form th:if="${giftForDisplay.res == true}" th:action="@{/cancel-reservation/{id} (id = ${giftForDisplay.g.id})}" method="post">
+                <form  th:if="${giftForDisplay.resByThisUser == true}" th:action="@{/cancel-reservation/{id} (id = ${giftForDisplay.g.id})}" method="post">
                     <input class="gift-div-line" type="submit" value="Cancel reservation" />
                 </form>
             </div>

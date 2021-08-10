@@ -3,9 +3,7 @@ package ie.lukeandella.wedding.pojos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity(name = "Gift")
 @Table(name = "gift")
@@ -70,6 +68,13 @@ public class Gift {
         this.percentageReserved = percentageReserved;
         this.visible = visible;
     }
+//
+//    public static List<GiftForDisplay> getListAsGiftForDisplay(List<Gift> gifts){
+//        List<GiftForDisplay> giftsForDisplay = new ArrayList<>();
+//        for(Gift gift : gifts){
+//            giftsForDisplay.add(new GiftForDisplay(gift, ))
+//        }
+//    }
 
     //Can be used to add or remove a reservation
     public void updateReservations(Reservation reservation){
@@ -81,6 +86,18 @@ public class Gift {
         }
 
         setReservations(rs);
+    }
+
+    public boolean userHasReserved(User user){
+        System.out.println("Gift ID: " + id);
+        System.out.println("User ID: " + user.getId());
+        for(Reservation r : reservations){
+            if(r.getUser().equals(user)){
+                System.out.println("Res ID: " + r.getId());
+                return true;
+            }
+        }
+        return false;
     }
 
     public Long getId() {

@@ -17,10 +17,13 @@
     <a th:href="@{/gifts}" id="nav4">Gift List</a>
   </div>
   <div class="add-update-delete">
-    <h2 th:text="${gift.name} + 'updated:'"></h2>
-    <h4 th:text="${gift.description}"></h4>
-    <h4 th:text="${gift.price}"></h4>
-    <h4 th:text="${gift.link}"></h4>
+    <div class="add-update-delete-info">
+      <h1>Updated gift:</h1>
+      <h2 th:text="${gift.name}"></h2>
+      <h4 th:text="${gift.description}"></h4>
+      <h4 th:text="${gift.price}"></h4>
+      <h4 th:text="${gift.link}"></h4>
+    </div>
   </div>
 </div>
 </body>
