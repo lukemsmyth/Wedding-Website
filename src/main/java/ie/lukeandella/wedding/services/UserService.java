@@ -108,6 +108,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> getUsersExcCurrent(){
+        return userRepository.findAllByIdIsNot(getCurrentUser().getId());
+    }
+
     @Transactional
     public void deleteUser(Long userId){
         if(!userRepository.existsById(userId)){

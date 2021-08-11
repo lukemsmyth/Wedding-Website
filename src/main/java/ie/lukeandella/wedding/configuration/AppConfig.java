@@ -44,18 +44,21 @@ public class AppConfig {
             //Make admin
             Role adminRole = new Role("ADMIN");
             User adminUser = new User("admin@x.com", password, true);
+            adminUser.setEmail("admin@x.com");
             adminUser.addRole(adminRole);
             userRepository.save(adminUser);
             roleRepository.save(adminRole);
             //Make member
             Role memberRole = new Role("MEMBER");
             User memberUser = new User("member@x.com", password, true);
+            memberUser.setEmail("member@x.com");
             memberUser.addRole(memberRole);
             userRepository.save(memberUser);
             roleRepository.save(memberRole);
             //Make visitor
             Role visitorRole = new Role("VISITOR");
             User visitorUser = new User("visitor@x.com", password, true);
+            visitorUser.setEmail("visitor@x.com");
             visitorUser.addRole(visitorRole);
             userRepository.save(visitorUser);
             roleRepository.save(visitorRole);

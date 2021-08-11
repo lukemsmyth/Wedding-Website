@@ -85,7 +85,9 @@ public class UserController {
     public String manageUsers(Model model){
         model.addAttribute("user_to_update", new User());
         model.addAttribute("new_user", new NewUser());
-        model.addAttribute("users", userService.getUsers());
+        //Do not show the current user to themselves so that they cannot
+        //accidentally toggle their admin status to off and cause an exception.
+        model.addAttribute("users", userService.getUsersExcCurrent());
         return "user/manage-users";
     }
 
