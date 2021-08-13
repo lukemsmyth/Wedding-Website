@@ -19,20 +19,6 @@
         <a th:href="@{/gifts}" id="nav4">Gift List</a>
     </div>
     <div class="itinerary-list">
-        <div th:each="it : ${items}" class="itinerary-item">
-            <h1 th:text="${it.title}"></h1>
-            <h2 th:text="${it.dateTime}"></h2>
-            <h2 th:text="${it.location}"></h2>
-            <h3 th:text="${it.description}"></h3>
-            <p th:text="'Last updated: ' + ${it.lastUpdated}"></p>
-            <!--ADMIN ONLY-->
-            <div sec:authorize="hasAuthority('ADMIN')">
-                <p th:text="'ID: ' + ${it.id}"></p>
-                <form th:action="@{/delete/itinerary/{id} (id = ${it.id})}" th:method="post">
-                    <input  type="submit" value="Delete item" />
-                </form>
-            </div>
-        </div>
         <!--ADMIN ONLY-->
         <div sec:authorize="hasAuthority('ADMIN')" class="itinerary-item">
             <div class="add-or-update-item">
@@ -46,7 +32,7 @@
                     <div><input type="text" th:value="${null}" th:field="*{location}" /></div>
                     <div><label>Description</label></div>
                     <div><textarea rows="5" cols="25" th:value="${null}" th:field="*{description}"></textarea></div>
-                    <div><input type="submit" value="Update item" /></div>
+                    <div><input type="submit" value="Add item" /></div>
                 </form>
             </div>
         </div>
@@ -65,6 +51,20 @@
                     <div><label>Description</label></div>
                     <div><textarea rows="5" cols="25" th:value="${null}" th:field="*{description}"></textarea></div>
                     <div><input type="submit" value="Update item" /></div>
+                </form>
+            </div>
+        </div>
+        <div th:each="it : ${items}" class="itinerary-item">
+            <h1 th:text="${it.title}"></h1>
+            <h2 th:text="${it.dateTime}"></h2>
+            <h2 th:text="${it.location}"></h2>
+            <h3 th:text="${it.description}"></h3>
+            <p th:text="'Last updated: ' + ${it.lastUpdated}"></p>
+            <!--ADMIN ONLY-->
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <p th:text="'ID: ' + ${it.id}"></p>
+                <form th:action="@{/delete/itinerary/{id} (id = ${it.id})}" th:method="post">
+                    <input  type="submit" value="Delete item" />
                 </form>
             </div>
         </div>

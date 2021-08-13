@@ -18,11 +18,11 @@
     <a th:href="@{/gifts}" id="nav4">Gift List</a>
   </div>
   <div class="add-update-delete">
-    <h2>Item Updated</h2>
-    <h4 th:text="${updated_item.title}"></h4>
-    <h4 th:text="${updated_item.location}"></h4>
-    <h4 th:text="${updated_item.description}"></h4>
-    <h4 th:text="${updated_item.dateTime.toString()}"></h4>
+    <div> <h2>Item Updated</h2></div>
+    <div><h4 th:text="${updated_item.title}"></h4></div>
+    <div><h4 th:text="${updated_item.location}"></h4></div>
+    <div><h4 th:text="${updated_item.description}"></h4></div>
+    <div><h4 th:text="${updated_item.dateTime.toString()}"></h4></div>
   </div>
 </div>
 </body>

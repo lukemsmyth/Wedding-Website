@@ -57,7 +57,7 @@ public class ItineraryController {
         return "itinerary/item-updated";
     }
 
-    @PostMapping("/delete/itinerary{id}")
+    @PostMapping("/delete/itinerary/{id}")
     public String deleteItem(@PathVariable("id") Long id, Model model){
         try{
             model.addAttribute("item", itineraryService.getById(id));

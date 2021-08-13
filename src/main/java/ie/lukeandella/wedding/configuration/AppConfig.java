@@ -34,11 +34,11 @@ public class AppConfig {
     {
         return args -> {
 
-//            /*
-//             * Initialise the application with 3 users.
-//             */
-//
-//            //Make a password
+            /*
+             * Initialise the application with 3 users.
+             */
+
+            //Make a password
 //            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 //            String password = encoder.encode("0000");
 //            //Make admin
