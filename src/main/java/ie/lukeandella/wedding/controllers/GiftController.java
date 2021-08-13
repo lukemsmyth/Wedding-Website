@@ -70,12 +70,12 @@ public class GiftController {
     }
 
     @PostMapping("/reserve/{id}")
-    public String processReservation(@ModelAttribute("percentage") Percentage percentage, @PathVariable("id") Long giftId, Model model){
+    public String processReservation(@ModelAttribute("percentage") Percentage percentage, @PathVariable("id") Long giftId, Model model)
+    {
         try{
             User user = userService.getCurrentUser();
             Gift gift = giftService.getGiftById(giftId);
             giftService.reserveGift(user.getId(), gift.getId(), percentage.getP());
-            System.out.println("################### " + percentage.getP());
             model.addAttribute("user", user);
             model.addAttribute("gift", gift);
         } catch(UserNotExistsException ex){

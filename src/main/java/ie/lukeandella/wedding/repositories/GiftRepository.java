@@ -13,6 +13,4 @@ public interface GiftRepository extends JpaRepository<Gift, Long> {
     @Query
     List<Gift> findGiftsByPercentageReservedIsLessThan(Integer p);
 
-
-
 }

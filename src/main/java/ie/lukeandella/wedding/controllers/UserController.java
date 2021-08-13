@@ -133,18 +133,16 @@ public class UserController {
 
     @GetMapping("/delete/user/{id}")
     public String deleteUser(@PathVariable("id") Long id, Model model){
-        //Get User object
-        User user = null;
         try {
-            user = userService.getById(id);
+            User user = userService.getById(id);
+            userService.deleteUser(id);
+            //Add model attributes to confirm that gift was deleted
+            model.addAttribute("user", user);
         } catch (UserNotExistsException e) {
             e.printStackTrace();
             model.addAttribute(id);
             return "user/user-not-exists";
         }
-        userService.deleteUser(id);
-        //Add model attributes to confirm that gift was deleted
-        model.addAttribute("user", user);
         return "user/user-deleted";
     }
 

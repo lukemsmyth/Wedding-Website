@@ -48,29 +48,6 @@ public class GiftService {
      * reserved by the current user (to allow cancellation of reservation).
      * **********************************************************************
      */
-//    public List<GiftForDisplay> getGiftsForDisplay(User currentUser) {
-//        List<GiftForDisplay> giftsForDisplay = new ArrayList<>();
-//        List<Gift> allGifts = giftRepository.findAll();
-//        for (Gift g : allGifts) {
-//            //if wholly reserved and user has reserved some part
-//            if (g.getPercentageReserved() == 100 && g.userHasReserved(currentUser)) {
-//                giftsForDisplay.add(new GiftForDisplay(g, false, true));
-//            }
-//            //if wholly reserved AND user has not reserved any part AND user is admin
-//            else if (g.getPercentageReserved() == 100 && !g.userHasReserved(currentUser) && currentUser.hasRole("ADMIN")) {
-//                giftsForDisplay.add(new GiftForDisplay(g, false, false));
-//            }
-//            //if NOT wholly reserved AND user has reserved some part
-//            else if (g.getPercentageReserved() < 100 && g.userHasReserved(currentUser)) {
-//                giftsForDisplay.add(new GiftForDisplay(g, false, true));
-//            }
-//            //if NOT wholly reserved AND user has NOT reserved any part
-//            else {
-//                giftsForDisplay.add(new GiftForDisplay(g, true, false));
-//            }
-//        }
-//        return giftsForDisplay;
-//    }
 
     public List<GiftForDisplay> getGiftsForDisplay(User currentUser) {
         List<Gift> allGifts = giftRepository.findAll();
@@ -82,22 +59,10 @@ public class GiftService {
 
     public List<GiftForDisplay> getGiftsForDisplayToAdmin(List<Gift> gifts){
         List<GiftForDisplay> giftsForDisplay = new ArrayList<>();
-        System.out.println("Current user is admin...");
         for(Gift g : gifts){
             giftsForDisplay.add(new GiftForDisplay(g, false, false));
         }
         return giftsForDisplay;
-    }
-
-    public List<Gift> getGiftsOfCurrentUser(User currentUser){
-        List<Reservation> usersReservations = reservationRepository.findReservationsByUserEquals(currentUser);
-        List<Gift> giftsOfCurrentUser = new ArrayList<>();
-        for(Reservation reservation : usersReservations){
-            if(!giftsOfCurrentUser.contains(reservation.getGift())){
-                giftsOfCurrentUser.add(reservation.getGift());
-            }
-        }
-        return giftsOfCurrentUser;
     }
 
     public List<GiftForDisplay> getGiftsForDisplayToMember(List<Gift> gifts, List<Gift> giftsOfCurrentUser){
@@ -116,7 +81,19 @@ public class GiftService {
         }
         return giftsForDisplay;
     }
-        /*
+
+    public List<Gift> getGiftsOfCurrentUser(User currentUser){
+        List<Reservation> usersReservations = reservationRepository.findReservationsByUserEquals(currentUser);
+        List<Gift> giftsOfCurrentUser = new ArrayList<>();
+        for(Reservation reservation : usersReservations){
+            if(!giftsOfCurrentUser.contains(reservation.getGift())){
+                giftsOfCurrentUser.add(reservation.getGift());
+            }
+        }
+        return giftsOfCurrentUser;
+    }
+
+    /*
          * ************************************
          * Reserve a gift (in whole or in part)
          * ************************************

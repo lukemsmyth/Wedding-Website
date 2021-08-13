@@ -78,7 +78,7 @@ public class UserService {
         String content = "Hello!<br>"
                 + "<br>Thanks for registering :) <br>"
                 + "Please click the link to verify your registration. <br>"
-                + "<a href=\"[[URL]]\" target=\"_self\">VERIFY</a>"
+                + "<a href=\"[[URL]]\" target=\"_self\">VERIFY</a><br>"
                 + "Thanks,<br>"
                 + "Luke & Ella";
         MimeMessage message = mailSender.createMimeMessage();
@@ -113,10 +113,8 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(Long userId){
-        if(!userRepository.existsById(userId)){
-            throw new IllegalStateException("user with id " + userId + " does not exist");
-        }
+    public void deleteUser(Long userId) throws UserNotExistsException {
+        initUserObj(userId);
         reservationRepository.deleteAllByUserIdEquals(userId);
         userRepository.deleteById(userId);
     }
@@ -169,7 +167,6 @@ public class UserService {
     @Transactional
     public User updateUserInfo(Long id, String email, String password) throws UserNotExistsException {
         User user = initUserObj(id);
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         //Only set the fields which have been modified by the admin
         if(!email.isEmpty()){
             user.setName(email);
@@ -178,6 +175,7 @@ public class UserService {
             user.setName(user.getName());
         }
         if(!password.isEmpty()){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             user.setPassword(passwordEncoder.encode(password));
         }else{
             user.setPassword(user.getPassword());
