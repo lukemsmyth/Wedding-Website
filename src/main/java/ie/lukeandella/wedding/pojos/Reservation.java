@@ -17,10 +17,6 @@ public class Reservation {
     @Column(name = "percentage")
     private Integer percentage;
 
-//    //ACTIVE - set to true when res is made, set to false when res is cancelled
-//    @Column(name = "active")
-//    private boolean active;
-
     //GIFT
     @ManyToOne(cascade = CascadeType.PERSIST)  //many instances of reservation can be mapped to one instance of gift.
     @JoinColumn(name = "gift_id")
