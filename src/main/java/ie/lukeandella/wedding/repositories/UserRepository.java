@@ -11,14 +11,17 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.name = ?1")
-    public User findByName(String username);
+    User findByName(String username);
 
     @Query("SELECT u FROM User u WHERE u.verificationCode = ?1")
-    public User findByVerificationCode(String code);
+    User findByVerificationCode(String code);
 
     @Query("SELECT u FROM User u WHERE u.name = ?1")
-    public User findByEmail(String email);
+    User findByEmail(String email);
 
     @Query
-    public List<User> findAllByIdIsNot(Long currentUserId);
+    List<User> findAllByIdIsNot(Long currentUserId);
+
+    @Query
+    boolean existsByEmailEquals(String email);
 }

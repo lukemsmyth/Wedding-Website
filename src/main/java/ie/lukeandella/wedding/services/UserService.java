@@ -5,6 +5,7 @@ import ie.lukeandella.wedding.configuration.IAuthenticationFacade;
 import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
 import ie.lukeandella.wedding.exceptions.RoleNotExistsException;
 import ie.lukeandella.wedding.exceptions.UserNotExistsException;
+import ie.lukeandella.wedding.exceptions.UsernameTakenException;
 import ie.lukeandella.wedding.pojos.*;
 import ie.lukeandella.wedding.repositories.GiftRepository;
 import ie.lukeandella.wedding.repositories.ReservationRepository;
@@ -58,7 +59,10 @@ public class UserService {
         this.reservationRepository = reservationRepository;
     }
 
-    public void register(User user, String siteURL) throws UnsupportedEncodingException, MessagingException {
+    public void register(User user, String siteURL) throws UnsupportedEncodingException, MessagingException, UsernameTakenException {
+        if(userRepository.existsByEmailEquals(user.getEmail())){
+            throw new UsernameTakenException("The username has already been taken.");
+        }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         String randomCode = RandomString.make(64);
@@ -147,7 +151,10 @@ public class UserService {
         return customUserDetails.getUser();
     }
 
-    public void addNewUser(NewUser newUser) throws RoleNotExistsException {
+    public void addNewUser(NewUser newUser) throws RoleNotExistsException, UsernameTakenException {
+        if(userRepository.existsByEmailEquals(newUser.getEmail())){
+            throw new UsernameTakenException("This username has already been taken.");
+        }
         User user = new User();
         user.setName(newUser.getEmail());
         user.setEmail(newUser.getEmail());

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en"
       class="landing-login-register"
-      xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <link th:href="@{/css/landing-login-register.css}" rel="stylesheet">
   <link th:href="@{/css/xmain.css}" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+  <title>Username taken!</title>
 </head>
 <body>
 <div class="container-main">
@@ -18,7 +18,7 @@
     <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
     <a th:href="@{/gifts}" id="nav4">Gift List</a>
   </div>
-  <h4 class="verify">Failed to add user because specified role does not exist or username has already been taken.</h4>
+  <h4 class="verify">This username is already in use. Please use another.</h4>
 </div>
 </body>
 </html>

@@ -3,6 +3,7 @@ package ie.lukeandella.wedding.controllers;
 import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
 import ie.lukeandella.wedding.exceptions.RoleNotExistsException;
 import ie.lukeandella.wedding.exceptions.UserNotExistsException;
+import ie.lukeandella.wedding.exceptions.UsernameTakenException;
 import ie.lukeandella.wedding.pojos.Gift;
 import ie.lukeandella.wedding.pojos.NewUser;
 import ie.lukeandella.wedding.pojos.User;
@@ -47,7 +48,13 @@ public class UserController {
     public String processRegistration(User user, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
         user.setName(user.getEmail());          //quick hack to make email the username to enforce unique usernames.
-        userService.register(user, getSiteURL(request));
+        try{
+            userService.register(user, getSiteURL(request));
+        }
+        catch(UsernameTakenException e){
+            return "landing/registration/username-taken";
+        }
+
         return "landing/registration/success";
     }
 
@@ -95,7 +102,7 @@ public class UserController {
     public String newUser(@ModelAttribute("new_user") NewUser newUser){
         try {
             userService.addNewUser(newUser);
-        } catch (RoleNotExistsException e) {
+        } catch (RoleNotExistsException | UsernameTakenException e) {
             e.printStackTrace();
             return "user/failed-to-add-user";
         }
