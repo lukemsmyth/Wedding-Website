@@ -164,10 +164,17 @@ public class UserService {
         user.setEnabled(true);
         Role adminRole = initRoleObj(roleRepository.findByNameIs("ADMIN").getId());
         Role memberRole = initRoleObj(roleRepository.findByNameIs("MEMBER").getId());
+        Role visitorRole = initRoleObj(roleRepository.findByNameIs("VISITOR").getId());
         if(newUser.getRole().equals("ADMIN")){
             user.addRole(adminRole);        //admin will also be member
+            user.addRole(memberRole);
         }
-        user.addRole(memberRole);
+        if(newUser.getRole().equals("MEMBER")){
+            user.addRole(memberRole);
+        }
+        if(newUser.getRole().equals("VISITOR")){
+            user.addRole(visitorRole);
+        }
         userRepository.save(user);
     }
 
