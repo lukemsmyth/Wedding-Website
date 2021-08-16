@@ -113,7 +113,6 @@ public class GiftService {
             reservationRepository.save(reservation);
             //Update percentage of gift reserved
             gift.setPercentageReserved(gift.getPercentageReserved() + percentage);
-
         }
 
         /*
