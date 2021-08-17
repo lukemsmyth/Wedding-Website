@@ -149,6 +149,9 @@ public class UserController {
             e.printStackTrace();
             model.addAttribute(id);
             return "user/user-not-exists";
+        } catch (GiftNotExistsException giftNotExistsException) {
+            giftNotExistsException.printStackTrace();
+            return "gift/gift-not-exists";
         }
         return "user/user-deleted";
     }

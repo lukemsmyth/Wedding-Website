@@ -117,9 +117,14 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(Long userId) throws UserNotExistsException {
-        initUserObj(userId);
-        reservationRepository.deleteAllByUserIdEquals(userId);
+    public void deleteUser(Long userId) throws UserNotExistsException, GiftNotExistsException {
+        User user = initUserObj(userId);
+        for(Reservation res : user.getReservations()){
+            Gift gift = initGiftObj(res.getGift().getId());
+            gift.setPercentageReserved(gift.getPercentageReserved() - res.getPercentage());
+            reservationRepository.deleteById(res.getId());
+        }
+//        reservationRepository.deleteAllByUserIdEquals(userId);
         userRepository.deleteById(userId);
     }
 
