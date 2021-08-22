@@ -34,9 +34,10 @@ public class AppConfig {
     {
         return args -> {
 
-            userRepository.deleteById(80L);
-            userRepository.deleteById(82L);
-            userRepository.deleteById(84L);
+            roleRepository.deleteById(81L);
+            roleRepository.deleteById(83L);
+            roleRepository.deleteById(85L);
+
 
         };
     }
