@@ -36,6 +36,7 @@ public class FaqService {
 
     @Transactional
     public void updateFaq(Long faqId, String question, String answer) throws FaqNotExistsException {
+        if(faqId == null) throw new FaqNotExistsException("ID must not be null");
         Faq faq = initFaqObj(faqId);
         if(!question.isEmpty()){
             faq.setQuestion(question);

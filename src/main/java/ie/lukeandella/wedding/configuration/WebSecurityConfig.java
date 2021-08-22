@@ -57,12 +57,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/**").hasAuthority("ADMIN")
                 .antMatchers("/reserve/**").hasAuthority("MEMBER")
                 .antMatchers("/cancel-reservation/**").hasAuthority("MEMBER")
+                .antMatchers("/register").hasAuthority("VISITOR")              //register page
+                .antMatchers("/process-registration").hasAuthority("VISITOR")  //process registration page
+                .antMatchers("/verify").hasAuthority("VISITOR")                //verify registration
+                .antMatchers("/verify/success").hasAuthority("VISITOR")         //verify success
+                .antMatchers("/verify/failure").hasAuthority("VISITOR")        //verify failure
                 .antMatchers("/").permitAll()                       //landing page
-                .antMatchers("/register").permitAll()               //register page
-                .antMatchers("/process-registration").permitAll()   //process registration page
-                .antMatchers("/verify").permitAll()                 //verify registration
-                .antMatchers("/verify/success").permitAll()         //verify success
-                .antMatchers("/verify/failure").permitAll()         //verify failure
                 .anyRequest().fullyAuthenticated()                              //Everything else is only accessible to authenticated users
             .and()
                 .formLogin()                             //overrides the default Spring Boot login page

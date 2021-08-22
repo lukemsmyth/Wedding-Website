@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <title>Role does not exist!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
@@ -10,7 +12,7 @@
 <div class="container-main">
   <div class="navbar">
     <a th:href="@{/home}" id="navLogo">Luke &amp; Ella 2022</a>
-    <a th:href="@{/where}" id="nav1">Where</a>
+    <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/users}" id="nav1">Users</a>
     <a th:href="@{/itinerary}" id="nav2">Itinerary</a>
     <a th:href="@{/faqs}" id="nav3" >Q&amp;A</a> <!---->
     <a th:href="@{/gifts}" id="nav4">Gift List</a>

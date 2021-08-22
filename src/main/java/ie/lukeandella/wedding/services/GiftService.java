@@ -1,5 +1,6 @@
 package ie.lukeandella.wedding.services;
 
+import ie.lukeandella.wedding.exceptions.FaqNotExistsException;
 import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
 import ie.lukeandella.wedding.exceptions.UserNotExistsException;
 import ie.lukeandella.wedding.pojos.Gift;
@@ -153,6 +154,7 @@ public class GiftService {
         @Transactional
         public void updateGiftInfo (Long giftId, String name, String description, Double price, String link,boolean splitable)
         throws GiftNotExistsException {
+            if(giftId == null) throw new GiftNotExistsException("ID must not be null");
             Gift gift = initGiftObj(giftId);
             //Only set the fields which have been modified by the admin
             if (!name.isEmpty()) {

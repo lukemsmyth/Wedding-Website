@@ -2,10 +2,7 @@ package ie.lukeandella.wedding.services;
 
 
 import ie.lukeandella.wedding.configuration.IAuthenticationFacade;
-import ie.lukeandella.wedding.exceptions.GiftNotExistsException;
-import ie.lukeandella.wedding.exceptions.RoleNotExistsException;
-import ie.lukeandella.wedding.exceptions.UserNotExistsException;
-import ie.lukeandella.wedding.exceptions.UsernameTakenException;
+import ie.lukeandella.wedding.exceptions.*;
 import ie.lukeandella.wedding.pojos.*;
 import ie.lukeandella.wedding.repositories.GiftRepository;
 import ie.lukeandella.wedding.repositories.ReservationRepository;
@@ -185,6 +182,7 @@ public class UserService {
 
     @Transactional
     public User updateUserInfo(Long id, String email, String password) throws UserNotExistsException {
+        if(id == null) throw new UserNotExistsException("ID must not be null");
         User user = initUserObj(id);
         //Only set the fields which have been modified by the admin
         if(!email.isEmpty()){

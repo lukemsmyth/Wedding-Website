@@ -1,5 +1,6 @@
 package ie.lukeandella.wedding.services;
 
+import ie.lukeandella.wedding.exceptions.FaqNotExistsException;
 import ie.lukeandella.wedding.exceptions.ItineraryNotExistsException;
 import ie.lukeandella.wedding.pojos.Gift;
 import ie.lukeandella.wedding.pojos.Itinerary;
@@ -64,6 +65,7 @@ public class ItineraryService {
          * So, it is necessary to explicitly reset every value even if the admin
          * has provided null. Hence, the somewhat verbose if-else statements below.
          */
+        if(id == null) throw new ItineraryNotExistsException("ID must not be null");
         Itinerary it = initItineraryObj(id);
         if(dateTime != null){
             it.setDateTime(dateTime);
